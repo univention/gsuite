@@ -1,0 +1,58 @@
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+#
+# Univention Google Apps for Work - print directory data
+#
+# Copyright 2016 Univention GmbH
+#
+# http://www.univention.de/
+#
+# All rights reserved.
+#
+# The source code of this program is made available
+# under the terms of the GNU Affero General Public License version 3
+# (GNU AGPL V3) as published by the Free Software Foundation.
+#
+# Binary versions of this program provided by Univention to you as
+# well as other copyrighted, protected or trademarked materials like
+# Logos, graphics, fonts, specific documentations and configurations,
+# cryptographic keys etc. are subject to a license agreement between
+# you and Univention and not subject to the GNU AGPL V3.
+#
+# In the case you use this program under the terms of the GNU AGPL V3,
+# the program is provided in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License with the Debian GNU/Linux or Univention distribution in file
+# /usr/share/common-licenses/AGPL-3; if not, see
+# <http://www.gnu.org/licenses/>.
+
+from univention.googleapps.listener import GoogleAppsListener
+
+ol = GoogleAppsListener(None, {}, {})
+gusers = ol.gh.list_users(projection="basic")
+ggroups = ol.gh.list_groups()
+
+print "          id             |         user email             |        name"
+print "------------------------------------------------------------------------------"
+for user in gusers:
+	try:
+		print "%24s | %30s | %s" % (user["id"], user["primaryEmail"], user["name"]["fullName"])
+	except KeyError:
+		print user
+
+print "=============================================================================="
+print "          id             |        group email             |        name"
+print "------------------------------------------------------------------------------"
+for group in ggroups:
+	print "%24s | %30s | %s" % (group["id"], group["email"], group["name"])
+
+print "=============================================================================="
+print "         group           |        member email            |"
+print "------------------------------------------------------------------------------"
+for group in ggroups:
+	for member in ol.gh.list_members_of_group(group["id"]):
+		print "%24s | %30s" % (group["name"], member["email"])

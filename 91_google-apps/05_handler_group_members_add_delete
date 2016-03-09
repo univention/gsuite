@@ -1,0 +1,71 @@
+#!/usr/share/ucs-test/runner python
+## -*- coding: utf-8 -*-
+## desc: add and delete group member in google directory
+## tags: [apptest]
+## exposure: dangerous
+## packages:
+##   - univention-google-apps
+
+import univention.testing.utils as utils
+
+from helpers.gapps_test_helpers import GoogleDirectoryTestGroups, GoogleDirectoryTestUsers, google_group_args, google_user_args
+from univention.googleapps.handler import GappsHandler
+
+
+gh = GappsHandler(None)
+domain = gh.get_primary_domain()["domainName"]
+grp_args = google_group_args(domain)
+usr1_args = google_user_args(domain)
+usr2_args = google_user_args(domain)
+
+print "*** create_group({})".format(grp_args)
+new_group1 = gh.create_group(**grp_args)
+grp1_id = new_group1["id"]
+print "*** group -> {}".format(grp1_id)
+
+with GoogleDirectoryTestGroups(gapps_handler=gh, group_ids=[grp1_id]) as _:
+	print "*** create_user({})".format(usr1_args)
+	new_user1 = gh.create_user(usr1_args)
+	usr1_id = new_user1["id"]
+	print "*** user1 -> {}".format(usr1_id)
+	with GoogleDirectoryTestUsers(gapps_handler=gh, user_ids=[usr1_id]) as _:
+		print "*** create_user({})".format(usr2_args)
+		new_user2 = gh.create_user(usr2_args)
+		usr2_id = new_user2["id"]
+		print "*** user2 -> {}".format(usr2_id)
+
+		with GoogleDirectoryTestUsers(gapps_handler=gh, user_ids=[usr2_id]) as _:
+
+			grp1_members1 = gh.list_members_of_group(grp1_id)
+			if len(grp1_members1) > 0:
+				utils.fail("New group is not empty.")
+
+			print "*** adding user1 to group, gh.add_member_to_group({}, {})".format(grp1_id, usr1_id)
+			member1 = gh.add_member_to_group(grp1_id, usr1_id)
+			if not member1["id"] == usr1_id:
+				utils.fail("Failed to add user1 to group.")
+
+			print "*** adding user2 to group, gh.add_member_to_group({}, {})".format(grp1_id, usr2_id)
+			member2 = gh.add_member_to_group(grp1_id, usr2_id)
+			if not member2["id"] == usr2_id:
+				utils.fail("Failed to add user2 to group.")
+
+			grp1_members2 = gh.list_members_of_group(grp1_id)
+			member_ids1 = [m["id"] for m in grp1_members2]
+			member_ids2 = [usr1_id, usr2_id]
+			if len(grp1_members2) != 2 or sorted(member_ids1) != sorted(member_ids2):
+				utils.fail("Missing or unexpected group members: {}".format(grp1_members2))
+
+			print "*** deleting user1 from group, delete_member_from_group({}, {})".format(grp1_id, usr1_id)
+			gh.delete_member_from_group(grp1_id, usr1_id)
+
+			grp1_members3 = gh.list_members_of_group(grp1_id)
+			if len(grp1_members3) != 1 or  grp1_members3[0]["id"] != usr2_id:
+				utils.fail("Found unexpected member(s) in group: {}".format(grp1_members3))
+
+			print "*** deleting user2 from group, delete_member_from_group({}, {})".format(grp1_id, usr2_id)
+			gh.delete_member_from_group(grp1_id, usr2_id)
+
+			grp1_members4 = gh.list_members_of_group(grp1_id)
+			if len(grp1_members4) != 0:
+				utils.fail("Found unexpected member(s) in group: {}".format(grp1_members4))

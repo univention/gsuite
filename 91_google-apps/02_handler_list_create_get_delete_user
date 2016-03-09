@@ -1,0 +1,77 @@
+#!/usr/share/ucs-test/runner python
+## -*- coding: utf-8 -*-
+## desc: list, create, retrieve, modify and delete user in google directory
+## tags: [apptest]
+## exposure: dangerous
+## packages:
+##   - univention-google-apps
+
+import time
+
+import univention.testing.utils as utils
+
+from helpers.gapps_test_helpers import GoogleDirectoryTestUsers, google_user_args
+from univention.googleapps.handler import GappsHandler, ResourceNotFoundError
+
+
+def print_user(user):
+	fn = user["name"]["fullName"] if "fullName" in user["name"] else "{} {}".format(user["name"]["givenName"], user["name"]["familyName"])
+	print "{0[id]:>22} | {0[primaryEmail]:>25} | {1:>25} |".format(user, fn)
+
+
+gh = GappsHandler(None)
+
+domain = gh.get_primary_domain()["domainName"]
+args = google_user_args(domain, minimal=False)
+
+users1 = gh.list_users()
+
+print "*** list_users() returned:"
+for user in users1:
+	print_user(user)
+
+print "*** create_user(args), args={}".format(args)
+new_user1 = gh.create_user(args)
+print_user(new_user1)
+
+with GoogleDirectoryTestUsers(gapps_handler=gh, user_ids=[new_user1["id"]]) as _:
+	new_user2 = gh.get_user(new_user1["id"])
+	if args["name"]["givenName"] not in new_user2["name"]["fullName"] or \
+		args["name"]["familyName"] not in new_user2["name"]["fullName"]:
+		utils.fail("Given_name or family_name not in fullName.")
+
+	if not args["primaryEmail"] == new_user2["primaryEmail"]:
+		utils.fail("Primary email not set correctly.")
+
+	for email in new_user2["emails"]:
+		if email.get("primary", False) and email["address"] == args["primaryEmail"]:
+			break
+	else:
+		utils.fail("Primary email is not in emails.")
+
+	for email_args in args["emails"]:
+		for email in new_user2["emails"]:
+			if email_args["address"] == email["address"] and email_args["type"] == email["type"] and email.get("primary", False) == False:
+				break
+		else:
+			utils.fail("An additional email is not in emails.")
+
+	time.sleep(5)
+	users2 = gh.list_users()
+
+	old_ids = set([user["id"] for user in users1])
+	new_ids = set([user["id"] for user in users2])
+	diff = new_ids - old_ids
+	if len(diff) == 0:
+		utils.fail("Test user disappeared. old_ids={}, new_ids={}".format(old_ids, new_ids))
+	elif len(diff) > 1 or diff.pop() != new_user1["id"]:
+		utils.fail("Unexpected user(s) found. old_ids={}, new_ids={}".format(old_ids, new_ids))
+
+	print "*** delete_user({})".format(new_user1["id"])
+	gh.delete_user(new_user1["id"])
+
+	try:
+		gh.get_user(new_user1["id"])
+		utils.fail("User was not deleted.")
+	except ResourceNotFoundError:
+		print "OK: user was deleted."

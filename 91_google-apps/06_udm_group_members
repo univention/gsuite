@@ -1,0 +1,92 @@
+#!/usr/share/ucs-test/runner python
+## -*- coding: utf-8 -*-
+## desc: create group in google directory, add member, modify group
+## tags: [apptest]
+## exposure: dangerous
+## packages:
+##   - univention-google-apps
+
+import univention.testing.strings as uts
+import univention.testing.ucr as ucr_test
+import univention.testing.udm as udm_test
+import univention.testing.utils as utils
+from univention.config_registry import handler_set
+
+from univention.googleapps.handler import GappsHandler, ResourceNotFoundError
+from univention.googleapps.listener import GoogleAppsListener
+from helpers.gapps_test_helpers import listener_attributes_data, udm_user_args, check_udm2google_user
+
+gl = GoogleAppsListener(None, listener_attributes_data, {})
+gh = GappsHandler(None)
+
+with udm_test.UCSTestUDM() as udm:
+	with ucr_test.UCSTestConfigRegistry() as ucr:
+		print "*** Creating mail domain matching domain registered with google..."
+		maildomain = gh.get_primary_domain()["domainName"]
+		udm.create_object(
+			"mail/domain",
+			position="cn=domain,cn=mail,{}".format(ucr["ldap/base"]),
+			name=maildomain
+		)
+
+		group_name = uts.random_name()
+		group_email = "{}.{}@{}".format(group_name, uts.random_name()[:5], maildomain)
+		description = uts.random_string()
+
+		print "*** Creating group (not synced to google directory yet)..."
+		handler_set(["google-apps/groups/sync=yes"])
+		group_dn = udm.create_object(
+			"groups/group",
+			set=dict(
+				name=group_name,
+				mailAddress=group_email,
+				description=description
+			),
+			position="cn=groups,{}".format(ucr.get("ldap/base")),
+			check_for_drs_replication=True
+		)
+
+		print "*** Creating gafw-activated user in group, should trigger sync of group..."
+		user_args = udm_user_args(domain=maildomain, minimal=True)
+		user_args["set"]["UniventionGoogleAppsEnabled"] = 1
+		user_args["append"] = dict(groups=[group_dn])
+		user_dn, username = udm.create_user(**user_args)
+
+		print "*** Checking that user was created..."
+		udm_user = gl.get_udm_user(user_dn)
+		if not udm_user.get("UniventionGoogleAppsObjectID"):
+			utils.fail("User was not created properly (no UniventionGoogleAppsObjectID).")
+		google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
+		check_udm2google_user(user_args, google_user, domain=maildomain, complete=False)
+
+		print "*** Checking that group was created (UniventionGoogleAppsObjectID in UDM object)..."
+		udm_group = gl.get_udm_group(group_dn)
+		group_id = udm_group.get("UniventionGoogleAppsObjectID")
+		if not group_id:
+			utils.fail("Group was not created.")
+
+		print "*** Checking membership of user in google group..."
+		members = gh.list_members_of_group(group_id)
+		print "*** members: {}".format(members)
+
+		if len(members) != 1 or not members[0]["id"] == udm_user["UniventionGoogleAppsObjectID"]:
+			utils.fail("Member not found.")
+
+		print "*** Removing user from group..."
+		udm.modify_object(
+			"groups/group",
+			dn=group_dn,
+			remove=dict(
+				users=[user_dn]
+			),
+			check_for_drs_replication=True
+		)
+
+		print "*** Checking that google group was deleted..."
+		try:
+			google_group = gh.get_group(group_id)
+			print "google_group: %r" % google_group
+			if google_group:
+				utils.fail("Group was not removed.")
+		except ResourceNotFoundError:
+			pass

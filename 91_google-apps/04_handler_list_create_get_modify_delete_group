@@ -1,0 +1,76 @@
+#!/usr/share/ucs-test/runner python
+## -*- coding: utf-8 -*-
+## desc: list, create, retrieve, modify and delete group in google directory
+## tags: [apptest]
+## exposure: dangerous
+## packages:
+##   - univention-google-apps
+
+import univention.testing.utils as utils
+from apiclient.errors import HttpError
+
+from helpers.gapps_test_helpers import GoogleDirectoryTestGroups, google_group_args
+from univention.googleapps.handler import GappsHandler, ResourceNotFoundError
+
+
+def test_grp(grp, args):
+	for k, v in args.items():
+		if v != grp[k]:
+			print "*** group: id: '{0[id]}' name: '{0[name]}' email: '{0[email]}' " \
+				"description: '{0[description]}'".format(grp)
+			utils.fail("'{}' not set as it should be.".format(k))
+
+
+gh = GappsHandler(None)
+
+groups1 = gh.list_groups()
+
+print "*** list_groups() returned:"
+for g in groups1:
+	print "id: '{id}' name: '{name}' email: '{email}' description: '{description}'".format(**g)
+
+domain = gh.get_primary_domain()["domainName"]
+args = google_group_args(domain)
+print "*** create_group(args), args={}".format(args)
+new_group1 = gh.create_group(**args)
+
+with GoogleDirectoryTestGroups(gapps_handler=gh, group_ids=[new_group1["id"]]) as _:
+	new_group2 = gh.get_group(new_group1["id"])
+	test_grp(new_group2, args)
+
+	args = google_group_args(domain)
+	print "*** modify_group(PATCH), args={}".format(args)
+	grp_res = gh.modify_group(new_group1["id"], method="patch", **args)
+	new_group3 = gh.get_group(grp_res["id"])
+	test_grp(new_group3, args)
+
+	args = google_group_args(domain)
+	print "*** modify_group(UPDATE), args={}".format(args)
+	grp_res = gh.modify_group(new_group3["id"], method="update", **args)
+	new_group4 = gh.get_group(grp_res["id"])
+	test_grp(new_group4, args)
+
+	groups2 = gh.list_groups()
+	old_ids = set([group["id"] for group in groups1])
+	new_ids = set([group["id"] for group in groups2])
+	diff = new_ids - old_ids
+	if len(diff) == 0:
+		utils.fail("Test group disappeared. groups1={}, groups2={}".format(groups1, groups2))
+	elif len(diff) > 1 or diff.pop() != new_group4["id"]:
+		utils.fail("Unexpected group(s) found. groups1={}, groups2={}".format(groups1, groups2))
+
+	print "*** delete_group({})".format(new_group4["id"])
+	gh.delete_group(new_group4["id"])
+
+	print "*** get_group({})".format(new_group4["id"])
+	try:
+		gh.get_group(new_group4["id"])
+		utils.fail("Group was not deleted.")
+	except ResourceNotFoundError:
+		print "OK: group was deleted (404)."
+	except HttpError as exc:
+		if exc.resp.status == 403:
+			# google bug: "Not Authorized to access this resource/api"
+			print "OK: group was deleted (403)."
+		else:
+			raise

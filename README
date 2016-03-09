@@ -1,0 +1,53 @@
+What is this?
+=============
+UMC code and a listener module to enable UCS users to provision Google Apps for Work accounts to their domain users.
+
+Design
+======
+
+
+-- Client credentials flow - use by listener --
+
+With the help of the UMC wizard a SSL certificate is uploaded...
+
+
+
+Implementation
+==============
+State
+-----
+Currently there is
+*
+
+Classes
+-------
+
+|-  UDM obj only       -|- UDM <-> G obj -|-  G obj only -|
+
+google-apps-user.py  --\
+                        +--> listener.py --> handler.py --> python-googleapi --(HTTP)--> gAPI
+google-apps-group.py --/
+
+
+
+listener.py, handler.py and auth.py are written so that they can be used outside the listener code.
+When modifying code, please keep the separation of where which objects are used.
+
+
+Installation
+============
+* install ucs-4.1/component/univention-google/univention-google-apps
+* To write debug messages at error level set google-apps/debug/werror=yes and restart listener
+* if available go to https://FQDN/univention-google-apps/wizard
+** or run setup_univention_account.py
+*
+* Enable UDM property UniventionGoogleAppsEnabled for users/groups
+* observe listener.log
+
+Errors
+======
+"oauth2client.client.AccessTokenRefreshError: invalid_grant": most probably: your clock is not set correctly
+
+TODO
+====
+* erster Preis für die unverständlichste UCRV Beschreibung für google-apps/attributes/mapping/.*

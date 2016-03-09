@@ -1,0 +1,164 @@
+#!/bin/sh
+# -*- coding: utf-8 -*-
+#
+# Google Apps for Work provisioning
+#  join script
+#
+# Copyright 2016 Univention GmbH
+#
+# http://www.univention.de/
+#
+# All rights reserved.
+#
+# The source code of this program is made available
+# under the terms of the GNU Affero General Public License version 3
+# (GNU AGPL V3) as published by the Free Software Foundation.
+#
+# Binary versions of this program provided by Univention to you as
+# well as other copyrighted, protected or trademarked materials like
+# Logos, graphics, fonts, specific documentations and configurations,
+# cryptographic keys etc. are subject to a license agreement between
+# you and Univention and not subject to the GNU AGPL V3.
+#
+# In the case you use this program under the terms of the GNU AGPL V3,
+# the program is provided in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License with the Debian GNU/Linux or Univention distribution in file
+# /usr/share/common-licenses/AGPL-3; if not, see
+# <http://www.gnu.org/licenses/>.
+
+VERSION=1
+
+. /usr/share/univention-join/joinscripthelper.lib
+. /usr/share/univention-lib/ldap.sh
+
+joinscript_init
+
+eval "$(ucr shell)"
+
+CONFDIR=/etc/univention-google-apps
+
+touch $CONFDIR/credentials.json $CONFDIR/key.p12
+chmod 640 $CONFDIR/credentials.json $CONFDIR/key.p12
+chown -R listener:root $CONFDIR/ /var/lib/univention-google-apps/
+
+univention-config-registry set \
+	google-apps/attributes/anonymize?"" \
+	google-apps/attributes/never?"" \
+	google-apps/attributes/mapping/name?"familyName=%sn,givenName=%givenName,fullName=%displayName" \
+	google-apps/attributes/mapping/phones/1?"type=home,value=%homePhone" \
+	google-apps/attributes/mapping/phones/2?"type=mobile,value=%mobile" \
+	google-apps/attributes/mapping/phones/3?"type=pager,value=%pager" \
+	google-apps/attributes/mapping/phones/4?"type=work,value=%telephoneNumber" \
+	google-apps/attributes/mapping/addresses/1?"type=home,formatted=%homePostalAddress" \
+	google-apps/attributes/mapping/addresses/2?"type=work,locality=%l,postalCode=%postalCode,countryCode=%st,streetAddress=%street,extendedAddress=%departmentNumber" \
+	google-apps/attributes/mapping/addresses/3?"type=custom,customType=locality,locality=%roomNumber" \
+	google-apps/attributes/mapping/emails/1?"type=work,address=%mail" \
+	google-apps/attributes/mapping/emails/2="type=other,address=%mailAlternativeAddress" \
+	google-apps/attributes/mapping/primaryEmail?"%mailPrimaryAddress" \
+	google-apps/attributes/mapping/organizations?"primary=True,name=%o,description=%employeeType" \
+	google-apps/attributes/mapping/relations?"type=custom,customType=secretary,value=%secretary" \
+	google-apps/attributes/mapping/externalIds?"type=organization,value=%employeeNumber" \
+	google-apps/debug/api-calls?no \
+	google-apps/debug/werror?no \
+	google-apps/groups/sync?no
+
+ucs_addServiceToLocalhost "univention-google-apps" "$@"
+
+ucs_registerLDAPExtension "$@" --schema /usr/share/univention-google-apps/google-apps.schema
+
+udm settings/extended_attribute create "$@" --ignore_exists \
+	--position "cn=custom attributes,cn=univention,$ldap_base" \
+	--set name="UniventionGoogleAppsObjectID" \
+	--set CLIName="UniventionGoogleAppsObjectID" \
+	--set shortDescription="Object ID of user in Google Directory" \
+	--set translationShortDescription='"de_DE" "Objekt ID des Benutzers im Google Verzeichnis"' \
+	--set longDescription="Object ID of user in Google Directory" \
+	--set translationLongDescription='"de_DE" "Objekt ID des Benutzers im Google Verzeichnis"' \
+	--set tabAdvanced=0 \
+	--set tabName="Google apps" \
+	--set translationTabName='"de_DE" "Google Apps"' \
+	--set module="users/user" \
+	--set syntax=string_numbers_letters_dots \
+	--set default="" \
+	--set multivalue=0 \
+	--set valueRequired=0 \
+	--set mayChange=1 \
+	--set doNotSearch=0 \
+	--set objectClass=univentionGoogleApps \
+	--set ldapMapping=univentionGoogleAppsObjectID \
+	--set deleteObjectClass=0 \
+	--set overwriteTab=0 \
+	--set fullWidth=1
+
+udm settings/extended_attribute create "$@" --ignore_exists \
+	--position "cn=custom attributes,cn=univention,$ldap_base" \
+	--set name="UniventionGoogleAppsEnabled" \
+	--set CLIName="UniventionGoogleAppsEnabled" \
+	--set shortDescription="Enable user for Google Apps for Work" \
+	--set translationShortDescription='"de_DE" "Benutzer für Nutzung von Google Apps for Work aktivieren"' \
+	--set longDescription="Enable user for Google Apps for Work" \
+	--set translationLongDescription='"de_DE" "Benutzer für Nutzung von Google Apps for Work aktivieren"' \
+	--set tabAdvanced=0 \
+	--set tabName="Google apps" \
+	--set translationTabName='"de_DE" "Google Apps"' \
+	--set module="users/user" \
+	--set syntax=boolean \
+	--set default=0 \
+	--set multivalue=0 \
+	--set valueRequired=0 \
+	--set mayChange=1 \
+	--set doNotSearch=0 \
+	--set objectClass=univentionGoogleApps \
+	--set ldapMapping=univentionGoogleAppsEnabled \
+	--set deleteObjectClass=0 \
+	--set overwriteTab=0 \
+	--set fullWidth=1
+
+udm settings/extended_attribute create "$@" --ignore_exists \
+	--position "cn=custom attributes,cn=univention,$ldap_base" \
+	--set name="UniventionGoogleAppsData" \
+	--set CLIName="UniventionGoogleAppsData" \
+	--set shortDescription="Data of user in Google Directory" \
+	--set translationShortDescription='"de_DE" "Daten des Benutzers im Google Verzeichnis"' \
+	--set longDescription="Data of user in Google Directory" \
+	--set translationLongDescription='"de_DE" "Daten des Benutzers im Google Verzeichnis"' \
+	--set module="users/user" \
+	--set syntax=Base64GzipText \
+	--set default="" \
+	--set multivalue=0 \
+	--set valueRequired=0 \
+	--set mayChange=1 \
+	--set doNotSearch=1 \
+	--set objectClass=univentionGoogleApps \
+	--set ldapMapping=univentionGoogleAppsData \
+	--set deleteObjectClass=0 \
+	--set disableUDMWeb=1
+
+udm settings/extended_attribute create "$@" --ignore_exists \
+	--position "cn=custom attributes,cn=univention,$ldap_base" \
+	--set name="UniventionGoogleAppsGroupObjectID" \
+	--set CLIName="UniventionGoogleAppsObjectID" \
+	--set shortDescription="Object ID of group in Google Directory" \
+	--set translationShortDescription='"de_DE" "Objekt ID der Gruppe im Google Verzeichnis"' \
+	--set longDescription="Object ID of user in Google Directory" \
+	--set translationLongDescription='"de_DE" "Objekt ID der Gruppe im Google Verzeichnis"' \
+	--set module="groups/group" \
+	--set syntax=string_numbers_letters_dots \
+	--set default="" \
+	--set multivalue=0 \
+	--set valueRequired=0 \
+	--set mayChange=1 \
+	--set doNotSearch=1 \
+	--set objectClass=univentionGoogleApps \
+	--set ldapMapping=univentionGoogleAppsObjectID \
+	--set deleteObjectClass=0 \
+	--set disableUDMWeb=1
+
+joinscript_save_current_version
+
+exit 0

@@ -1,0 +1,64 @@
+#!/usr/share/ucs-test/runner python
+## -*- coding: utf-8 -*-
+## desc: create user in google directory, check property-sync
+## tags: [apptest]
+## exposure: dangerous
+## packages:
+##   - univention-google-apps
+
+import univention.testing.ucr as ucr_test
+import univention.testing.udm as udm_test
+import univention.testing.utils as utils
+from univention.config_registry import handler_set, handler_unset
+
+from univention.googleapps.handler import GappsHandler
+from univention.googleapps.listener import GoogleAppsListener
+from helpers.gapps_test_helpers import udm_user_args, check_udm2google_user, listener_attributes_data
+
+gl = GoogleAppsListener(None, listener_attributes_data, {})
+gh = GappsHandler(None)
+
+with utils.AutomaticListenerRestart() as alr:
+	with udm_test.UCSTestUDM() as udm:
+		with ucr_test.UCSTestConfigRegistry() as ucr:
+			print "*** Setting UCRs for maximum property sync..."
+			handler_unset(["google-apps/attributes/anonymize", "google-apps/attributes/never"])
+			handler_set([
+				"google-apps/attributes/mapping/name=familyName=%sn,givenName=%givenName,fullName=%displayName",
+				"google-apps/attributes/mapping/phones/1=type=home,value=%homePhone",
+				"google-apps/attributes/mapping/phones/2=type=mobile,value=%mobile",
+				"google-apps/attributes/mapping/phones/3=type=pager,value=%pager",
+				"google-apps/attributes/mapping/phones/4=type=work,value=%telephoneNumber",
+				"google-apps/attributes/mapping/addresses/1=type=home,formatted=%homePostalAddress",
+				"google-apps/attributes/mapping/addresses/2=type=work,locality=%l,postalCode=%postalCode,countryCode=%st,streetAddress=%street,extendedAddress=%departmentNumber",
+				"google-apps/attributes/mapping/addresses/3=type=custom,customType=locality,locality=%roomNumber",
+				"google-apps/attributes/mapping/emails/1=type=work,address=%mail",
+				"google-apps/attributes/mapping/emails/2=type=other,address=%mailAlternativeAddress",
+				"google-apps/attributes/mapping/primaryEmail=%mailPrimaryAddress",
+				"google-apps/attributes/mapping/organizations=primary=True,name=%o,description=%employeeType",
+				"google-apps/attributes/mapping/relations=type=custom,customType=secretary,value=%secretary",
+				"google-apps/attributes/mapping/externalIds=type=organization,value=%employeeNumber"])
+			utils.restart_listener()
+
+			print "*** Creating mail domain matching domain registered with google..."
+			maildomain = gh.get_primary_domain()["domainName"]
+			udm.create_object(
+				"mail/domain",
+				position="cn=domain,cn=mail,{}".format(ucr["ldap/base"]),
+				name=maildomain
+			)
+
+			user_args = udm_user_args(minimal=False)
+			user_args["set"]["UniventionGoogleAppsEnabled"] = 1
+
+			print "*** Creating user with all possible properties..."
+			user_dn, username = udm.create_user(check_for_drs_replication=True, **user_args)
+
+			print "*** Checking that user was created (UniventionGoogleAppsObjectID in UDM object)..."
+			udm_user = gl.get_udm_user(user_dn)
+			if not udm_user.get("UniventionGoogleAppsObjectID"):
+				utils.fail("User was not created.")
+
+			print "*** Checking sync of all properties..."
+			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
+			check_udm2google_user(user_args, google_user, domain=maildomain, complete=True)

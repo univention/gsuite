@@ -1,0 +1,7 @@
+40univention-google-apps.inst usr/lib/univention-install/
+60univention-google-apps.uinst usr/lib/univention-uninstall/
+etc/apache2/sites-available/univention-google-apps etc/apache2/sites-available/
+modules/univention/googleapps/*.py usr/share/pyshared/univention/googleapps/
+google-apps-user.py usr/lib/univention-directory-listener/system/
+google-apps-group.py usr/lib/univention-directory-listener/system/
+google-apps.schema usr/share/univention-google-apps/

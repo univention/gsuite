@@ -1,0 +1,37 @@
+Source: univention-google-apps
+Section: univention
+Priority: optional
+Build-Depends: debhelper (>> 7),
+ univention-config-dev,
+ ucslint-univention,
+ python2.7-dev,
+ python-support,
+ univention-config-dev
+Maintainer: Univention GmbH <packages@univention.de>
+Standards-Version: 3.8.2
+XS-Python-Version: 2.7
+
+Package: univention-google-apps
+Architecture: all
+Depends: ${misc:Depends},
+ univention-config,
+ python-univention,
+ python-univention-lib,
+ shell-univention-lib,
+ univention-join,
+ python-googleapi
+Recommends: ntp
+Description: Provision Google Apps for Work accounts.
+ Synchronize user accounts to Google Directory and enable them to
+ use Google Apps for Work.
+Homepage: https://apps.google.com/
+
+Package: ucs-test-google-apps
+Architecture: all
+Depends: ucs-test-libs,
+ ucs-test-framework,
+ ${misc:Depends}
+Provides: ucs-test-module
+Description: Additional Google Apps for Work App tests for ucs-test
+ This package includes some Google Apps for Work App related tests for
+ ucs-test.

@@ -1,0 +1,75 @@
+#!/usr/share/ucs-test/runner python
+## -*- coding: utf-8 -*-
+## desc: create and modify user in google directory
+## tags: [apptest]
+## exposure: dangerous
+## packages:
+##   - univention-google-apps
+
+import time
+
+import univention.testing.strings as uts
+import univention.testing.utils as utils
+
+from helpers.gapps_test_helpers import GoogleDirectoryTestUsers, google_user_args
+from univention.googleapps.handler import GappsHandler
+
+
+gh = GappsHandler(None)
+domain = gh.get_primary_domain()["domainName"]
+args = google_user_args(domain, minimal=False)
+
+print "*** Creating test user..."
+new_user1 = gh.create_user(args)
+
+with GoogleDirectoryTestUsers(gapps_handler=gh, user_ids=[new_user1["id"]]) as _:
+	new_user2 = gh.get_user(new_user1["id"])
+
+	changes1 = dict(
+		name=dict(
+			givenName=uts.random_name()
+		),
+		addresses=list(new_user2["addresses"]),
+		emails=list()
+	)
+	changes1["addresses"][0]["locality"] = "Berlin"
+
+	for email in new_user2["emails"]:
+		changes1["emails"].append(email.copy())
+		if email.get("type", "") == "home":
+			changes1["emails"][-1]["type"] = "other"
+			changes1["emails"][-1]["address"] = "other@another.com"
+
+	print "*** Patching test user..."
+	gh.modify_user(new_user1["id"], changes1)
+	time.sleep(5)
+	patched_user1 = gh.get_user(new_user1["id"])
+
+	if not patched_user1["name"]["givenName"] == changes1["name"]["givenName"] or \
+		not patched_user1["name"]["familyName"] == args["name"]["familyName"]:
+		utils.fail("PATCH failed: name.")
+	if not patched_user1["addresses"][0]["countryCode"] == "DE" or \
+		not patched_user1["addresses"][0]["locality"] == "Berlin":
+		utils.fail("PATCH failed: address")
+	types = [e.get("type") for e in patched_user1["emails"] if e.get("type")]
+	if "work" not in types or "other" not in types or "home" in types:
+		utils.fail("PATCH failed: emails.")
+
+	changes2 = dict(
+		name=dict(
+			givenName=changes1["name"]["givenName"],
+			familyName=uts.random_name()
+		),
+		primaryEmail="{}@{}".format(uts.random_username(), domain),
+	)
+
+	print "*** Updating test user..."
+	gh.modify_user(new_user1["id"], changes2, method="update")
+	time.sleep(5)
+	updated_user1 = gh.get_user(new_user1["id"])
+
+	if updated_user1["name"]["givenName"] != changes2["name"]["givenName"] or \
+		updated_user1["name"]["familyName"] != changes2["name"]["familyName"]:
+		utils.fail("UPDATE failed: name.")
+	if updated_user1["primaryEmail"] != changes2["primaryEmail"]:
+		utils.fail("UPDATE failed: primaryEmail.")

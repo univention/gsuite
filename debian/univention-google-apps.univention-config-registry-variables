@@ -1,0 +1,36 @@
+[google-apps/attributes/anonymize]
+Description[de]=Kommaseparierte Liste von LDAP Attributen die in anonymisierter Form zum Google Directory synchronisiert werden sollen. Die Attributnamen müssen als ATTRIBUT-HIER in google-apps/attributes/mapping/.* auftauchen. Wird gegenüber Attributen in .../static und .../sync vorrangig ausgewertet.
+Description[en]=Comma separated list of LDAP attributes that should be synchronized in anonymized form to the Google Directory. The names of the attributes must be included in google-apps/attributes/mapping/.* as ATTRIBUTE-HERE. Will be be given precedence over attributes in .../static und .../sync.
+Type=str
+Categories=service-collaboration
+
+# TODO: fix Description
+[google-apps/attributes/mapping/.*]
+Description[de]=Variablen der Form google-apps/attributes/mapping/ATTRIBUT1-DORT=ATTRIBUT2-DORT=%ATTRIBUT-HIER können verwendet werden, um das automatische Synchronisieren von LDAP Attributen mit dem Google Directory (GD) zu konfigurieren. ATTRIBUT-HIER ist der Name eines LDAP Attributes im UCS Server, wenn ein "%" vorangestellt ist. Ohne das "%" wird der Wert selbst verwendet. ATTRIBUT1-DORT ist der Name des Attributs im GD, ATTRIBUT2-DORT ist ein Attribut innerhalb eines verschachtelten Attributs. Mehrere ATTRIBUT2-DORT können verwendet werden, indem die Kommasepariert angegeben werden. Mehrere ATTRIBUT1-DORT können verwendet werden indem multiple UCRVs mit "/NUMMER" angehängt, verwendet werden.
+Description[en]=Variables in the format google-apps/attributes/mapping/ATTRIBUTE1-THERE=ATTRIBUTE2-THERE=ATTRIBUTE-HERE can be used to configure synchronization of user attributes to the Google Directory (GD). ATTRIBUTE-HERE is the name of an LDAP attribute in the UCS Server if "%" is prepended. Without "%" the value itself is used. ATTRIBUTE-THERE1 is the name of the attribute in GD, ATTRIBUTE-THERE2 is the name of an attribute inside a nested structure. Multiple ATTRIBUTE-THERE2s can be used by comma separating them. Multiple ATTRIBUTE1-THERE can be used by supplying multiple UCRVs with "/NUMBER" appended.
+Type=str
+Categories=service-collaboration
+
+[google-apps/attributes/never]
+Description[de]=Kommaseparierte Liste von LDAP Attributen die nie mit dem Google Directory synchronisiert werden sollen. Wird gegenüber Attributen in .../anonymize, .../static und .../sync vorrangig ausgewertet.
+Description[en]=Comma separated list of LDAP attributes that should never be synchronized with the Google Directory. Will be be given precedence over attributes in .../anonymize, .../static und .../sync.
+Type=str
+Categories=service-collaboration
+
+[google-apps/debug/api-calls]
+Description[de]=Wenn eingeschaltet, wird die Kommunikation über HTTP mit dem Google Directory ins Logfile geschrieben. Dies dient ausschließlich der Fehlersuche. Achtung: dies enthält Schlüssel im Klartext! Standard ist 'no'.
+Description[en]=If enabled, the communication with the Google Directory over HTTP will be written as to the logfile. This is used for debugging only. Attention: this includes keys in plain text. Defaults to 'no'.
+Type=bool
+Categories=service-collaboration
+
+[google-apps/debug/werror]
+Description[de]=Wenn eingeschaltet, werden Meldungen aller LogLevel ins Logfile als Fehler (ERROR) und mit debug Informationen geschrieben. Dies dient ausschließlich der Fehlersuche. Standard ist 'no'.
+Description[en]=If enabled, log messages of all levels will be written as errors (ERROR) and with debug information to the logfile. This is used for debugging only. Defaults to 'no'.
+Type=bool
+Categories=service-collaboration
+
+[google-apps/groups/sync]
+Description[de]=Sollen Gruppen in denen sich Benutzer mit Google Apps for Work Konto befinden, synchronisiert werden? Standard ist 'no'.
+Description[en]=Should groups that contain users with a Google Apps for Work account be syncronized? Defaults to 'no'.
+Type=bool
+Categories=service-collaboration
