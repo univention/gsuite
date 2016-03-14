@@ -32,6 +32,7 @@
 
 
 import httplib2
+import json
 
 from apiclient import discovery
 from oauth2client.file import Storage
@@ -110,22 +111,28 @@ class GappsAuth(object):
 		else:
 			raise NoCredentials("No credentials found in '{}'.".format(CREDENTAILS_FILE))
 
-	@staticmethod
-	def store_credentials(client_email, scope, impersonate_user):
+	@classmethod
+	def store_credentials(cls, client_email, impersonate_user, **kwargs):
 		"""
 		Store credentials for later use.
 		:param client_email: str: service account (very long email address)
 		:param scope: str or list: scope(s) to request access to
 		:param impersonate_user: str: email address of admin user
+		:param kwargs: additional parameters to pass to SignedJwtAssertionCredentials()
+		May contain "private_key" in PEM or P12 format and "client_id" of service account.
 		:return:
 		"""
-		private_key = GappsAuth._load_ssl_key()
+		try:
+			private_key = kwargs.pop("private_key")
+		except KeyError:
+			private_key = cls._load_ssl_key()
 
 		credentials = SignedJwtAssertionCredentials(
 			service_account_name=client_email,
 			private_key=private_key,
-			scope=scope,
-			sub=impersonate_user)
+			scope=SCOPE,
+			sub=impersonate_user,
+			**kwargs)
 
 		storage = Storage(CREDENTAILS_FILE)
 		try:
@@ -133,6 +140,24 @@ class GappsAuth(object):
 		except IOError:
 			logger.exception("GappsAuth.store_credentials() IOError when writing %r.", CREDENTAILS_FILE)
 			raise
+
+	@classmethod
+	def store_credentials_from_json(cls, json_key_str, impersonate_user, **kwargs):
+		"""
+		Load data to store from a JSOn file supplied by Googles Developers Console.
+		:param json_key_str: str: JSON object
+		:param impersonate_user: str: email address of admin user
+		:param kwargs: additional parameters to pass to SignedJwtAssertionCredentials()
+		:return: None
+		"""
+		data = json.loads(json_key_str)
+		cls.store_credentials(
+			data["client_email"],
+			impersonate_user,
+			client_id=data["client_id"],
+			private_key=data["private_key"],
+			**kwargs
+		)
 
 	@staticmethod
 	def _load_credentials():
@@ -182,7 +207,7 @@ class GappsAuth(object):
 		:param version: str: version of api to use
 		:return: service object
 		"""
-		key = "{}.{}".format(service_name,version)
+		key = "{}.{}".format(service_name, version)
 		service = self.service_objects.get(key)
 		if not service:
 			credentials = self.get_credentials()
