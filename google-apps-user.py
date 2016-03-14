@@ -241,7 +241,7 @@ def clean():
 
 
 def handler(dn, new, old, command):
-	logger.debug("command: %s", command)
+	logger.debug("command: %s dn: %s", command, dn)
 
 	if not GappsAuth.is_initialized():
 		# TODO: store [dn] = action

@@ -75,7 +75,7 @@ with utils.AutomaticListenerRestart() as alr:
 				utils.fail("User was not created.")
 
 			print "*** Checking sync of properties #0..."
-			time.sleep(2)
+			time.sleep(5)
 			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
 			check_udm2google_user(user_args1, google_user, domain=maildomain, complete=False)
 
@@ -83,7 +83,7 @@ with utils.AutomaticListenerRestart() as alr:
 			udm.modify_object(modulename="users/user", dn=user_dn, **user_args2)
 
 			print "*** Checking sync of properties #1..."
-			time.sleep(2)
+			time.sleep(5)
 			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
 			check_udm2google_user(user_args2, google_user, domain=maildomain, complete=False)
 
@@ -91,7 +91,7 @@ with utils.AutomaticListenerRestart() as alr:
 			udm.modify_object(modulename="users/user", dn=user_dn, **user_args3)
 
 			print "*** Checking sync of properties #2..."
-			time.sleep(2)
+			time.sleep(5)
 			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
 			check_udm2google_user(user_args3, google_user, domain=maildomain, complete=False)
 

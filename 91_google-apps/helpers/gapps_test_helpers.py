@@ -188,7 +188,7 @@ class GoogleDirectoryTestObjects(object):
 		"""
 		:param otype: str: type of object to delete ("user", "group")
 		:param gapps_handler: GappsHandler object
-		:param user_ids: list of object IDs to delete from google directory
+		:param obj_ids: list of object IDs to delete from google directory
 		when leaving the context manager
 		"""
 		self._otype = otype
@@ -354,28 +354,21 @@ def check_udm2google_user(udm_args, g_user, domain=None, complete=True):
 	# does not check if everything is perfect (e.g. for mobileTelephoneNumber
 	# "type" should be "mobile"), but assumes that if the value can be found
 	# where expected, then the rest will be fine too
-	print "udm_args={}".format(udm_args)
-	print "g_user={}".format(g_user)
-	print "domain={} complete={}".format(domain, complete)
 	if not domain:
 		ucr = ucr_test.UCSTestConfigRegistry()
 		ucr.load()
 		domain = ucr["domainname"]
-		print "domain={}".format(domain)
 	res = list()
 	fail = False
 	for k, v in [("firstname", udm2google["firstname"]), ("lastname", udm2google["lastname"])]:
 		try:
 			udm_value = udm_args[k]
-			print "name - k={} udm_value={}".format(k, udm_value)
 		except KeyError:
-			print "name - k={} KeyError".format(k)
 			if complete:
 				fail = True
 				res.append((k, "value was not set", "cannot compare"))
 			continue
 		google_value = v(g_user)
-		print "name - google_value={}".format(google_value)
 		if udm_value != google_value:
 			fail = True
 			res.append((k, udm_value, google_value))
@@ -383,9 +376,7 @@ def check_udm2google_user(udm_args, g_user, domain=None, complete=True):
 	for k, v in udm2google["set"].items():
 		try:
 			udm_value = udm_args["set"][k]
-			print "set - k={} udm_value={}".format(k, udm_value)
 		except KeyError:
-			print "set - k={} KeyError".format(k)
 			if complete:
 				fail = True
 				res.append((k, "value was not set", "cannot compare"))
@@ -396,16 +387,12 @@ def check_udm2google_user(udm_args, g_user, domain=None, complete=True):
 			fail = True
 			res.append((k, "value was not set", "cannot compare"))
 			continue
-		print "set - google_value={}".format(google_value)
 		if k == "mailPrimaryAddress":
 			udm_value = "{}@{}".format(udm_value.rpartition("@")[0], domain)
-			print "set - k={} udm_value={}".format(k, udm_value)
 		if isinstance(google_value, list):
 			tmp_ok = udm_value in google_value
-			print "set - udm_value in google_value ->{}".format(tmp_ok)
 		else:
 			tmp_ok = udm_value == google_value
-			print "set - udm_value == google_value ->{}".format(tmp_ok)
 		if not tmp_ok:
 			fail = True
 			res.append((k, udm_value, google_value))
@@ -413,21 +400,16 @@ def check_udm2google_user(udm_args, g_user, domain=None, complete=True):
 	for k, v in udm2google["append"].items():
 		try:
 			udm_values = udm_args["append"][k]
-			print "append - k={} udm_values={}".format(k, udm_values)
 		except KeyError:
-			print "append - k={} KeyError".format(k)
 			if complete:
 				fail = True
 				res.append((k, "value was not set", "cannot compare"))
 			continue
 		google_values = udm2google["append"][k](g_user)
-		print "append - google_values={}".format(google_values)
 		for udm_value in udm_values:
 			if k == "homePostalAddress":
 				udm_value = udm_value.replace('"', '').replace(" ", "$")
-				print "append - k={} udm_value={}".format(k, udm_value)
 			if udm_value not in google_values:
-				print "append - udm_value not in google_values ->{}".format(udm_value not in google_values)
 				fail = True
 				res.append((k, "'{}' (from {})".format(udm_value, udm_values), google_values))
 	if fail:

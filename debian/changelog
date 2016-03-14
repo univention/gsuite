@@ -1,3 +1,9 @@
+univention-google-apps (0.0.6) unstable; urgency=low
+
+  * remove handling of SSL key, requires JSOn file now (Bug #37949)
+
+ -- Daniel Troeder <troeder@univention.de>  Mon, 14 Mar 2016 16:12:12 +0100
+
 univention-google-apps (0.0.5) unstable; urgency=low
 
   * move ucs-test package into source dir of this package (Bug #37949)

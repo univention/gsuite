@@ -44,7 +44,6 @@ from univention.googleapps.logging2udebug import get_logger
 NAME = "google-apps"
 CONFDIR = "/etc/univention-google-apps"
 CREDENTAILS_FILE = CONFDIR + "/credentials.json"
-SSL_KEY_FILE = CONFDIR + "/key.p12"
 SCOPE = [
 	"https://www.googleapis.com/auth/admin.directory.user",
 	"https://www.googleapis.com/auth/admin.directory.group",
@@ -104,7 +103,7 @@ class GappsAuth(object):
 		if self.credentials:
 			return self.credentials
 		else:
-			self.credentials = GappsAuth._load_credentials()
+			self.credentials = self._load_credentials()
 
 		if self.credentials:
 			return self.credentials
@@ -112,37 +111,7 @@ class GappsAuth(object):
 			raise NoCredentials("No credentials found in '{}'.".format(CREDENTAILS_FILE))
 
 	@classmethod
-	def store_credentials(cls, client_email, impersonate_user, **kwargs):
-		"""
-		Store credentials for later use.
-		:param client_email: str: service account (very long email address)
-		:param scope: str or list: scope(s) to request access to
-		:param impersonate_user: str: email address of admin user
-		:param kwargs: additional parameters to pass to SignedJwtAssertionCredentials()
-		May contain "private_key" in PEM or P12 format and "client_id" of service account.
-		:return:
-		"""
-		try:
-			private_key = kwargs.pop("private_key")
-		except KeyError:
-			private_key = cls._load_ssl_key()
-
-		credentials = SignedJwtAssertionCredentials(
-			service_account_name=client_email,
-			private_key=private_key,
-			scope=SCOPE,
-			sub=impersonate_user,
-			**kwargs)
-
-		storage = Storage(CREDENTAILS_FILE)
-		try:
-			storage.put(credentials)
-		except IOError:
-			logger.exception("GappsAuth.store_credentials() IOError when writing %r.", CREDENTAILS_FILE)
-			raise
-
-	@classmethod
-	def store_credentials_from_json(cls, json_key_str, impersonate_user, **kwargs):
+	def store_credentials(cls, json_key_str, impersonate_user, **kwargs):
 		"""
 		Load data to store from a JSOn file supplied by Googles Developers Console.
 		:param json_key_str: str: JSON object
@@ -151,13 +120,20 @@ class GappsAuth(object):
 		:return: None
 		"""
 		data = json.loads(json_key_str)
-		cls.store_credentials(
-			data["client_email"],
-			impersonate_user,
-			client_id=data["client_id"],
+		credentials = SignedJwtAssertionCredentials(
+			service_account_name=data["client_email"],
 			private_key=data["private_key"],
-			**kwargs
-		)
+			scope=SCOPE,
+			sub=impersonate_user,
+			client_id=data["client_id"],
+			**kwargs)
+
+		storage = Storage(CREDENTAILS_FILE)
+		try:
+			storage.put(credentials)
+		except IOError:
+			logger.exception("GappsAuth.store_credentials() IOError when writing %r.", CREDENTAILS_FILE)
+			raise
 
 	@staticmethod
 	def _load_credentials():
@@ -170,34 +146,6 @@ class GappsAuth(object):
 			return storage.get()
 		except IOError:
 			logger.exception("GappsAuth.get_credentials() IOError when reading %r.", CREDENTAILS_FILE)
-			raise
-
-	@staticmethod
-	def _load_ssl_key():
-		"""
-		Load SSL key from disk.
-		:return: str: the SSL key
-		"""
-		try:
-			with open(SSL_KEY_FILE, "rb") as f:
-				return f.read()
-		except IOError:
-			logger.exception("GappsAuth.load_ssl_key() Error reading SSL key from %r.", SSL_KEY_FILE)
-			raise
-
-	@staticmethod
-	def store_ssl_key(key_str):
-		"""
-		Store SSL key for later use.
-		:param key_str: str: SSL key
-		:return: None
-		"""
-		try:
-			with open(SSL_KEY_FILE, "wb") as f:
-				f.write(key_str)
-				f.flush()
-		except IOError:
-			logger.exception("GappsAuth.store_ssl_key() Error writing SSL key to %r.", SSL_KEY_FILE)
 			raise
 
 	def get_service_object(self, service_name="admin", version="directory_v1"):

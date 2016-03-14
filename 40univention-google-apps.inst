@@ -42,8 +42,8 @@ eval "$(ucr shell)"
 
 CONFDIR=/etc/univention-google-apps
 
-touch $CONFDIR/credentials.json $CONFDIR/key.p12
-chmod 640 $CONFDIR/credentials.json $CONFDIR/key.p12
+touch $CONFDIR/credentials.json
+chmod 640 $CONFDIR/credentials.json
 chown -R listener:root $CONFDIR/ /var/lib/univention-google-apps/
 
 univention-config-registry set \

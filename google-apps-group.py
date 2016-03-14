@@ -54,10 +54,10 @@ name = 'google-apps-group'
 description = 'sync groups to Google Directory'
 if GappsAuth.is_initialized() and listener.configRegistry.is_true("google-apps/groups/sync", False):
 	filter = '(objectClass=posixGroup)'
-	logger.info("group listener active")
+	logger.info("google apps group listener active")
 else:
 	filter = '(foo=bar)'
-	logger.info("group listener deactivated")
+	logger.info("google apps group listener deactivated")
 attributes = ["cn", "description", "uniqueMember", "mailPrimaryAddress"]
 modrdn = "1"
 
@@ -111,7 +111,7 @@ def clean():
 
 
 def handler(dn, new, old, command):
-	logger.debug("command: %s", command)  # DEBUG
+	logger.debug("command: %s dn: %s", command, dn)
 
 	if not listener.configRegistry.is_true("google-apps/groups/sync", False):
 		return
