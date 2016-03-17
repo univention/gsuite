@@ -1,3 +1,10 @@
+univention-google-apps (0.0.7) unstable; urgency=low
+
+  * error handling in join script (Bug #37949)
+  * store "old" in JSON instead of pickle
+
+ -- Daniel Troeder <troeder@univention.de>  Thu, 17 Mar 2016 15:31:36 +0100
+
 univention-google-apps (0.0.6) unstable; urgency=low
 
   * remove handling of SSL key, requires JSOn file now (Bug #37949)

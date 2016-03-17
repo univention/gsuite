@@ -65,11 +65,11 @@ univention-config-registry set \
 	google-apps/attributes/mapping/externalIds?"type=organization,value=%employeeNumber" \
 	google-apps/debug/api-calls?no \
 	google-apps/debug/werror?no \
-	google-apps/groups/sync?no
+	google-apps/groups/sync?no || die
 
-ucs_addServiceToLocalhost "univention-google-apps" "$@"
+ucs_addServiceToLocalhost "univention-google-apps" "$@" || die
 
-ucs_registerLDAPExtension "$@" --schema /usr/share/univention-google-apps/google-apps.schema
+ucs_registerLDAPExtension "$@" --schema /usr/share/univention-google-apps/google-apps.schema || die
 
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
@@ -93,7 +93,7 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set ldapMapping=univentionGoogleAppsObjectID \
 	--set deleteObjectClass=0 \
 	--set overwriteTab=0 \
-	--set fullWidth=1
+	--set fullWidth=1 || die
 
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
@@ -117,7 +117,7 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set ldapMapping=univentionGoogleAppsEnabled \
 	--set deleteObjectClass=0 \
 	--set overwriteTab=0 \
-	--set fullWidth=1
+	--set fullWidth=1 || die
 
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
@@ -137,7 +137,7 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set objectClass=univentionGoogleApps \
 	--set ldapMapping=univentionGoogleAppsData \
 	--set deleteObjectClass=0 \
-	--set disableUDMWeb=1
+	--set disableUDMWeb=1 || die
 
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
@@ -157,7 +157,7 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set objectClass=univentionGoogleApps \
 	--set ldapMapping=univentionGoogleAppsObjectID \
 	--set deleteObjectClass=0 \
-	--set disableUDMWeb=1
+	--set disableUDMWeb=1 || die
 
 joinscript_save_current_version
 

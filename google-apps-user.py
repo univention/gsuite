@@ -35,11 +35,6 @@ __package__ = ''  # workaround for PEP 366
 
 import os
 import re
-try:
-	import cPickle as pickle
-except ImportError:
-	# py3
-	import pickle
 import json
 import base64
 import zlib
@@ -178,7 +173,7 @@ filter = '(&(objectClass=univentionGoogleApps)(uid=*))' if GappsAuth.is_initiali
 attributes = get_listener_attributes()
 modrdn = "1"
 
-GOOGLEAPPS_USER_OLD_PICKLE = os.path.join("/var/lib/univention-google-apps", "google-apps-user_old_dn")
+GOOGLEAPPS_USER_OLD_JSON = os.path.join("/var/lib/univention-google-apps", "google-apps-user_old_dn")
 
 _attrs = dict(
 	anonymize=attributes_anonymize,
@@ -201,24 +196,21 @@ logger.info("ldap2google attribute triggers: %r", ldap2google)
 
 
 def load_old(old):
-	if os.path.exists(GOOGLEAPPS_USER_OLD_PICKLE):
-		f = open(GOOGLEAPPS_USER_OLD_PICKLE, "r")
-		p = pickle.Unpickler(f)
-		old = p.load()
-		f.close()
-		os.unlink(GOOGLEAPPS_USER_OLD_PICKLE)
+	try:
+		with open(GOOGLEAPPS_USER_OLD_JSON, "r") as fp:
+			old = json.load(fp)
+		old["krb5Key"] = [base64.b64decode(old["krb5Key"])]
+		os.unlink(GOOGLEAPPS_USER_OLD_JSON)
 		return old
-	else:
+	except IOError:
 		return old
 
 
 def save_old(old):
-	f = open(GOOGLEAPPS_USER_OLD_PICKLE, "w+")
-	os.chmod(GOOGLEAPPS_USER_OLD_PICKLE, S_IRUSR | S_IWUSR)
-	p = pickle.Pickler(f)
-	p.dump(old)
-	p.clear_memo()
-	f.close()
+	old["krb5Key"] = base64.b64encode(old["krb5Key"][0])
+	with open(GOOGLEAPPS_USER_OLD_JSON, "w+") as fp:
+		os.chmod(GOOGLEAPPS_USER_OLD_JSON, S_IRUSR | S_IWUSR)
+		json.dump(old, fp)
 
 
 def setdata(key, value):
@@ -301,11 +293,12 @@ def handler(dn, new, old, command):
 		# ldapError: Inappropriate matching: modify/delete: univentionGoogleAppsData: no equality matching rule
 		# Explanation: http://gcolpart.evolix.net/blog21/delete-facsimiletelephonenumber-attribute/
 		udm_user["UniventionGoogleAppsData"] = base64.encodestring(zlib.compress(json.dumps(None)))
+		udm_user["UniventionGoogleAppsObjectID"] = None
 		udm_user.modify()
 		username = old["uid"][0]
 		logger.info("Deleted google account of user %r.", username)
 
-		filter_s = "({})".format("|".join("(cn={})".format(g.gr_name) for g in grp.getgrall() if username in g.gr_mem))
+		filter_s = "(|{})".format("".join("(cn={})".format(g.gr_name) for g in grp.getgrall() if username in g.gr_mem))
 		base = listener.configRegistry["ldap/base"]
 		udm_groups = ol.find_udm_objects("groups/group", filter_s, base, ldap_cred)
 		logger.debug("Looking for empty groups to delete...")

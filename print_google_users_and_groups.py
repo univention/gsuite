@@ -33,26 +33,26 @@
 from univention.googleapps.listener import GoogleAppsListener
 
 ol = GoogleAppsListener(None, {}, {})
-gusers = ol.gh.list_users(projection="basic")
-ggroups = ol.gh.list_groups()
+users = ol.gh.list_users(projection="basic")
+groups = ol.gh.list_groups()
 
-print "          id             |         user email             |        name"
-print "------------------------------------------------------------------------------"
-for user in gusers:
+print("          id             |         user email             |        name")
+print(78 * "-")
+for user in users:
 	try:
-		print "%24s | %30s | %s" % (user["id"], user["primaryEmail"], user["name"]["fullName"])
+		print("%24s | %30s | %s" % (user["id"], user["primaryEmail"], user["name"]["fullName"]))
 	except KeyError:
-		print user
+		print(user)
 
-print "=============================================================================="
-print "          id             |        group email             |        name"
-print "------------------------------------------------------------------------------"
-for group in ggroups:
-	print "%24s | %30s | %s" % (group["id"], group["email"], group["name"])
+print(78 * "=")
+print("          id             |        group email             |        name")
+print(78 * "-")
+for group in groups:
+	print("%24s | %30s | %s" % (group["id"], group["email"], group["name"]))
 
-print "=============================================================================="
-print "         group           |        member email            |"
-print "------------------------------------------------------------------------------"
-for group in ggroups:
+print(78 * "=")
+print("         group           |        member email            |")
+print(78 * "-")
+for group in groups:
 	for member in ol.gh.list_members_of_group(group["id"]):
-		print "%24s | %30s" % (group["name"], member["email"])
+		print("%24s | %30s" % (group["name"], member["email"]))
