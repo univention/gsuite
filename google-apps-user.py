@@ -236,10 +236,8 @@ def handler(dn, new, old, command):
 	logger.debug("command: %s dn: %s", command, dn)
 
 	if not GappsAuth.is_initialized():
-		# TODO: store [dn] = action
-		raise RuntimeError("{}.handler() Google Apps for Work App not initialized yet, please run wizard.".format(name))
+		raise RuntimeError("Google Apps for Work App not initialized yet, please run wizard.")
 	else:
-		# TODO: replay postponed actions
 		pass
 
 	if command == 'r':

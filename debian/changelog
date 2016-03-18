@@ -1,3 +1,10 @@
+univention-google-apps (0.0.8) unstable; urgency=low
+
+  * is_initialized() checks validity of credentials file (Bug #37949)
+  * add uninitialize()
+
+ -- Daniel Troeder <troeder@univention.de>  Fri, 18 Mar 2016 09:56:45 +0100
+
 univention-google-apps (0.0.7) unstable; urgency=low
 
   * error handling in join script (Bug #37949)

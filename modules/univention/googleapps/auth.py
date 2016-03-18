@@ -41,7 +41,6 @@ from oauth2client.client import SignedJwtAssertionCredentials
 from univention.googleapps.logging2udebug import get_logger
 
 
-NAME = "google-apps"
 CONFDIR = "/etc/univention-google-apps"
 CREDENTAILS_FILE = CONFDIR + "/credentials.json"
 SCOPE = [
@@ -87,28 +86,41 @@ class GappsAuth(object):
 		Checks if the credentials to use the google directory are available.
 		:return: bool
 		"""
-		# TODO: check content of Storage object
 		try:
-			cls._load_credentials()
-			return True
-		except (NoIDsStored, IOError):
-			logger.exception("GappsAuth.is_initialized()")
+			sjac = cls._get_credentials()
+			return not sjac.invalid
+		except NoIDsStored:
 			return False
+
+	@staticmethod
+	def uninitialize():
+		with open(CREDENTAILS_FILE, "w") as fp:
+			json.dump({}, fp)
 
 	def get_credentials(self):
 		"""
 		Fetch credentials from disk for usage by oauth2client library.
-		:return: oauth2client.file.Storage object
+		:return: oauth2client.file.Storage object or NoIDsStored
 		"""
-		if self.credentials:
-			return self.credentials
-		else:
-			self.credentials = self._load_credentials()
+		if not self.credentials:
+			self.credentials = self._get_credentials()
+		return self.credentials
 
-		if self.credentials:
-			return self.credentials
-		else:
-			raise NoCredentials("No credentials found in '{}'.".format(CREDENTAILS_FILE))
+	@classmethod
+	def _get_credentials(cls):
+		"""
+		Static version without caching the storage object.
+		:return: oauth2client.file.Storage object or NoIDsStored
+		"""
+		try:
+			credentials = cls._load_credentials()
+
+			if credentials and not credentials.invalid:
+				return credentials
+			else:
+				raise NoCredentials("No valid credentials found in '{}'.".format(CREDENTAILS_FILE))
+		except (AttributeError, IOError, KeyError):
+			raise NoCredentials("No valid credentials found in '{}'.".format(CREDENTAILS_FILE))
 
 	@classmethod
 	def store_credentials(cls, json_key_str, impersonate_user, **kwargs):

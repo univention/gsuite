@@ -109,10 +109,8 @@ def handler(dn, new, old, command):
 	if not listener.configRegistry.is_true("google-apps/groups/sync", False):
 		return
 	if not GappsAuth.is_initialized():
-		# TODO: store [dn] = action for replay later
-		raise RuntimeError("{}.handler() Google Apps for Work App not initialized yet, please run wizard.".format(name))
+		raise RuntimeError("Google Apps for Work App not initialized yet, please run wizard.")
 	else:
-		# TODO: replay postponed actions
 		pass
 
 	if command == 'r':
