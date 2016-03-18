@@ -6,7 +6,8 @@ Build-Depends: debhelper (>> 7),
  ucslint-univention,
  python2.7-dev,
  python-support,
- univention-config-dev
+ univention-config-dev,
+ univention-management-console-dev,
 Maintainer: Univention GmbH <packages@univention.de>
 Standards-Version: 3.8.2
 XS-Python-Version: 2.7
@@ -25,6 +26,11 @@ Description: Provision Google Apps for Work accounts.
  Synchronize user accounts to Google Directory and enable them to
  use Google Apps for Work.
 Homepage: https://apps.google.com/
+
+Package: univention-management-console-module-googleapps
+Architecture: all
+Depends: univention-google-apps
+Description: Google Apps for Work wizard UMC module
 
 Package: ucs-test-google-apps
 Architecture: all
