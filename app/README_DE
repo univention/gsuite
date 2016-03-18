@@ -1,0 +1,6 @@
+<p>Die Google Apps for Work Integration für UCS ermöglicht es, mit einem Klick einen Google Zugang mit single sign-on für Benutzer zu provisionieren.</p>
+<ul>
+    <li>Um diese zu verwenden wird ein Google Apps for Work Administratorzugang benötigt.</li>
+    <li>Um Google Apps for Work kostenlos einen Monat lang zu testen, kann hier ein Testzugang erzeugt werden: <a href="https://apps.google.com/">apps.google.com</a>.</li>
+    <li>Diese App benötigt, um Benutzer anzulegen, modifizieren und löschen zu können, administrative Berechtigungen für das Google Apps for Work Konto. Ein Einrichtungsassistent wird Sie durch den Konfigurationsprozess begleiten.</li>
+</ul>

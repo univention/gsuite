@@ -32,11 +32,6 @@
 
 #DEBHELPER#
 
-if [ "$1" = "configure" -a -z "$2" ] ; then
-	a2ensite univention-google-apps.conf
-    invoke-rc.d apache2 reload
-fi
-
 if [ "$1" = "configure" ]; then
 	uinst=/usr/lib/univention-install/60univention-google-apps.uinst
 	[ -e "$uinst" ] && rm "$uinst"

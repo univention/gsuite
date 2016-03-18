@@ -1,0 +1,7 @@
+<p>Congratulations, the Google Apps for Work App has been installed!</p>
+<ul>
+<li>To grant the App access to the Google Apps for Work Account, please run the <a href="/todo">configuration wizard</a>.</li>
+<li>After that, provisioning of Google accounts can be enabled in the user management module.</li>
+<li>To create new users that should automatically have a Google account, please use the "Office 365 Account" template.</li>
+</ul>
+
