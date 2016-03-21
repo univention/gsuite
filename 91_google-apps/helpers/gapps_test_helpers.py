@@ -412,9 +412,5 @@ def check_udm2google_user(udm_args, g_user, domain=None, complete=True):
 			if udm_value not in google_values:
 				fail = True
 				res.append((k, "'{}' (from {})".format(udm_value, udm_values), google_values))
-	if fail:
-		print "*** One or more properties were not synced correctly:\n{}.".format("\n".join(map(str, res)))
-		utils.fail("One or more properties were not synced correctly:\n{}.".format("\n".join(map(str, res))))
-	else:
-		print "*** all fine"
-		return True
+
+	return not fail, res

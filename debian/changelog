@@ -1,3 +1,10 @@
+univention-google-apps (0.0.9) unstable; urgency=low
+
+  * add test for anonymization and sync blocking (Bug #37949)
+  * fix UCRV descriptions
+
+ -- Daniel Troeder <troeder@univention.de>  Mon, 21 Mar 2016 15:58:05 +0100
+
 univention-google-apps (0.0.8) unstable; urgency=low
 
   * is_initialized() checks validity of credentials file (Bug #37949)

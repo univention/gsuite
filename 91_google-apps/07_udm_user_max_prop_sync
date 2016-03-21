@@ -61,4 +61,8 @@ with utils.AutomaticListenerRestart() as alr:
 
 			print "*** Checking sync of all properties..."
 			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
-			check_udm2google_user(user_args, google_user, domain=maildomain, complete=True)
+			success, errors = check_udm2google_user(user_args, google_user, domain=maildomain, complete=True)
+			if success:
+				print("*** all attributes were synced correctly")
+			else:
+				utils.fail("One or more properties were not synced correctly:\n{}".format("\n".join(map(str, errors))))

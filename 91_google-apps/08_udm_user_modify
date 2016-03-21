@@ -18,6 +18,14 @@ from univention.googleapps.handler import GappsHandler
 from univention.googleapps.listener import GoogleAppsListener
 from helpers.gapps_test_helpers import udm_user_args, check_udm2google_user, listener_attributes_data
 
+
+def _test(udm_args, a_user, domain, check_complete):
+	success, errors = check_udm2google_user(udm_args, a_user, domain, check_complete)
+	if success:
+		print("*** all attributes were synced correctly")
+	else:
+		utils.fail("One or more properties were not synced correctly:\n{}".format("\n".join(map(str, errors))))
+
 gl = GoogleAppsListener(None, listener_attributes_data, {})
 gh = GappsHandler(None)
 
@@ -77,7 +85,7 @@ with utils.AutomaticListenerRestart() as alr:
 			print "*** Checking sync of properties #0..."
 			time.sleep(5)
 			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
-			check_udm2google_user(user_args1, google_user, domain=maildomain, complete=False)
+			_test(user_args1, google_user, maildomain, False)
 
 			print "*** Adding more properties to user #1..."
 			udm.modify_object(modulename="users/user", dn=user_dn, **user_args2)
@@ -85,7 +93,7 @@ with utils.AutomaticListenerRestart() as alr:
 			print "*** Checking sync of properties #1..."
 			time.sleep(5)
 			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
-			check_udm2google_user(user_args2, google_user, domain=maildomain, complete=False)
+			_test(user_args2, google_user, maildomain, False)
 
 			print "*** Adding more properties to user #2..."
 			udm.modify_object(modulename="users/user", dn=user_dn, **user_args3)
@@ -93,8 +101,8 @@ with utils.AutomaticListenerRestart() as alr:
 			print "*** Checking sync of properties #2..."
 			time.sleep(5)
 			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
-			check_udm2google_user(user_args3, google_user, domain=maildomain, complete=False)
+			_test(user_args3, google_user, maildomain, False)
 
 			print "*** Checking sync of all properties..."
 			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
-			check_udm2google_user(user_args, google_user, domain=maildomain, complete=True)
+			_test(user_args, google_user, maildomain, True)

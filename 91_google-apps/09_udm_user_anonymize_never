@@ -1,0 +1,134 @@
+#!/usr/share/ucs-test/runner python
+## -*- coding: utf-8 -*-
+## desc: test anonymization, blocking and static sync settings
+## tags: [apptest]
+## exposure: dangerous
+## packages:
+##   - univention-google-apps
+
+import time
+
+import univention.testing.ucr as ucr_test
+import univention.testing.udm as udm_test
+import univention.testing.strings as uts
+import univention.testing.utils as utils
+from univention.config_registry import handler_set
+
+from univention.googleapps.handler import GappsHandler
+from univention.googleapps.listener import GoogleAppsListener
+from helpers.gapps_test_helpers import udm_user_args, check_udm2google_user, listener_attributes_data
+
+gl = GoogleAppsListener(None, listener_attributes_data, {})
+gh = GappsHandler(None)
+
+with utils.AutomaticListenerRestart():
+	with udm_test.UCSTestUDM() as udm:
+		with ucr_test.UCSTestConfigRegistry() as ucr:
+			print("*** Setting UCRs...")
+			roomNumber = uts.random_string()
+			city = uts.random_string()
+			handler_set([
+				"google-apps/attributes/mapping/name=familyName=%sn,givenName=%givenName,fullName=%displayName",
+				"google-apps/attributes/mapping/phones/1=type=home,value=%homePhone",
+				"google-apps/attributes/mapping/phones/2=type=mobile,value=%mobile",
+				"google-apps/attributes/mapping/phones/3=type=pager,value=%pager",
+				"google-apps/attributes/mapping/phones/4=type=work,value=%telephoneNumber",
+				"google-apps/attributes/mapping/addresses/1=type=home,formatted=%homePostalAddress",
+				"google-apps/attributes/mapping/addresses/2=type=work,locality={},postalCode=%postalCode,"
+				"countryCode=%st,streetAddress=%street,extendedAddress=%departmentNumber".format(city),
+				"google-apps/attributes/mapping/addresses/3=type=custom,customType=locality,locality={}".format(
+					roomNumber),
+				"google-apps/attributes/mapping/emails/1=type=work,address=%mail",
+				"google-apps/attributes/mapping/emails/2=type=other,address=%mailAlternativeAddress",
+				"google-apps/attributes/mapping/primaryEmail=%mailPrimaryAddress",
+				"google-apps/attributes/mapping/organizations=primary=True,name=%o,description=%employeeType",
+				"google-apps/attributes/mapping/relations=type=custom,customType=secretary,value=%secretary",
+				"google-apps/attributes/mapping/externalIds=type=organization,value=%employeeNumber",
+				"google-apps/attributes/anonymize=givenName,street,postalCode",
+				"google-apps/attributes/never=mail,postalCode"
+			])
+			utils.restart_listener()
+
+			user_args = udm_user_args(ucr, minimal=False)
+			user_args["set"]["UniventionGoogleAppsEnabled"] = 1
+
+			print "*** Creating mail domain matching domain registered with google..."
+			mail_domain = gh.get_primary_domain()["domainName"]
+			udm.create_object(
+				"mail/domain",
+				position="cn=domain,cn=mail,{}".format(ucr["ldap/base"]),
+				name=mail_domain
+			)
+
+			print("*** Creating user...")
+			user_dn, username = udm.create_user(check_for_drs_replication=True, **user_args)
+			time.sleep(5)
+
+			udm_user = gl.get_udm_user(user_dn)
+			user_id = udm_user.get("UniventionGoogleAppsObjectID")
+			if not user_id:
+				utils.fail("User was not created properly (no UniventionGoogleAppsObjectID).")
+
+			print("*** Checking sync of properties...")
+			google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
+			success, errors = check_udm2google_user(user_args, google_user, domain=mail_domain, complete=True)
+			if success:
+				utils.fail("UCRVs google-apps/attributes/{anonymize, never} and static values were ignored.")
+
+			print("*** Properties that differ to LDAP:\n{}".format("\n".join(map(str, errors))))
+
+			# rewrite error dict and check that "sync errors" are as expected
+			errors = dict([(udm_attr, val) for udm_attr, _, val in errors])
+
+			#
+			# never
+			#
+			for attrib in ["e-mail", "postcode"]:
+				try:
+					value = errors[attrib]
+				except KeyError:
+					utils.fail("Attribute '{}' is synced, but should not be.".format(attrib))
+				if value is None:
+					pass
+				elif isinstance(value, list):
+					for val in value:
+						if val is not None and (
+							val in user_args["set"].get(attrib, []) or val in user_args["append"].get(attrib, [])):
+							utils.fail("Attribute '{}' was synced, but should not be.".format(attrib))
+						else:
+							# e-mail will exist with entries from mailPrimaryAddress and mailAlternativeAddress,
+							# but must not contain addresses from "mail" attribute
+							#
+							# postcode may show up in different places, but should be None everywhere
+							pass
+				else:
+					utils.fail("Attribute '{}' was set, but should not be.".format(attrib))
+
+			print("*** OK: google-apps/attributes/never")
+
+			#
+			# anonymize
+			#
+			for attrib in ["firstname", "street"]:
+				try:
+					value = errors[attrib]
+				except KeyError:
+					utils.fail("Attribute '{}' was synced without anonymizing it.".format(attrib))
+				udm_val = user_args[attrib] if attrib in ["firstname", "lastname"] else user_args["set"][attrib]
+				if udm_val == value:
+					utils.fail("Attribute '{}' was synced without anonymizing it.".format(attrib))
+
+			print("*** OK: google-apps/attributes/anonymize")
+
+			#
+			# static
+			#
+			for attrib in ["roomNumber", "city"]:
+				try:
+					value = errors[attrib]
+				except KeyError:
+					utils.fail("Attribute '{}' was synced without anonymizing it.".format(attrib))
+				if user_args["set"][attrib] == value:
+					utils.fail("Attribute '{}' was synced without anonymizing it.".format(attrib))
+
+			print("*** OK: static values")

@@ -57,7 +57,11 @@ with udm_test.UCSTestUDM() as udm:
 		if not udm_user.get("UniventionGoogleAppsObjectID"):
 			utils.fail("User was not created properly (no UniventionGoogleAppsObjectID).")
 		google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
-		check_udm2google_user(user_args, google_user, domain=maildomain, complete=False)
+		success, errors = check_udm2google_user(user_args, google_user, domain=maildomain, complete=False)
+		if success:
+			print("*** all attributes were synced correctly")
+		else:
+			utils.fail("One or more properties were not synced correctly:\n{}".format("\n".join(map(str, errors))))
 
 		print "*** Checking that group was created (UniventionGoogleAppsObjectID in UDM object)..."
 		udm_group = gl.get_udm_group(group_dn)
