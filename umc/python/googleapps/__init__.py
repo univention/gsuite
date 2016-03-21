@@ -66,17 +66,18 @@ class Instance(Base):
 			values = json.loads(data)
 			GappsAuth.store_credentials(data, request.body['email'])
 		self.finished(request.id, {
-			'service_account_name': values['service_account_name'],
+#			'service_account_name': values['service_account_name'],  # FIXME: doesn't exists
 			'client_id': values['client_id'],
 			'scope': ','.join(SCOPE)
 		})
 
 	@simple_response
 	def test_configuration(self):
+		if not GappsAuth.is_initialized():
+			raise UMC_Error(_('The configuration to Google Apps for Work is not yet complete.'))
 		ol = GoogleAppsListener(None, {}, {})
 		try:
-			gusers = ol.gh.list_users(query="email=%s", projection="basic")
+			return ol.gh.list_users(projection="basic")
 		except oauth2client.client.AccessTokenRefreshError:
 			# might be 'invalid_client' or 'access_denied'
-			raise
-		assert len(gusers) == 1
+			raise  # UMC_Error(str(exc))

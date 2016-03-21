@@ -33,15 +33,17 @@ define([
 	"dojo/_base/lang",
 	"dojo/_base/array",
 	"dojo/Deferred",
+	"umc/tools",
 	"umc/dialog",
 	"umc/widgets/Module",
 	"umc/widgets/Wizard",
 	"umc/widgets/Text",
 	"umc/widgets/TextBox",
+	"umc/widgets/TextArea",
 	"umc/widgets/Uploader",
 	"umc/widgets/ProgressBar",
 	"umc/i18n!umc/modules/googleapps"
-], function(declare, lang, array, Deferred, dialog, Module, Wizard, Text, TextBox, Uploader, ProgressBar, _) {
+], function(declare, lang, array, Deferred, tools, dialog, Module, Wizard, Text, TextBox, TextArea, Uploader, ProgressBar, _) {
 	var SetupWizard = declare('umc.modules.googleapps.SetupWizard', [Wizard], {
 
 		_uploadDeferred: null,
@@ -55,7 +57,7 @@ define([
 			lang.mixin(this, {
 				pages: [{
 					name: 'start',
-					headerText: _('HEADER TEXT'),
+					headerText: _('Google Apps for Work information'),
 					helpText: '',
 					widgets: [{
 						type: Text,
@@ -65,22 +67,22 @@ define([
 					}, {
 						type: Text,
 						name: 'info',
-						content: '<p>' + _('INTRODUCTION.') + '</p><p>' +
-							_('Google Apps for Work account') + '<br>' +
-							_('Domain the gapps account is registred for') +
+						content: '<p>' + _('Google Apps for Work is ….') + '</p><p>' +
+							_('To configure the connection to Google a Google Apps for Work account is required.') + '<br>' +
+							_('…Domain the gapps account is registred for…') +
 							'</p>'
 					}]
 				}, {
-					name: 'login',
-					headerText: _('HEADER TEXT'),
+					name: 'create-project',
+					headerText: _('Create a new project'),
 					helpText: '',
 					widgets: [{
 						name: 'infos',
 						type: Text,
 						content: '<ol>' +
-							'<li>' + _('login to the Google Developers Console https://console.developers.google.com/') + '</li>' +
-							'<li>' + _('create a new project, the name doesnt matter') + '</li>' +
-							'<li>' + _('go to the "API Manager", select the "Admin SDK" and enable it') + '</li>' +
+							'<li>' + _('Please login to the <a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a>') + '</li>' +
+							'<li>' + _('Create a new project, an arbritrary name can be chosen.') + '</li>' +
+							'<li>' + _('Go to the <i>API Manager</i>, select the <i>Admin SDK</i> and enable it') + '</li>' +
 							'</ol>'
 					}]
 				}, {
@@ -90,15 +92,17 @@ define([
 					widgets: [{
 						type: Text,
 						name: 'infos',
-						content: _('go to "Credentials" and create a new "Service account key"') + '<ol>' +
-							'<li>' + _('the type must be "new service account", the key type must be "JSON".') + '</li>' +
-							'<li>' + _('save the key file and upload it to the wizard') + '</li>' +
-							'<li>' + _('enter the email adress of the admin user you used to login to the google dev console') + '</li>' +
+						content: _('Navigate to <i>Credentials</i> and create a new <i>Service account key</i>') + '<ol>' +
+							'<li>' + _('Choose <i>new service account</i> as type and select <i>JSON</i> as the key type') + '</li>' +
+							'<li>' + _('This will offer you to download the key file after clicking on <i>create</i>. Save this key file on your hard disk') + '</li>' +
+							'<li>' + _('Enter the email adress of the admin user you used to login to the Google Developers Console') + '</li>' +
+							'<li>' + _('Upload the credentials key file below') + '</li>' +
 							'</ol>'
 					}, {
 						type: TextBox,
 						name: 'email',
-						label: _('E-Mail address'),
+						label: _('E-mail address'),
+						required: true,
 						onChange: lang.hitch(this, function(value) {
 							this.getWidget('create-service-account-key', 'upload').set('dynamicOptions', {
 								email: value
@@ -107,7 +111,7 @@ define([
 					}, {
 						type: Uploader,
 						name: 'upload',
-						buttonLabel: _('Upload JSON service account key'),
+						buttonLabel: _('Upload service account key'),
 						command: 'googleapps/upload',
 						dynamicOptions: {
 							email: ''
@@ -125,35 +129,43 @@ define([
 						})
 					}]
 				}, {
-					name: 'foo',
-					headerText: _('HEAD TEXT'),
+					name: 'enable-domain-wide-delegation',
+					headerText: _('Enable Google Apps domain wide delegation'),
 					helpText: '',
 					widgets: [{
 						type: Text,
 						name: 'infos',
-						content: '<ol><li>' + _('still on the "Credentials" page, click on "Manage service account"') + '</li><li>' +
-							_('click on the three dots on the right of the service account you just created and choose to "Edit" it') + '</li><li>' +
-							_('Enable "Google Apps Domain-wide Delegation" and enter "UCS sync" as "Product name for the consent screen"')  + '</li>' +
+						content: '<ol><li>' + _('Still on the <i>Credentials</i> page, click on <i>Manage service accounts</i>') + '</li><li>' +
+							_('Edit the service account you just created by right clicking the three dots on the right') + '</li><li>' +
+							_('Enable <i>Google Apps Domain-wide Delegation</i> and enter <i>UCS sync FIXME: required?</i> as <i>Product name for the consent screen</i>')  + '</li>' +
 							'</li></ol>'
 					}]
 				}, {
 					name: 'authorize',
-					headerText: _('AUTHORIZE'),
+					headerText: _('Authorize connection between Google and UCS'),
 					helpText: '',
 					widgets: [{
 						type: Text,
 						name: 'infos',
 						content: _('To authorize the connection between this App and Google Apps for Work please follow these instructions:') +
 							'<ol><li>' +
-							_('go to the "Admin console" to "Manage API client access": https://admin.google.com/ManageOauthClients') + '</li><li>' +
-							_('Authorize API access') + '</ul><li>' +
-							_('Client Name: {client_id}') + '</li><li>' +
-							_('One or More API Scopes: {scope}') + '</ul></li><li>' +
-							_('click "Authorize"') + '</li></ol>'
+							_('Access the <a href="https://admin.google.com/ManageOauthClients" target="_blank">Admin console</a> to <i>Manage API client access</i>') + '</li><li>' +
+//							_('Authorize API access') + '</ul><li>' +
+//							_('Client Name: {client_id}') + '</li><li>' +
+//							_('One or More API Scopes: {scope}') + '</ul></li><li>' +
+							_('Enter the information below into the corresponding field and click "Authorize"') + '</li></ol>'
+					}, {
+						type: TextBox,
+						name: 'client_id',
+						label: _('Client Name')
+					}, {
+						type: TextArea,
+						name: 'scope',
+						label: _('One or More API Scopes')
 					}]
 				}, {
 					name: 'connectiontest',
-					headerText: _('Connectiontest'),
+					headerText: _('Successfully configured Google Apps for Work'),
 					helpText: '',
 					widgets: [{
 						type: Text,
@@ -162,6 +174,15 @@ define([
 							_('Users can now be synced to Google Apps 4 Work by activating the sync on the users <i>Google Apps for Work?</i> tab.')
 					}]
 
+				}, {
+					name: 'error',
+					headerText: _('Error'),
+					helpText: '',
+					widgets: [{
+						type: Text,
+						name: 'error',
+						content: _('An error occurred during testing the connection to Google Apps for Work.')
+					}],
 				}]
 			});
 		},
@@ -170,8 +191,22 @@ define([
 			this.getWidget('start', 'already-initialized').set('visible', data.result.initialized);
 		},
 
+		keyUploaded: function(data) {
+			tools.forIn(data.result, lang.hitch(this, function(key, val) {
+				this.getWidget(key).set('value', val);
+			}));
+			this._next('create-service-account-key');
+		},
+
 		next: function(pageName) {
 			var nextPage = this.inherited(arguments);
+			if (nextPage == 'connectiontest') {
+				return this.standbyDuring(this.umcpCommand('googleapps/test_configuration').then(function() {
+					return nextPage;
+				}, function() {
+					return 'error';
+				}));
+			}
 			return nextPage;
 		},
 
@@ -184,28 +219,28 @@ define([
 		//			}
 		//		});
 		//	} else
-			if (pageName == "") {
+			if (pageName == 'create-service-account-key') {
 				buttons = array.filter(buttons, function(button) { return button.name != 'next'; });
 			}
 			return buttons;
 		},
 
 		hasNext: function(pageName) {
-			if (~array.indexOf([], pageName)) {
+			if (~array.indexOf(['create-service-account-key', 'connectiontest', 'error'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
 		},
 
 		hasPrevious: function(pageName) {
-			if (~array.indexOf([], pageName)) {
+			if (~array.indexOf(['enable-domain-wide-delegation', 'error', 'connectiontest'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
 		},
 
 		canCancel: function(pageName) {
-			if (~array.indexOf([], pageName)) {
+			if (~array.indexOf(['start', 'create-project', 'create-service-account-key', 'connectiontest', 'error'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
