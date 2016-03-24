@@ -33,6 +33,7 @@
 
 import json
 import subprocess
+import urllib
 
 from univention.lib.i18n import Translation
 from univention.management.console.base import Base, UMC_Error
@@ -64,11 +65,15 @@ class Instance(Base):
 		with open(request.options[0]['tmpfile']) as fd:
 			data = fd.read()
 			values = json.loads(data)
-			GappsAuth.store_credentials(data, request.body['email'])
+			try:
+				GappsAuth.store_credentials(data, request.body['email'])
+			except 'FIXME' as exc:
+				raise UMC_Error(str(exc))
 		self.finished(request.id, {
 #			'service_account_name': values['service_account_name'],  # FIXME: doesn't exists
 			'client_id': values['client_id'],
-			'scope': ','.join(SCOPE)
+			'scope': ','.join(SCOPE),
+			'serviceaccounts_link': 'https://console.developers.google.com/permissions/serviceaccounts?project=%s' % (urllib.quote(values['project_id']),)
 		})
 
 	@simple_response
@@ -80,4 +85,4 @@ class Instance(Base):
 			return ol.gh.list_users(projection="basic")
 		except oauth2client.client.AccessTokenRefreshError:
 			# might be 'invalid_client' or 'access_denied'
-			raise  # UMC_Error(str(exc))
+			raise  # UMC_Error(_('The configuration seems complete but no users could be queried: %s') % (exc,))

@@ -26,7 +26,7 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <http://www.gnu.org/licenses/>.
  */
-/*global define,window*/
+/*global define,require*/
 
 define([
 	"dojo/_base/declare",
@@ -42,7 +42,8 @@ define([
 	"umc/widgets/TextArea",
 	"umc/widgets/Uploader",
 	"umc/widgets/ProgressBar",
-	"umc/i18n!umc/modules/googleapps"
+	"umc/i18n!umc/modules/googleapps",
+	"xstyle/css!./googleapps.css"
 ], function(declare, lang, array, Deferred, tools, dialog, Module, Wizard, Text, TextBox, TextArea, Uploader, ProgressBar, _) {
 	var SetupWizard = declare('umc.modules.googleapps.SetupWizard', [Wizard], {
 
@@ -67,10 +68,7 @@ define([
 					}, {
 						type: Text,
 						name: 'info',
-						content: '<p>' + _('Google Apps for Work is ….') + '</p><p>' +
-							_('To configure the connection to Google a Google Apps for Work account is required.') + '<br>' +
-							_('…Domain the gapps account is registred for…') +
-							'</p>'
+						content: this.getTextStart()
 					}]
 				}, {
 					name: 'create-project',
@@ -79,11 +77,7 @@ define([
 					widgets: [{
 						name: 'infos',
 						type: Text,
-						content: '<ol>' +
-							'<li>' + _('Please login to the <a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a>') + '</li>' +
-							'<li>' + _('Create a new project, an arbritrary name can be chosen.') + '</li>' +
-							'<li>' + _('Go to the <i>API Manager</i>, select the <i>Admin SDK</i> and enable it') + '</li>' +
-							'</ol>'
+						content: this.getTextCreateProject()
 					}]
 				}, {
 					name: 'create-service-account-key',
@@ -92,12 +86,7 @@ define([
 					widgets: [{
 						type: Text,
 						name: 'infos',
-						content: _('Navigate to <i>Credentials</i> and create a new <i>Service account key</i>') + '<ol>' +
-							'<li>' + _('Choose <i>new service account</i> as type and select <i>JSON</i> as the key type') + '</li>' +
-							'<li>' + _('This will offer you to download the key file after clicking on <i>create</i>. Save this key file on your hard disk') + '</li>' +
-							'<li>' + _('Enter the email adress of the admin user you used to login to the Google Developers Console') + '</li>' +
-							'<li>' + _('Upload the credentials key file below') + '</li>' +
-							'</ol>'
+						content: this.getTextCreateServiceAccountKey()
 					}, {
 						type: TextBox,
 						name: 'email',
@@ -135,10 +124,7 @@ define([
 					widgets: [{
 						type: Text,
 						name: 'infos',
-						content: '<ol><li>' + _('Still on the <i>Credentials</i> page, click on <i>Manage service accounts</i>') + '</li><li>' +
-							_('Edit the service account you just created by right clicking the three dots on the right') + '</li><li>' +
-							_('Enable <i>Google Apps Domain-wide Delegation</i> and enter <i>UCS sync FIXME: required?</i> as <i>Product name for the consent screen</i>')  + '</li>' +
-							'</li></ol>'
+						content: this.getTextEnableDomainWideDelegation()
 					}]
 				}, {
 					name: 'authorize',
@@ -150,10 +136,7 @@ define([
 						content: _('To authorize the connection between this App and Google Apps for Work please follow these instructions:') +
 							'<ol><li>' +
 							_('Access the <a href="https://admin.google.com/ManageOauthClients" target="_blank">Admin console</a> to <i>Manage API client access</i>') + '</li><li>' +
-//							_('Authorize API access') + '</ul><li>' +
-//							_('Client Name: {client_id}') + '</li><li>' +
-//							_('One or More API Scopes: {scope}') + '</ul></li><li>' +
-							_('Enter the information below into the corresponding field and click "Authorize"') + '</li></ol>'
+							_('Enter the information below into the corresponding field and click <i>Authorize</i>') + '</li></ol>'
 					}, {
 						type: TextBox,
 						name: 'client_id',
@@ -176,19 +159,79 @@ define([
 
 				}, {
 					name: 'error',
-					headerText: _('Error'),
+					headerText: _('An error occurred'),
 					helpText: '',
 					widgets: [{
 						type: Text,
 						name: 'error',
 						content: _('An error occurred during testing the connection to Google Apps for Work.')
-					}],
+					}]
 				}]
+			});
+			array.forEach(this.pages, function(page) {
+				page['class'] = 'umc-googleapps-page umc-googleapps-page-' + page.name;
+			});
+
+		},
+
+		postCreate: function() {
+			this.inherited(arguments);
+
+			tools.forIn(this._pages, function(name, page) {
+				page.addChild(new Text({
+					'class': 'umcPageIcon',
+					region: 'nav'
+				}));
 			});
 		},
 
 		initWizard: function(data) {
 			this.getWidget('start', 'already-initialized').set('visible', data.result.initialized);
+		},
+
+		getTextStart: function() {
+			return '<p>' + _('Google Apps for Work is ….') + '</p><p>' +
+				_('To configure the connection to Google a Google Apps for Work account is required.') + '<br>' +
+				_('…Domain the gapps account is registred for…') +
+				'</p>';
+		},
+
+		getTextCreateProject: function() {
+			return this.formatOrderedList([
+				_('Please login to the <a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a>'),
+				_('Create a new project, an arbritrary name can be chosen.'),
+				_('Go to the <i>API Manager</i>, select the <i>Admin SDK</i> and enable it') + this.img('create-project') + this.img('admin-sdk.png')
+			]);
+		},
+
+		getTextCreateServiceAccountKey: function() {
+			return _('Navigate to <i>Credentials</i> and create a new <i>Service account key</i>') + this.formatOrderedList([
+				_('Choose <i>new service account</i> as type and select <i>JSON</i> as the key type') + this.img('create-service-account-key.png') + this.img('credentials-tab.png'),
+				_('This will offer you to download the key file after clicking on <i>create</i>. Save this key file on your hard disk'),
+				_('Enter the email adress of the admin user you used to login to the Google Developers Console'),
+				_('Upload the credentials key file below')
+			]);
+				
+		},
+
+		getTextEnableDomainWideDelegation: function() {
+			return this.formatOrderedList([
+				_('Still on the <i>Credentials</i> page, click on <a href="{serviceaccounts_link}" target="_blank">Manage service accounts</a>'),
+				_('Edit the service account you just created by right clicking the three dots on the right') + this.img('edit-dots.png'),
+				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter <i>UCS sync FIXME: required?</i> as <i>Product name for the consent screen</i>') + this.img('edit-service-account')
+			]);
+		},
+
+		formatParagraphs: function(data) {
+			return '<p>' + data.join('</p><p>') + '</p>';
+		},
+
+		formatOrderedList: function(data) {
+			return '<ol style="padding: 0; list-style-position: inside;"><li>' + data.join('</li><li>')  + '</li></ol>';
+		},
+
+		img: function(image) {
+			return '<br/><img style="min-width: 250px; max-width: 100%; padding-left: 1em; /*border: thin solid red;*/" src="' + require.toUrl('umc/modules/googleapps/' + image) + '">';
 		},
 
 		keyUploaded: function(data) {
@@ -226,7 +269,7 @@ define([
 		},
 
 		hasNext: function(pageName) {
-			if (~array.indexOf(['create-service-account-key', 'connectiontest', 'error'], pageName)) {
+			if (~array.indexOf(['connectiontest', 'error'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
