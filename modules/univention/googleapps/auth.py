@@ -61,10 +61,6 @@ class NoCredentials(GoogleAppError):
 	pass
 
 
-class NoIDsStored(GoogleAppError):
-	pass
-
-
 class GappsAuth(object):
 	def __init__(self, listener):
 		self.listener = listener
@@ -89,7 +85,7 @@ class GappsAuth(object):
 		try:
 			sjac = cls._get_credentials()
 			return not sjac.invalid
-		except NoIDsStored:
+		except NoCredentials:
 			return False
 
 	@staticmethod
