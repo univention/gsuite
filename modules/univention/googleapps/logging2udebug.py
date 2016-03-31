@@ -72,7 +72,7 @@ LOGGING_TO_UDEBUG = dict(
 	ERROR=ud.ERROR,
 	WARN=ud.WARN,
 	WARNING=ud.WARN,
-	INFO=ud.INFO,  # or rather ud.PROCESS?
+	INFO=ud.PROCESS,
 	DEBUG=ud.ALL,
 	NOTSET=ud.ALL
 )
