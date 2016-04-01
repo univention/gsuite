@@ -1,0 +1,45 @@
+.umc-googleapps-page .umcPageIcon {
+    background-repeat: no-repeat;
+    height: 120px;
+    background-size: contain;
+    background-position: center bottom;
+}
+
+.umc .umc-googleapps-page .umcPageHelpText {
+    min-height: 50px;
+}
+
+@media (max-width: 767px) {
+    .umc .umc-googleapps-page .umcPageIcon {
+        height: 100px;
+    }
+    .umc .umc-googleapps-page .umcPageHelpText {
+        min-height: 1px
+    }
+    .umc .umc-googleapps-page .umcPageMain {
+        /* overwrite autoHeight property for small devices */
+        min-height: 0px !important;
+    }
+}
+
+.umc-googleapps-page-start .umcPageIcon {
+	background-image: url(googleapps/start.png);
+}
+.umc-googleapps-page-create-project .umcPageIcon {
+	background-image: url(googleapps/create-project.png);
+}
+.umc-googleapps-page-create-service-account-key .umcPageIcon {
+	background-image: url(googleapps/create-service-account-key.png);
+}
+.umc-googleapps-page-enable-domain-wide-delegation .umcPageIcon {
+	background-image: url(googleapps/enable-domain-wide-delegation.png);
+}
+.umc-googleapps-page-authorize .umcPageIcon {
+	background-image: url(googleapps/authorize.png);
+}
+.umc-googleapps-page-connectiontest .umcPageIcon {
+	background-image: url(googleapps/success.png);
+}
+.umc-googleapps-page-error .umcPageIcon {
+	background-image: url(googleapps/error.png);
+}
