@@ -98,6 +98,10 @@ define([
 							});
 						})
 					}, {
+						type: Text,
+						name: 'complete',
+						content: this.formatOrderedList([_('Upload the credentials key file below')], {start: 4})
+					}, {
 						type: Uploader,
 						name: 'upload',
 						buttonLabel: _('Upload service account key'),
@@ -140,10 +144,12 @@ define([
 					}, {
 						type: TextBox,
 						name: 'client_id',
+						sizeClass: 'Two',
 						label: _('Client Name')
 					}, {
 						type: TextArea,
 						name: 'scope',
+						sizeClass: 'Two',
 						label: _('One or More API Scopes')
 					}]
 				}, {
@@ -206,10 +212,9 @@ define([
 
 		getTextCreateServiceAccountKey: function() {
 			return _('Navigate to <i>Credentials</i> and create a new <i>Service account key</i>') + this.formatOrderedList([
-				_('Choose <i>new service account</i> as type and select <i>JSON</i> as the key type') + this.img('create-service-account-key.png') + this.img('credentials-tab.png'),
+				_('Choose <i>new service account</i> in the drop down menu, enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type') + this.img('create-service-account-key.png') + this.img('credentials-tab.png'),
 				_('This will offer you to download the key file after clicking on <i>create</i>. Save this key file on your hard disk'),
-				_('Enter the email adress of the admin user you used to login to the Google Developers Console'),
-				_('Upload the credentials key file below')
+				_('Enter the email adress of the admin user you used to login to the Google Developers Console')
 			]);
 				
 		},
@@ -226,8 +231,9 @@ define([
 			return '<p>' + data.join('</p><p>') + '</p>';
 		},
 
-		formatOrderedList: function(data) {
-			return '<ol style="padding: 0; list-style-position: inside;"><li>' + data.join('</li><li>')  + '</li></ol>';
+		formatOrderedList: function(data, props) {
+			var start = (props && props.start) ? 'start="' + props.start + '" ' : '';
+			return '<ol '+ start + 'style="padding: 0; list-style-position: inside;"><li>' + data.join('</li><li>')  + '</li></ol>';
 		},
 
 		img: function(image) {
@@ -236,7 +242,10 @@ define([
 
 		keyUploaded: function(data) {
 			tools.forIn(data.result, lang.hitch(this, function(key, val) {
-				this.getWidget(key).set('value', val);
+				var widget = this.getWidget(key);
+				if (widget) {
+					widget.set('value', val);
+				}
 			}));
 			this._next('create-service-account-key');
 		},
