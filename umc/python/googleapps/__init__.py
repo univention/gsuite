@@ -34,18 +34,34 @@
 import json
 import subprocess
 import urllib
+import functools
 
 from univention.lib.i18n import Translation
-from univention.management.console.base import Base, UMC_Error
+from univention.management.console.base import Base, UMC_Error, UMC_OptionSanitizeError
 from univention.management.console.config import ucr
 
 from univention.management.console.modules.decorators import sanitize, simple_response, file_upload
-from univention.management.console.modules.sanitizers import StringSanitizer, DictSanitizer, BooleanSanitizer
+from univention.management.console.modules.sanitizers import StringSanitizer, DictSanitizer, BooleanSanitizer, EmailSanitizer, ValidationError, MultiValidationError
 
 from univention.googleapps.auth import GappsAuth, SCOPE
 from univention.googleapps.listener import GoogleAppsListener
 
 _ = Translation('univention-management-console-module-googleapps').translate
+
+
+def sanitize_body(sanizer):  # TODO: move into UMC core
+	def _decorator(function):
+		@functools.wraps(function)
+		def _decorated(self, request, *args, **kwargs):
+			try:
+				sanizer.sanitize('request.body', {'request.body': request.body})
+			except MultiValidationError as exc:
+				raise UMC_OptionSanitizeError(str(exc), exc.result())
+			except ValidationError as exc:
+				raise UMC_OptionSanitizeError(str(exc), {exc.name: str(exc)})
+			return function(self, request, *args, **kwargs)
+		return _decorated
+	return _decorator
 
 
 class Instance(Base):
@@ -59,6 +75,9 @@ class Instance(Base):
 	@file_upload
 	@sanitize(DictSanitizer(dict(
 		tmpfile=StringSanitizer(required=True)
+	), required=True))
+	@sanitize_body(DictSanitizer(dict(
+		email=EmailSanitizer(required=True)
 	), required=True))
 	def upload(self, request):
 		GappsAuth.uninitialize()
