@@ -1,6 +1,7 @@
 40univention-google-apps.inst usr/lib/univention-install/
 60univention-google-apps.uinst usr/lib/univention-uninstall/
 modules/univention/googleapps/*.py usr/share/pyshared/univention/googleapps/
+modules/univention/googleapps/*.mo usr/share/locale/de/LC_MESSAGES/
 google-apps-user.py usr/lib/univention-directory-listener/system/
 google-apps-group.py usr/lib/univention-directory-listener/system/
 google-apps.schema usr/share/univention-google-apps/

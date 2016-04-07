@@ -41,8 +41,11 @@ print(78 * "-")
 for user in users:
 	try:
 		print("%24s | %30s | %s" % (user["id"], user["primaryEmail"], user["name"]["fullName"]))
-	except KeyError:
-		print(user)
+	except KeyError as ke:
+		if "name" in ke:
+			print("%24s | %30s | %s" % (user["id"], user["primaryEmail"], "<invalid name>"))
+		else:
+			print(user)
 
 print(78 * "=")
 print("          id             |        group email             |        name")

@@ -33,12 +33,17 @@
 
 import httplib2
 import json
+import sys
 
 from apiclient import discovery
 from oauth2client.file import Storage
-from oauth2client.client import SignedJwtAssertionCredentials
+from oauth2client.client import SignedJwtAssertionCredentials, AccessTokenRefreshError, Error as Oauth2ClientError
 
 from univention.googleapps.logging2udebug import get_logger
+from univention.lib.i18n import Translation
+
+
+_ = Translation('univention-googleapps').translate
 
 
 CONFDIR = "/etc/univention-google-apps"
@@ -58,6 +63,16 @@ class GoogleAppError(Exception):
 
 
 class NoCredentials(GoogleAppError):
+	pass
+
+
+class AuthenticationError(GoogleAppError):
+	def __init__(self, msg, chained_exc=None, *args, **kwargs):
+		self.chained_exc = chained_exc
+		super(AuthenticationError, self).__init__(msg, *args, **kwargs)
+
+
+class AuthenticationErrorRetry(AuthenticationError):
 	pass
 
 
@@ -168,6 +183,24 @@ class GappsAuth(object):
 		if not service:
 			credentials = self.get_credentials()
 			http = credentials.authorize(httplib2.Http())
-			service = discovery.build(service_name, version, http=http)
+			try:
+				try:
+					service = discovery.build(service_name, version, http=http)
+				except AccessTokenRefreshError as exc:
+					if str(exc) != "unauthorized_client":
+						raise
+					# Happens when the user has just authorized a service account
+					# for API access, but Googles servers have not realized yet it.
+					# The oauthlib will set the credentials to "invalid", which
+					# will make further connection attempts fail.
+					with open(CREDENTAILS_FILE, "rb") as fp:
+						creds = json.load(fp)
+					creds["invalid"] = False
+					with open(CREDENTAILS_FILE, "wb") as fp:
+						json.dump(creds, fp)
+					raise AuthenticationErrorRetry, AuthenticationErrorRetry(_("Token could not be refreshed, "
+						"you may try to connect again later."), chained_exc=exc), sys.exc_info()[2]
+			except Oauth2ClientError as exc:
+				raise AuthenticationError, AuthenticationError(str(exc), chained_exc=exc), sys.exc_info()[2]
 			self.service_objects[key] = service
 		return service
