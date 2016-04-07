@@ -213,7 +213,7 @@ define([
 		getTextStart: function() {
 			return '<p>' + _('Welcome to the Univention <a href="https://apps.google.com/" target="_blank">Google Apps for Work</a> configuration wizard.') + '</p><p>' +
 				_('It will guide you through the process of setting up automatic provisioning of Google Apps for Work accounts for your user accounts.') + '<br>' +
-				_('To use this app you need a valid Google Apps for Work admin acccount.') +
+				_('To use this app you need a valid Google Apps for Work admin acccount and a verified domain.') +
 				'</p>';
 		},
 
@@ -221,7 +221,7 @@ define([
 			return this.formatOrderedList([
 				_('Please login to the <a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a>.'),
 				_('Create a new project by using the drop-down menu in the top navgation bar.'),
-				_('Give the project a name, for example "UCS sync".') + this.img('new_project') + '<br>' +  _('Continue when Google has finished creating the project.')
+				_('Give the project a name, for example "UCS sync".') + this.img('new_project') + '<br>' +  _('Continue when Google has finished creating the project by clicking on <i>Next</i>.')
 			]);
 		},
 
@@ -230,28 +230,28 @@ define([
 				_('Go to the <i>API Manager</i>') + this.img('api_manager_nav.png'),
 				_('Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section.') + this.img('google_admin_sdk_link.png'),
 //				_('Select the <i>Admin SDK</i> and enable it') + this.img('admin-sdk.png'),
-				_('Enable it.') + this.img('google_admin_sdk_enable.png') + '<br>' + _('This may take a minute, continue when Google has finished enabling the Admin SDK API.')
+				_('Enable it.') + this.img('google_admin_sdk_enable.png') + '<br>' + _('This may take a minute. When Google has finished enabling the Admin SDK API, continue by clicking on <i>Next</i>.')
 			]);
 		},
 
 		getTextCreateServiceAccountKey: function() {
 			return this.formatOrderedList([
 				_('Navigate to <i>Credentials</i>') + this.img('credentials_nav.png'),
-				_('Create a new <i>Service account key</i>. Choose <i>new service account</i> in the drop down menu.') + this.img('create_sevice_account_key.png'),
-				_('Enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type.') + this.img('new_service_account.png'),
-				_('This will offer you to download the key file after clicking on <i>create</i>. Save this key file on your hard disk in a secure location.')
+				_('Click on <i>Create credentials</i> and select <i>Service account key</i>.') + this.img('create_sevice_account_key.png'),
+				_('In the new window choose <i>New service account</i> from the drop down menu. Enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type.') + this.img('new_service_account.png'),
+				_('This will offer you to download the key file after clicking on <i>Create</i>. Save this key file on your hard disk in a secure location') + '<br>' + _('Then continue by clicking on <i>Next</i>.')
 			]);
 		},
 
 		getTextUploadServiceAccountKeyEmail: function() {
 			return this.formatOrderedList([
-				_('Enter the email adress of the admin user you used to login to the Google Developers Console') + this.img('admin_email.png')
+				_('Enter the email adress of the admin user you used to login to the Google Developers Console. The email address can be displayed by clicking on the profile button in the top right corner.') + this.img('admin_email.png')
 			]);
 		},
 
 		getTextUploadServiceAccountKey: function() {
 			return this.formatOrderedList([
-				_('Upload the credentials key file below.')
+				_('Click on the button below and select the JSON key file you just downloaded. This will upload the credentials key file to UCS.')
 			], {start: 2});
 		},
 
@@ -259,15 +259,15 @@ define([
 			return this.formatOrderedList([
 				//_('Still on the <i>Credentials</i> page, click on <a href="{serviceaccounts_link}" target="_blank">Manage service accounts</a>'),
 				_('Still on the <i>Credentials</i> page, click on <i>Manage service accounts</i> on the right.'),
-				_('Edit the service account you just created by right clicking the three dots on the right') + this.img('edit_service_account.png'),
-				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name for the consent screen</i>.') + this.img('enable_delegation_and_prod_name.png')
+				_('Then edit the service account you just created by right clicking the three dots on the right.') + this.img('edit_service_account.png'),
+				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name</i> for the consent screen and click on <i>Save</i>.</i>.') + this.img('enable_delegation_and_prod_name.png') + '<br>' + _('Continue by clicking on <i>Next</i>.')
 			]);
 		},
 
 		getTextAuthorizeConnection: function() {
 			return _('To authorize the connection between this App and Google Apps for Work please follow these instructions:') + this.formatOrderedList([
-				_('<a href="https://admin.google.com/ManageOauthClients" target="_blank">Click here to access the Admin console</a> to <i>Manage API client access</i>'),
-				_('Copy and paste the information below into the corresponding field and click <i>Authorize</i>') + this.img('authorize_api_access.png')
+				_('<a href="https://admin.google.com/ManageOauthClients" target="_blank">Click here to access the Admin console</a> to <i>Manage API client access</i>.'),
+				_('Copy and paste the information below into the corresponding field and click <i>Authorize</i>.') + this.img('authorize_api_access.png') + '<br>' + _('Continue by clicking on <i>Next</i>.')
 			]);
 		},
 
