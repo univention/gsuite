@@ -88,12 +88,12 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set multivalue=0 \
 	--set valueRequired=0 \
 	--set mayChange=1 \
-	--set doNotSearch=0 \
+	--set doNotSearch=1 \
 	--set objectClass=univentionGoogleApps \
 	--set ldapMapping=univentionGoogleAppsObjectID \
 	--set deleteObjectClass=0 \
 	--set overwriteTab=0 \
-	--set fullWidth=1 || die
+	--set disableUDMWeb=1 || die
 
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
@@ -142,7 +142,7 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
 	--set name="UniventionGoogleAppsGroupObjectID" \
-	--set CLIName="UniventionGoogleAppsObjectID" \
+	--set CLIName="UniventionGoogleAppsGroupObjectID" \
 	--set shortDescription="Object ID of group in Google Directory" \
 	--set translationShortDescription='"de_DE" "Objekt ID der Gruppe im Google Verzeichnis"' \
 	--set longDescription="Object ID of user in Google Directory" \
