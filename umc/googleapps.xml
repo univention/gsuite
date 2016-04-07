@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <umc version="2.0">
-	<module id="googleapps" priority="50" version="1.0">
+	<module id="googleapps" priority="50" version="1.0" icon="googleapps">
 		<name>Google Apps for Work setup wizard</name>
-		<description></description>
+		<description>Configuration of the "Google Apps for work" connection</description>
 		<keywords></keywords>
 		<categories>
-			<category name="system"/>
+			<category name="domain"/>
 		</categories>
 		<command name="googleapps/query" function="query"/>
 		<command name="googleapps/upload" function="upload"/>

@@ -1,3 +1,9 @@
+univention-google-apps (0.0.11-1) unstable; urgency=medium
+
+  * Bug #41019: Implement wizard
+
+ -- Florian Best <best@univention.de>  Thu, 07 Apr 2016 13:00:58 +0200
+
 univention-google-apps (0.0.10) unstable; urgency=low
 
   * Bug #37949: map logging.info to ud.PROCESS

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-management-console-module-googleapps\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2016-01-14 12:27+0100\n"
+"POT-Creation-Date: 2016-04-07 13:09+0200\n"
 "PO-Revision-Date: 2016-01-14 11:26+0100\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: Univention GmbH <packages@univention.de>\n"
@@ -12,3 +12,245 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: umc/js/googleapps.js:269
+msgid ""
+"<a href=\"https://admin.google.com/ManageOauthClients\" target=\"_blank"
+"\">Click here to access the Admin console</a> to <i>Manage API client "
+"access</i>"
+msgstr ""
+
+#: umc/js/googleapps.js:66
+msgid ""
+"<b>Warning!</b> The configuration has already been done. If you continue, "
+"the current connection information will be replaced."
+msgstr ""
+
+#: umc/js/googleapps.js:183
+msgid "An error occurred"
+msgstr ""
+
+#: umc/js/googleapps.js:188
+msgid ""
+"An error occurred during testing the connection to Google Apps for Work."
+msgstr ""
+
+#: umc/js/googleapps.js:153
+msgid "Authorize connection between Google and UCS"
+msgstr ""
+
+#: umc/js/googleapps.js:163
+msgid "Client Name"
+msgstr ""
+
+#: umc/js/googleapps.js:177
+msgid ""
+"Congratulations, the connection between UCS and Google Apps for Work has "
+"been established."
+msgstr ""
+
+#: umc/js/googleapps.js:224
+msgid "Continue when Google has finished creating the project."
+msgstr ""
+
+#: umc/js/googleapps.js:270
+msgid ""
+"Copy and paste the information below into the corresponding field and click "
+"<i>Authorize</i>"
+msgstr ""
+
+#: umc/js/googleapps.js:240
+msgid ""
+"Create a new <i>Service account key</i>. Choose <i>new service account</i> "
+"in the drop down menu."
+msgstr ""
+
+#: umc/js/googleapps.js:75
+msgid "Create a new project"
+msgstr ""
+
+#: umc/js/googleapps.js:223
+msgid ""
+"Create a new project by using the drop-down menu in the top navgation bar."
+msgstr ""
+
+#: umc/js/googleapps.js:94
+msgid ""
+"Create an encryption key to securly authenticate the UCS server to the "
+"Google directory."
+msgstr ""
+
+#: umc/js/googleapps.js:93
+msgid "Create service account key"
+msgstr ""
+
+#: umc/js/googleapps.js:111
+msgid "E-mail address"
+msgstr ""
+
+#: umc/js/googleapps.js:262
+msgid ""
+"Edit the service account you just created by right clicking the three dots "
+"on the right"
+msgstr ""
+
+#: umc/js/googleapps.js:263
+msgid ""
+"Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name "
+"for the consent screen</i>."
+msgstr ""
+
+#: umc/js/googleapps.js:84
+msgid "Enable Admin SDK API"
+msgstr ""
+
+#: umc/js/googleapps.js:144
+msgid "Enable Google Apps domain wide delegation"
+msgstr ""
+
+#: umc/js/googleapps.js:233
+msgid "Enable it."
+msgstr ""
+
+#: umc/js/googleapps.js:241
+msgid ""
+"Enter a name for the service account (e.g. <i>UCS sync</i>) and select "
+"<i>JSON</i> as the key type."
+msgstr ""
+
+#: umc/js/googleapps.js:248
+msgid ""
+"Enter the email adress of the admin user you used to login to the Google "
+"Developers Console"
+msgstr ""
+
+#: umc/js/googleapps.js:154
+msgid ""
+"Fine grained access permissions for the service account must be configured "
+"in the Admin console."
+msgstr ""
+
+#: umc/js/googleapps.js:314
+msgid "Finish"
+msgstr ""
+
+#: umc/js/googleapps.js:224
+msgid "Give the project a name, for example \"UCS sync\"."
+msgstr ""
+
+#: umc/js/googleapps.js:230
+msgid "Go to the <i>API Manager</i>"
+msgstr ""
+
+#: umc/js/googleapps.js:215
+msgid ""
+"It will guide you through the process of setting up automatic provisioning "
+"of Google Apps for Work accounts for your user accounts."
+msgstr ""
+
+#: umc/js/googleapps.js:239
+msgid "Navigate to <i>Credentials</i>"
+msgstr ""
+
+#: umc/js/googleapps.js:168
+msgid "One or More API Scopes"
+msgstr ""
+
+#: umc/js/googleapps.js:231
+msgid "Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section."
+msgstr ""
+
+#: umc/js/googleapps.js:222
+msgid ""
+"Please login to the <a href=\"https://console.developers.google.com/\" "
+"target=\"_blank\">Google Developers Console</a>."
+msgstr ""
+
+#: umc/js/googleapps.js:232
+msgid "Select the <i>Admin SDK</i> and enable it"
+msgstr ""
+
+#: umc/js/googleapps.js:260
+#, python-brace-format
+msgid ""
+"Still on the <i>Credentials</i> page, click on <a href="
+"\"{serviceaccounts_link}\" target=\"_blank\">Manage service accounts</a>"
+msgstr ""
+
+#: umc/js/googleapps.js:261
+msgid ""
+"Still on the <i>Credentials</i> page, click on <i>Manage service accounts</"
+"i> on the right."
+msgstr ""
+
+#: umc/js/googleapps.js:172
+msgid "Successfully configured Google Apps for Work"
+msgstr ""
+
+#: umc/js/googleapps.js:85
+msgid ""
+"The <i>Admin SDK API</i> will be used to create user accounts and groups in "
+"Googles directory."
+msgstr ""
+
+#: umc/js/googleapps.js:233
+msgid ""
+"This may take a minute, continue when Google has finished enabling the Admin "
+"SDK API."
+msgstr ""
+
+#: umc/js/googleapps.js:242
+msgid ""
+"This will offer you to download the key file after clicking on <i>create</"
+"i>. Save this key file on your hard disk in a secure location."
+msgstr ""
+
+#: umc/js/googleapps.js:145
+msgid ""
+"To allow UCS to automatically create, modify and delete Google user "
+"accounts, \"Domain-wide Delegation\" must be enabled for the service account."
+msgstr ""
+
+#: umc/js/googleapps.js:76
+msgid ""
+"To allow UCS to synchronize selected user accounts to the Google directory, "
+"a new project must be created in the Google Developers Console."
+msgstr ""
+
+#: umc/js/googleapps.js:268
+msgid ""
+"To authorize the connection between this App and Google Apps for Work please "
+"follow these instructions:"
+msgstr ""
+
+#: umc/js/googleapps.js:216
+msgid "To use this app you need a valid Google Apps for Work admin acccount."
+msgstr ""
+
+#: umc/js/googleapps.js:103
+msgid ""
+"UCS will use the encryption key for comunication with the Google directory."
+msgstr ""
+
+#: umc/js/googleapps.js:102 umc/js/googleapps.js:125
+msgid "Upload service account key"
+msgstr ""
+
+#: umc/js/googleapps.js:254
+msgid "Upload the credentials key file below."
+msgstr ""
+
+#: umc/js/googleapps.js:178
+msgid ""
+"Users can now be synced to Google Apps 4 Work by activating the sync on the "
+"users <i>Google Apps</i> tab."
+msgstr ""
+
+#: umc/js/googleapps.js:61
+msgid "Welcome"
+msgstr ""
+
+#: umc/js/googleapps.js:214
+msgid ""
+"Welcome to the Univention <a href=\"https://apps.google.com/\" target="
+"\"_blank\">Google Apps for Work</a> configuration wizard."
+msgstr ""

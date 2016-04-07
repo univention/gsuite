@@ -58,12 +58,12 @@ define([
 			lang.mixin(this, {
 				pages: [{
 					name: 'start',
-					headerText: _('Google Apps for Work information'),
+					headerText: _('Welcome'),
 					helpText: '',
 					widgets: [{
 						type: Text,
 						name: 'already-initialized',
-						content: _('<b>Warning!</b> The current connection information will be replaced if the user continues.'),
+						content: _('<b>Warning!</b> The configuration has already been done. If you continue, the current connection information will be replaced.'),
 						visible: false
 					}, {
 						type: Text,
@@ -73,34 +73,52 @@ define([
 				}, {
 					name: 'create-project',
 					headerText: _('Create a new project'),
-					helpText: '',
+					helpText: _('To allow UCS to synchronize selected user accounts to the Google directory, a new project must be created in the Google Developers Console.'),
 					widgets: [{
 						name: 'infos',
 						type: Text,
 						content: this.getTextCreateProject()
 					}]
 				}, {
+					name: 'enable-admin-sdk-api',
+					headerText: _('Enable Admin SDK API'),
+					helpText: _('The <i>Admin SDK API</i> will be used to create user accounts and groups in Googles directory.'),
+					widgets: [{
+						name: 'infos',
+						type: Text,
+						content: this.getTextEnableAdminSDKAPI()
+					}]
+				}, {
 					name: 'create-service-account-key',
 					headerText: _('Create service account key'),
-					helpText: '',
+					helpText: _('Create an encryption key to securly authenticate the UCS server to the Google directory.'),
 					widgets: [{
 						type: Text,
 						name: 'infos',
 						content: this.getTextCreateServiceAccountKey()
+					}]
+				}, {
+					name: 'upload-service-account-key',
+					headerText: _('Upload service account key'),
+					helpText: _('UCS will use the encryption key for comunication with the Google directory.'),
+					widgets: [{
+						type: Text,
+						name: 'infos',
+						content: this.getTextUploadServiceAccountKeyEmail()
 					}, {
 						type: TextBox,
 						name: 'email',
 						label: _('E-mail address'),
 						required: true,
 						onChange: lang.hitch(this, function(value) {
-							this.getWidget('create-service-account-key', 'upload').set('dynamicOptions', {
+							this.getWidget('upload-service-account-key', 'upload').set('dynamicOptions', {
 								email: value
 							});
 						})
 					}, {
 						type: Text,
 						name: 'complete',
-						content: this.formatOrderedList([_('Upload the credentials key file below')], {start: 4})
+						content: this.getTextUploadServiceAccountKey()
 					}, {
 						type: Uploader,
 						name: 'upload',
@@ -124,7 +142,7 @@ define([
 				}, {
 					name: 'enable-domain-wide-delegation',
 					headerText: _('Enable Google Apps domain wide delegation'),
-					helpText: '',
+					helpText: _('To allow UCS to automatically create, modify and delete Google user accounts, "Domain-wide Delegation" must be enabled for the service account.'),
 					widgets: [{
 						type: Text,
 						name: 'infos',
@@ -133,14 +151,11 @@ define([
 				}, {
 					name: 'authorize',
 					headerText: _('Authorize connection between Google and UCS'),
-					helpText: '',
+					helpText: _('Fine grained access permissions for the service account must be configured in the Admin console.'),
 					widgets: [{
 						type: Text,
 						name: 'infos',
-						content: _('To authorize the connection between this App and Google Apps for Work please follow these instructions:') +
-							'<ol><li>' +
-							_('Access the <a href="https://admin.google.com/ManageOauthClients" target="_blank">Admin console</a> to <i>Manage API client access</i>') + '</li><li>' +
-							_('Enter the information below into the corresponding field and click <i>Authorize</i>') + '</li></ol>'
+						content: this.getTextAuthorizeConnection()
 					}, {
 						type: TextBox,
 						name: 'client_id',
@@ -160,7 +175,7 @@ define([
 						type: Text,
 						name: 'infos',
 						content: _('Congratulations, the connection between UCS and Google Apps for Work has been established.') + ' ' +
-							_('Users can now be synced to Google Apps 4 Work by activating the sync on the users <i>Google Apps for Work?</i> tab.')
+							_('Users can now be synced to Google Apps 4 Work by activating the sync on the users <i>Google Apps</i> tab.')
 					}]
 
 				}, {
@@ -196,34 +211,63 @@ define([
 		},
 
 		getTextStart: function() {
-			return '<p>' + _('Google Apps for Work is ….') + '</p><p>' +
-				_('To configure the connection to Google a Google Apps for Work account is required.') + '<br>' +
-				_('…Domain the gapps account is registred for…') +
+			return '<p>' + _('Welcome to the Univention <a href="https://apps.google.com/" target="_blank">Google Apps for Work</a> configuration wizard.') + '</p><p>' +
+				_('It will guide you through the process of setting up automatic provisioning of Google Apps for Work accounts for your user accounts.') + '<br>' +
+				_('To use this app you need a valid Google Apps for Work admin acccount.') +
 				'</p>';
 		},
 
 		getTextCreateProject: function() {
 			return this.formatOrderedList([
-				_('Please login to the <a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a>'),
-				_('Create a new project, an arbritrary name can be chosen.'),
-				_('Go to the <i>API Manager</i>, select the <i>Admin SDK</i> and enable it') + this.img('create-project') + this.img('admin-sdk.png')
+				_('Please login to the <a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a>.'),
+				_('Create a new project by using the drop-down menu in the top navgation bar.'),
+				_('Give the project a name, for example "UCS sync".') + this.img('new_project') + '<br>' +  _('Continue when Google has finished creating the project.')
+			]);
+		},
+
+		getTextEnableAdminSDKAPI: function() {
+			return this.formatOrderedList([
+				_('Go to the <i>API Manager</i>') + this.img('api_manager_nav.png'),
+				_('Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section.') + this.img('google_admin_sdk_link.png'),
+//				_('Select the <i>Admin SDK</i> and enable it') + this.img('admin-sdk.png'),
+				_('Enable it.') + this.img('google_admin_sdk_enable.png') + '<br>' + _('This may take a minute, continue when Google has finished enabling the Admin SDK API.')
 			]);
 		},
 
 		getTextCreateServiceAccountKey: function() {
-			return _('Navigate to <i>Credentials</i> and create a new <i>Service account key</i>') + this.formatOrderedList([
-				_('Choose <i>new service account</i> in the drop down menu, enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type') + this.img('create-service-account-key.png') + this.img('credentials-tab.png'),
-				_('This will offer you to download the key file after clicking on <i>create</i>. Save this key file on your hard disk'),
-				_('Enter the email adress of the admin user you used to login to the Google Developers Console')
+			return this.formatOrderedList([
+				_('Navigate to <i>Credentials</i>') + this.img('credentials_nav.png'),
+				_('Create a new <i>Service account key</i>. Choose <i>new service account</i> in the drop down menu.') + this.img('create_sevice_account_key.png'),
+				_('Enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type.') + this.img('new_service_account.png'),
+				_('This will offer you to download the key file after clicking on <i>create</i>. Save this key file on your hard disk in a secure location.')
 			]);
-				
+		},
+
+		getTextUploadServiceAccountKeyEmail: function() {
+			return this.formatOrderedList([
+				_('Enter the email adress of the admin user you used to login to the Google Developers Console') + this.img('admin_email.png')
+			]);
+		},
+
+		getTextUploadServiceAccountKey: function() {
+			return this.formatOrderedList([
+				_('Upload the credentials key file below.')
+			], {start: 2});
 		},
 
 		getTextEnableDomainWideDelegation: function() {
 			return this.formatOrderedList([
-				_('Still on the <i>Credentials</i> page, click on <a href="{serviceaccounts_link}" target="_blank">Manage service accounts</a>'),
-				_('Edit the service account you just created by right clicking the three dots on the right') + this.img('edit-dots.png'),
-				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter <i>UCS sync FIXME: required?</i> as <i>Product name for the consent screen</i>') + this.img('edit-service-account')
+				//_('Still on the <i>Credentials</i> page, click on <a href="{serviceaccounts_link}" target="_blank">Manage service accounts</a>'),
+				_('Still on the <i>Credentials</i> page, click on <i>Manage service accounts</i> on the right.'),
+				_('Edit the service account you just created by right clicking the three dots on the right') + this.img('edit_service_account.png'),
+				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name for the consent screen</i>.') + this.img('enable_delegation_and_prod_name.png')
+			]);
+		},
+
+		getTextAuthorizeConnection: function() {
+			return _('To authorize the connection between this App and Google Apps for Work please follow these instructions:') + this.formatOrderedList([
+				_('<a href="https://admin.google.com/ManageOauthClients" target="_blank">Click here to access the Admin console</a> to <i>Manage API client access</i>'),
+				_('Copy and paste the information below into the corresponding field and click <i>Authorize</i>') + this.img('authorize_api_access.png')
 			]);
 		},
 
@@ -247,7 +291,7 @@ define([
 					widget.set('value', val);
 				}
 			}));
-			this._next('create-service-account-key');
+			this._next('upload-service-account-key');
 		},
 
 		next: function(pageName) {
@@ -271,7 +315,7 @@ define([
 		//			}
 		//		});
 		//	} else
-			if (pageName == 'create-service-account-key') {
+			if (pageName == 'upload-service-account-key') {
 				buttons = array.filter(buttons, function(button) { return button.name != 'next'; });
 			}
 			return buttons;
@@ -292,7 +336,7 @@ define([
 		},
 
 		canCancel: function(pageName) {
-			if (~array.indexOf(['start', 'create-project', 'create-service-account-key', 'connectiontest', 'error'], pageName)) {
+			if (~array.indexOf(['start', 'create-project', 'upload-service-account-key', 'connectiontest', 'error'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
