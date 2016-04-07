@@ -185,7 +185,7 @@ define([
 					widgets: [{
 						type: Text,
 						name: 'error',
-						content: _('An error occurred during testing the connection to Google Apps for Work.')
+						content: _('An error occurred while testing the connection to Google Apps for Work. Please run the wizard again.')
 					}]
 				}]
 			});
