@@ -161,14 +161,14 @@ class GappsAuth(object):
 				**kwargs)
 		except KeyError as exc:
 			logger.exception("Missing data in client_credentials=%r", client_credentials)
-			raise MissingClientCredentials(_("Missing data in client_credentials"))
+			raise MissingClientCredentials(_("Missing data in credentials file."))
 
 		storage = Storage(CREDENTAILS_FILE)
 		try:
 			storage.put(credentials)
 		except IOError:
 			logger.exception("GappsAuth.store_credentials() IOError when writing %r.", CREDENTAILS_FILE)
-			raise CredentialsStorageError(_("IOError when writing credentials."))
+			raise CredentialsStorageError(_("Error when writing credentials to disk."))
 
 	@staticmethod
 	def _load_credentials():
