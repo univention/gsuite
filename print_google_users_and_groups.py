@@ -42,7 +42,7 @@ for user in users:
 	try:
 		print("%24s | %30s | %s" % (user["id"], user["primaryEmail"], user["name"]["fullName"]))
 	except KeyError as ke:
-		if "name" in ke:
+		if "name" in str(ke):
 			print("%24s | %30s | %s" % (user["id"], user["primaryEmail"], "<invalid name>"))
 		else:
 			print(user)

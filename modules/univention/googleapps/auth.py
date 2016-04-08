@@ -66,6 +66,14 @@ class NoCredentials(GoogleAppError):
 	pass
 
 
+class MissingClientCredentials(GoogleAppError):
+	pass
+
+
+class CredentialsStorageError(GoogleAppError):
+	pass
+
+
 class AuthenticationError(GoogleAppError):
 	def __init__(self, msg, chained_exc=None, *args, **kwargs):
 		self.chained_exc = chained_exc
@@ -134,29 +142,33 @@ class GappsAuth(object):
 			raise NoCredentials("No valid credentials found in '{}'.".format(CREDENTAILS_FILE))
 
 	@classmethod
-	def store_credentials(cls, json_key_str, impersonate_user, **kwargs):
+	def store_credentials(cls, client_credentials, impersonate_user, **kwargs):
 		"""
 		Load data to store from a JSOn file supplied by Googles Developers Console.
-		:param json_key_str: str: JSON object
+		:param client_credentials: dict: service account credentials, must have
+			keys client_email, client_id and private_key
 		:param impersonate_user: str: email address of admin user
 		:param kwargs: additional parameters to pass to SignedJwtAssertionCredentials()
 		:return: None
 		"""
-		data = json.loads(json_key_str)
-		credentials = SignedJwtAssertionCredentials(
-			service_account_name=data["client_email"],
-			private_key=data["private_key"],
-			scope=SCOPE,
-			sub=impersonate_user,
-			client_id=data["client_id"],
-			**kwargs)
+		try:
+			credentials = SignedJwtAssertionCredentials(
+				service_account_name=client_credentials["client_email"],
+				private_key=client_credentials["private_key"],
+				scope=SCOPE,
+				sub=impersonate_user,
+				client_id=client_credentials["client_id"],
+				**kwargs)
+		except KeyError as exc:
+			logger.exception("Missing data in client_credentials=%r", client_credentials)
+			raise MissingClientCredentials(_("Missing data in client_credentials"))
 
 		storage = Storage(CREDENTAILS_FILE)
 		try:
 			storage.put(credentials)
 		except IOError:
 			logger.exception("GappsAuth.store_credentials() IOError when writing %r.", CREDENTAILS_FILE)
-			raise
+			raise CredentialsStorageError(_("IOError when writing credentials."))
 
 	@staticmethod
 	def _load_credentials():
