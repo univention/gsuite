@@ -331,7 +331,9 @@ define([
 					this._progressDeferred.resolve(result);
 					return;
 				}
-				setTimeout(lang.hitch(this, 'startPolling'), 500);
+				if (!this._progressDeferred.isFulfilled()) {
+					setTimeout(lang.hitch(this, 'startPolling'), 500);
+				}
 			}), lang.hitch(this, function(error) {
 				this._progressDeferred.reject();
 			}));
@@ -386,6 +388,9 @@ define([
 			this.standbyDuring(this.umcpCommand('googleapps/query').then(lang.hitch(this._wizard, 'initWizard')));
 			this._wizard.on('finished', lang.hitch(this, 'closeModule'));
 			this._wizard.on('cancel', lang.hitch(this, 'closeModule'));
+			this.on('close', lang.hitch(this, function() {
+				this._wizard._progressDeferred.reject();
+			}));
 		},
 
 		buildRendering: function() {
