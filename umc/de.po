@@ -13,4 +13,4 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Google Apps for Work setup wizard"
-msgstr ""
+msgstr "Google Apps for Work Einrichtungsassistent"

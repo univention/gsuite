@@ -175,7 +175,7 @@ define([
 						type: Text,
 						name: 'infos',
 						content: _('Congratulations, the connection between UCS and Google Apps for Work has been established.') + ' ' +
-							_('Users can now be synced to Google Apps 4 Work by activating the sync on the users <i>Google Apps</i> tab.')
+							_('Users can now be synced to Google Apps for Work by activating the sync on the users <i>Google Apps</i> tab.')
 					}]
 
 				}, {
@@ -221,31 +221,31 @@ define([
 			return this.formatOrderedList([
 				_('Please login to the <a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a>.'),
 				_('Create a new project by using the drop-down menu in the top navgation bar.'),
-				_('Give the project a name, for example "UCS sync".') + this.img('new_project') + '<br>' +  _('Continue when Google has finished creating the project by clicking on <i>Next</i>.')
+				_('Give the project a name, for example "UCS sync".') + this.img(_('new_project.png')) + '<br>' +  _('Continue when Google has finished creating the project by clicking on <i>Next</i>.')
 			]);
 		},
 
 		getTextEnableAdminSDKAPI: function() {
 			return this.formatOrderedList([
-				_('Go to the <i>API Manager</i>') + this.img('api_manager_nav.png'),
-				_('Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section.') + this.img('google_admin_sdk_link.png'),
-//				_('Select the <i>Admin SDK</i> and enable it') + this.img('admin-sdk.png'),
-				_('Enable it.') + this.img('google_admin_sdk_enable.png') + '<br>' + _('This may take a minute. When Google has finished enabling the Admin SDK API, continue by clicking on <i>Next</i>.')
+				_('Go to the <i>API Manager</i>') + this.img(_('api_manager_nav.png')),
+				_('Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section.') + this.img(_('google_admin_sdk_link.png')),
+//				_('Select the <i>Admin SDK</i> and enable it') + this.img(_('admin-sdk.png')),
+				_('Enable it.') + this.img(_('google_admin_sdk_enable.png')) + '<br>' + _('This may take a minute. When Google has finished enabling the Admin SDK API, continue by clicking on <i>Next</i>.')
 			]);
 		},
 
 		getTextCreateServiceAccountKey: function() {
 			return this.formatOrderedList([
-				_('Navigate to <i>Credentials</i>') + this.img('credentials_nav.png'),
-				_('Click on <i>Create credentials</i> and select <i>Service account key</i>.') + this.img('create_sevice_account_key.png'),
-				_('In the new window choose <i>New service account</i> from the drop down menu. Enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type.') + this.img('new_service_account.png'),
-				_('This will offer you to download the key file after clicking on <i>Create</i>. Save this key file on your hard disk in a secure location') + '<br>' + _('Then continue by clicking on <i>Next</i>.')
+				_('Navigate to <i>Credentials</i>') + this.img(_('credentials_nav.png')),
+				_('Click on <i>Create credentials</i> and select <i>Service account key</i>.') + this.img(_('create_sevice_account_key.png')),
+				_('In the new window choose <i>New service account</i> from the drop down menu. Enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type.') + this.img(_('new_service_account.png')),
+				_('This will offer you to download the key file after clicking on <i>Create</i>. Save this key file on your hard disk in a secure location.') + '<br>' + _('Then continue by clicking on <i>Next</i>.')
 			]);
 		},
 
 		getTextUploadServiceAccountKeyEmail: function() {
 			return this.formatOrderedList([
-				_('Enter the email adress of the admin user you used to login to the Google Developers Console. The email address can be displayed by clicking on the profile button in the top right corner.') + this.img('admin_email.png')
+				_('Enter the e-mail address of the admin user you used to login to the Google Developers Console. The e-mail address can be displayed by clicking on the profile button in the top right corner.') + this.img(_('admin_email.png'))
 			]);
 		},
 
@@ -259,15 +259,15 @@ define([
 			return this.formatOrderedList([
 				//_('Still on the <i>Credentials</i> page, click on <a href="{serviceaccounts_link}" target="_blank">Manage service accounts</a>'),
 				_('Still on the <i>Credentials</i> page, click on <i>Manage service accounts</i> on the right.'),
-				_('Then edit the service account you just created by right clicking the three dots on the right.') + this.img('edit_service_account.png'),
-				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name for the consent screen</i> and click on <i>Save</i>.') + this.img('enable_delegation_and_prod_name.png') + '<br>' + _('Continue by clicking on <i>Next</i>.')
+				_('Then edit the service account you just created by right clicking the three dots on the right.') + this.img(_('edit_service_account.png')),
+				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name for the consent screen</i> and click on <i>Save</i>.') + this.img(_('enable_delegation_and_prod_name.png')) + '<br>' + _('Continue by clicking on <i>Next</i>.')
 			]);
 		},
 
 		getTextAuthorizeConnection: function() {
 			return _('To authorize the connection between this App and Google Apps for Work please follow these instructions:') + this.formatOrderedList([
 				_('<a href="https://admin.google.com/ManageOauthClients" target="_blank">Click here to access the Admin console</a> to <i>Manage API client access</i>.'),
-				_('Copy and paste the information below into the corresponding field and click <i>Authorize</i>.') + this.img('authorize_api_access.png') + '<br>' + _('Continue by clicking on <i>Next</i>.')
+				_('Copy and paste the information below into the corresponding field and click <i>Authorize</i>.') + this.img(_('authorize_api_access.png')) + '<br>' + _('Continue by clicking on <i>Next</i>.')
 			]);
 		},
 
@@ -281,7 +281,7 @@ define([
 		},
 
 		img: function(image) {
-			return '<br/><img style="min-width: 250px; max-width: 100%; padding-left: 1em; /*border: thin solid red;*/" src="' + require.toUrl('umc/modules/googleapps/' + image) + '">';
+			return '<br/><img style="min-width: 250px; max-width: 100%; padding-left: 1em;" src="' + require.toUrl('umc/modules/googleapps/' + image) + '">';
 		},
 
 		keyUploaded: function(data) {
