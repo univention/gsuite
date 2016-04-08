@@ -175,7 +175,7 @@ define([
 						type: Text,
 						name: 'infos',
 						content: _('Congratulations, the connection between UCS and Google Apps for Work has been established.') + ' ' +
-							_('Users can now be synced to Google Apps for Work by activating the sync on the users <i>Google Apps</i> tab.')
+							_('Users can now be synced to Google Apps for Work by activating the sync on the users <i>Google Apps</i> tab.') + '<br>' + this.img(_('google_user.png'))
 					}]
 
 				}, {
