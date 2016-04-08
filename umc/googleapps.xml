@@ -9,6 +9,6 @@
 		</categories>
 		<command name="googleapps/query" function="query"/>
 		<command name="googleapps/upload" function="upload"/>
-		<command name="googleapps/test_configuration" function="test_configuration"/>
+		<command name="googleapps/state" function="state"/>
 	</module>
 </umc>

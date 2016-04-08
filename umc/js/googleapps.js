@@ -26,7 +26,7 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <http://www.gnu.org/licenses/>.
  */
-/*global define,require*/
+/*global define,require,setTimeout*/
 
 define([
 	"dojo/_base/declare",
@@ -213,7 +213,7 @@ define([
 		getTextStart: function() {
 			return '<p>' + _('Welcome to the Univention <a href="https://apps.google.com/" target="_blank">Google Apps for Work</a> configuration wizard.') + '</p><p>' +
 				_('It will guide you through the process of setting up automatic provisioning of Google Apps for Work accounts for your user accounts.') + '<br>' +
-				_('To use this app you need a valid Google Apps for Work admin acccount and a verified domain.') +
+				_('To use this app you need a valid Google Apps for Work admin acccount and a <a href="https://support.google.com/a/topic/9196" target="_blank">verified domain</a>.') +
 				'</p>';
 		},
 
@@ -251,7 +251,7 @@ define([
 
 		getTextUploadServiceAccountKey: function() {
 			return this.formatOrderedList([
-				_('Click on the button below and select the JSON key file you just downloaded. This will upload the credentials key file to UCS.')
+				_('Click on the button below and select the just downloaded JSON key file. This will upload the credentials key file to UCS.')
 			], {start: 2});
 		},
 
@@ -260,7 +260,7 @@ define([
 				//_('Still on the <i>Credentials</i> page, click on <a href="{serviceaccounts_link}" target="_blank">Manage service accounts</a>'),
 				_('Still on the <i>Credentials</i> page, click on <i>Manage service accounts</i> on the right.'),
 				_('Then edit the service account you just created by right clicking the three dots on the right.') + this.img('edit_service_account.png'),
-				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name</i> for the consent screen and click on <i>Save</i>.</i>.') + this.img('enable_delegation_and_prod_name.png') + '<br>' + _('Continue by clicking on <i>Next</i>.')
+				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name for the consent screen</i> and click on <i>Save</i>.') + this.img('enable_delegation_and_prod_name.png') + '<br>' + _('Continue by clicking on <i>Next</i>.')
 			]);
 		},
 
@@ -297,13 +297,44 @@ define([
 		next: function(pageName) {
 			var nextPage = this.inherited(arguments);
 			if (nextPage == 'connectiontest') {
-				return this.standbyDuring(this.umcpCommand('googleapps/test_configuration').then(function() {
+				return this.testConnection().then(function() {
 					return nextPage;
 				}, function() {
 					return 'error';
-				}));
+				});
 			}
 			return nextPage;
+		},
+
+		testConnection: function() {
+			this.resetProgress();
+			this.startPolling();
+			return this.standbyDuring(this._progressDeferred, this._progressBar);
+		},
+
+		resetProgress: function() {
+			if (this._progressDeferred && !this._progressDeferred.isFulfilled()) {
+				this._progressDeferred.cancel();
+			}
+			this._progressBar = new ProgressBar();
+			this._progressDeferred = new Deferred();
+			this._progressBar.setInfo(null, null, Infinity);
+			this._progressBar.feedFromDeferred(this._progressDeferred, _('Google Apps for Work configuration'));
+		},
+
+		startPolling: function() {
+			return this.umcpCommand('googleapps/state').then(lang.hitch(this, function(data) {
+				var result = data.result || {};
+				result.percentage = result.percentage || Infinity;
+				this._progressDeferred.progress(result);
+				if (result.finished) {
+					this._progressDeferred.resolve(result);
+					return;
+				}
+				setTimeout(lang.hitch(this, 'startPolling'), 500);
+			}), lang.hitch(this, function(error) {
+				this._progressDeferred.reject();
+			}));
 		},
 
 		getFooterButtons: function(pageName) {

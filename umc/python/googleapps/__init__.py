@@ -32,8 +32,6 @@
 # <http://www.gnu.org/licenses/>.
 
 import json
-import subprocess
-import urllib
 import functools
 
 from univention.lib.i18n import Translation
@@ -41,9 +39,9 @@ from univention.management.console.base import Base, UMC_Error, UMC_OptionSaniti
 from univention.management.console.config import ucr
 
 from univention.management.console.modules.decorators import sanitize, simple_response, file_upload
-from univention.management.console.modules.sanitizers import StringSanitizer, DictSanitizer, BooleanSanitizer, EmailSanitizer, ValidationError, MultiValidationError
+from univention.management.console.modules.sanitizers import StringSanitizer, DictSanitizer, EmailSanitizer, ValidationError, MultiValidationError
 
-from univention.googleapps.auth import GappsAuth, SCOPE
+from univention.googleapps.auth import GappsAuth, SCOPE, GoogleAppError, AuthenticationError, AuthenticationErrorRetry
 from univention.googleapps.listener import GoogleAppsListener
 
 _ = Translation('univention-management-console-module-googleapps').translate
@@ -64,6 +62,18 @@ def sanitize_body(sanizer):  # TODO: move into UMC core
 	return _decorator
 
 
+def progress(component=None, message=None, percentage=None, errors=None, critical=None, finished=False, **kwargs):
+	return dict(
+		component=component,
+		message=message,
+		percentage=percentage,
+		errors=errors or [],
+		critical=critical,
+		finished=finished,
+		**kwargs
+	)
+
+
 class Instance(Base):
 
 	@simple_response
@@ -82,26 +92,29 @@ class Instance(Base):
 	def upload(self, request):
 		GappsAuth.uninitialize()
 		with open(request.options[0]['tmpfile']) as fd:
-			data = fd.read()
-			values = json.loads(data)
+			try:
+				data = json.load(fd)
+			except ValueError:
+				raise UMC_Error(_('The uploaded file is not a JSON credentials file.'))
 			try:
 				GappsAuth.store_credentials(data, request.body['email'])
-			except 'FIXME' as exc:
+			except GoogleAppError as exc:
 				raise UMC_Error(str(exc))
 		self.finished(request.id, {
-#			'service_account_name': values['service_account_name'],  # FIXME: doesn't exists
-			'client_id': values['client_id'],
+			'client_id': data['client_id'],
 			'scope': ','.join(SCOPE),
-			'serviceaccounts_link': 'https://console.developers.google.com/permissions/serviceaccounts?project=%s' % (urllib.quote(values['project_id']),)
+#			'serviceaccounts_link': 'https://console.developers.google.com/permissions/serviceaccounts?project=%s' % (urllib.quote(data['project_id']),)
 		})
 
 	@simple_response
-	def test_configuration(self):
+	def state(self):
 		if not GappsAuth.is_initialized():
 			raise UMC_Error(_('The configuration to Google Apps for Work is not yet complete.'))
-		ol = GoogleAppsListener(None, {}, {})
 		try:
-			return ol.gh.list_users(projection="basic")
-		except oauth2client.client.AccessTokenRefreshError:
-			# might be 'invalid_client' or 'access_denied'
-			raise  # UMC_Error(_('The configuration seems complete but no users could be queried: %s') % (exc,))
+			ol = GoogleAppsListener(None, {}, {})
+			ol.gh.list_users(projection="basic")
+			return progress(finished=True)
+		except AuthenticationErrorRetry:
+			return progress(message=_('Waiting for Google directory to authorize the connection.'))
+		except AuthenticationError as exc:
+			raise UMC_Error(str(exc))
