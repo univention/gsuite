@@ -237,7 +237,7 @@ define([
 		getTextCreateServiceAccountKey: function() {
 			return this.formatOrderedList([
 				_('Navigate to <i>Credentials</i>') + this.img(_('credentials_nav.png')),
-				_('Click on <i>Create credentials</i> and select <i>Service account key</i>.') + this.img(_('create_sevice_account_key.png')),
+				_('Click on <i>Create credentials</i> and select <i>Service account key</i>.') + this.img(_('create_service_account_key.png')),
 				_('In the new window choose <i>New service account</i> from the drop down menu. Enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type.') + this.img(_('new_service_account.png')),
 				_('This will offer you to download the key file after clicking on <i>Create</i>. Save this key file on your hard disk in a secure location.') + '<br>' + _('Then continue by clicking on <i>Next</i>.')
 			]);

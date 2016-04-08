@@ -17,9 +17,8 @@ msgid ""
 "<a href=\"https://admin.google.com/ManageOauthClients\" target=\"_blank"
 "\">Click here to access the Admin console</a> to <i>Manage API client "
 "access</i>."
-msgstr "<a href=\"https://admin.google.com/ManageOauthClients\" target=\"_blank"
-"\">Für den Zugang zur Admin Console hier klicken</a>, um <i>API Client-Zugang zu "
-"verwalten</i>."
+msgstr "Um den <i>API Client-Zugang</i> per Admin Console zu "
+"verwalten klicken Sie <a href=\"https://admin.google.com/ManageOauthClients\" target=\"_blank\">hier</a>."
 
 #: umc/js/googleapps.js:66
 msgid ""
@@ -64,7 +63,7 @@ msgstr "Gratulation, die Verbindung zwischen UCS und Google Apps for Work wurde 
 
 #: umc/js/googleapps.js:263 umc/js/googleapps.js:270
 msgid "Continue by clicking on <i>Next</i>."
-msgstr "Fahren Sie fort durch einen Klick auf <i>Weiter</i>."
+msgstr "Fahren Sie durch einen Klick auf <i>Weiter</i> fort."
 
 #: umc/js/googleapps.js:224
 msgid ""
@@ -277,7 +276,7 @@ msgstr "Willkommen"
 msgid ""
 "Welcome to the Univention <a href=\"https://apps.google.com/\" target="
 "\"_blank\">Google Apps for Work</a> configuration wizard."
-msgstr "Willkommen zum Univention <a href=\"https://apps.google.com/\" target=\"_blank\">Google Apps for Work</a>Konfigurationsassistenten."
+msgstr "Willkommen zum Univention <a href=\"https://apps.google.com/\" target=\"_blank\">Google Apps for Work</a> Konfigurationsassistenten."
 
 #: umc/js/googleapps.js:232
 msgid "admin-sdk.png"
@@ -296,8 +295,8 @@ msgid "authorize_api_access.png"
 msgstr ""
 
 #: umc/js/googleapps.js:240
-msgid "create_sevice_account_key.png"
-msgstr "create_sevice_account_key_de.png"
+msgid "create_service_account_key.png"
+msgstr "create_service_account_key_de.png"
 
 #: umc/js/googleapps.js:239
 msgid "credentials_nav.png"
@@ -317,7 +316,7 @@ msgstr "google_admin_sdk_enable_de.png"
 
 #: umc/js/googleapps.js:231
 msgid "google_admin_sdk_link.png"
-msgstr "google_admin_sdk_link_de.png"
+msgstr ""
 
 #: umc/js/googleapps.js:224
 msgid "new_project.png"
