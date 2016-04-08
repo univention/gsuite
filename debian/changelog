@@ -1,3 +1,9 @@
+univention-google-apps (0.0.11-3) unstable; urgency=medium
+
+  * Bug #41019: changelog
+
+ -- Florian Best <best@univention.de>  Fri, 08 Apr 2016 12:03:25 +0200
+
 univention-google-apps (0.0.11-2) unstable; urgency=low
 
   * allow connection to fail and retry during wizard (Bug #37949)
