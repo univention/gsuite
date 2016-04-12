@@ -103,7 +103,7 @@ class GoogleAppsListener(object):
 		for k, v in resource.items():
 			# remove empty list and dict, don't delete empty string or int 0
 			if v is None or hasattr(v, "__iter__") and len(v) == 0:
-				logger.debug("Removing ")
+				logger.debug("Removing property %r with empty value.", k)
 				del resource[k]
 
 		for attrib in set(resource).intersection(set(self.attrs["never"])):
