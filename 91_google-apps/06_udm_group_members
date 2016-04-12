@@ -21,6 +21,9 @@ gh = GappsHandler(None)
 
 with udm_test.UCSTestUDM() as udm:
 	with ucr_test.UCSTestConfigRegistry() as ucr:
+		handler_set(["google-apps/groups/sync=yes", "google-apps/debug/werror=yes"])
+		utils.restart_listener()
+
 		print "*** Creating mail domain matching domain registered with google..."
 		maildomain = gh.get_primary_domain()["domainName"]
 		udm.create_object(
@@ -34,7 +37,6 @@ with udm_test.UCSTestUDM() as udm:
 		description = uts.random_string()
 
 		print "*** Creating group (not synced to google directory yet)..."
-		handler_set(["google-apps/groups/sync=yes"])
 		group_dn = udm.create_object(
 			"groups/group",
 			set=dict(

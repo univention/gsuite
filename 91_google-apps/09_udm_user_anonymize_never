@@ -45,7 +45,8 @@ with utils.AutomaticListenerRestart():
 				"google-apps/attributes/mapping/relations=type=custom,customType=secretary,value=%secretary",
 				"google-apps/attributes/mapping/externalIds=type=organization,value=%employeeNumber",
 				"google-apps/attributes/anonymize=givenName,street,postalCode",
-				"google-apps/attributes/never=mail,postalCode"
+				"google-apps/attributes/never=mail,postalCode",
+				"google-apps/debug/werror=yes",
 			])
 			utils.restart_listener()
 

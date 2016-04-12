@@ -169,7 +169,12 @@ def get_listener_attributes():
 
 name = 'google-apps-user'
 description = 'sync users to Google Directory'
-filter = '(&(objectClass=univentionGoogleApps)(uid=*))' if GappsAuth.is_initialized() else '(foo=bar)'
+if GappsAuth.is_initialized():
+	filter = '(&(objectClass=univentionGoogleApps)(uid=*))'
+	logger.info("google apps user listener active")
+else:
+	filter = '(foo=bar)'
+	logger.warn("google apps user listener deactivated")
 attributes = get_listener_attributes()
 modrdn = "1"
 
