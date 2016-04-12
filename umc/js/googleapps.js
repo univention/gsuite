@@ -168,7 +168,43 @@ define([
 						label: _('One or More API Scopes')
 					}]
 				}, {
-					name: 'connectiontest',
+					name: 'single-sign-on-setup',
+					headerText: _('Single Sign-On setup'),
+					helpText: '',
+					widgets: [{
+						type: Text,
+						name: 'infos',
+						content: this.formatOrderedList([
+							_('To finalize the setup, single sign-on has to be configured for the Google Apps for Work domain. <a href="https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso" target="_blank">Open this link to configure single sign-on</a>, and supply the following information on the new browser tab:') + this.img('google_sso_EN.png')
+						])
+					}, {
+						type: TextBox,
+						name: 'sign-in-url',
+						label: _('Sign-in page URL'),
+						sizeClass: 'Two',
+						value: ''
+					}, {
+						type: TextBox,
+						name: 'sign-out-url',
+						label: _('Sign-out page URL'),
+						sizeClass: 'Two',
+						value: ''
+					}, {
+						type: TextBox,
+						name: 'change-password-url',
+						label: _('Change password URL'),
+						sizeClass: 'Two',
+						value: ''
+					}, {
+						type: Text,
+						name: 'download_link',
+						content: this.formatOrderedList([
+							_('Download <a href="/simplesamlphp/saml2/idp/certificate" target="_blank">the Identity Provider certificate</a> and upload it under <i>Verification certificate</i>.'),
+							_('Click on <i>Next</i> to complete the setup.')
+						], {start: 2})
+					}]
+				}, {
+					name: 'success',
 					headerText: _('Successfully configured Google Apps for Work'),
 					helpText: '',
 					widgets: [{
@@ -208,6 +244,12 @@ define([
 
 		initWizard: function(data) {
 			this.getWidget('start', 'already-initialized').set('visible', data.result.initialized);
+			tools.forIn(data.result, lang.hitch(this, function(key, value) {
+				var widget = this.getWidget(key);
+				if (widget) {
+					widget.set('value', value);
+				}
+			}));
 		},
 
 		getTextStart: function() {
@@ -229,7 +271,6 @@ define([
 			return this.formatOrderedList([
 				_('Go to the <i>API Manager</i>') + this.img(_('api_manager_nav.png')),
 				_('Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section.') + this.img(_('google_admin_sdk_link.png')),
-//				_('Select the <i>Admin SDK</i> and enable it') + this.img(_('admin-sdk.png')),
 				_('Enable it.') + this.img(_('google_admin_sdk_enable.png')) + '<br>' + _('This may take a minute. When Google has finished enabling the Admin SDK API, continue by clicking on <i>Next</i>.')
 			]);
 		},
@@ -296,7 +337,7 @@ define([
 
 		next: function(pageName) {
 			var nextPage = this.inherited(arguments);
-			if (nextPage == 'connectiontest') {
+			if (nextPage == 'single-sign-on-setup') {
 				return this.testConnection().then(function() {
 					return nextPage;
 				}, function() {
@@ -341,13 +382,13 @@ define([
 
 		getFooterButtons: function(pageName) {
 			var buttons = this.inherited(arguments);
-		//	if (pageName == '') {
-		//		array.forEach(buttons, function(button) {
-		//			if (button.name == 'next') {
-		//				button.label = _('Finish');
-		//			}
-		//		});
-		//	} else
+			//if (pageName == 'single-sign-on-setup') {
+			//	array.forEach(buttons, function(button) {
+			//		if (button.name == 'next') {
+			//			button.label = _('Finish');
+			//		}
+			//	});
+			//} else
 			if (pageName == 'upload-service-account-key') {
 				buttons = array.filter(buttons, function(button) { return button.name != 'next'; });
 			}
@@ -355,21 +396,21 @@ define([
 		},
 
 		hasNext: function(pageName) {
-			if (~array.indexOf(['connectiontest', 'error'], pageName)) {
+			if (~array.indexOf(['success', 'error'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
 		},
 
 		hasPrevious: function(pageName) {
-			if (~array.indexOf(['enable-domain-wide-delegation', 'error', 'connectiontest'], pageName)) {
+			if (~array.indexOf(['enable-domain-wide-delegation', 'single-sign-on-setup', 'error', 'success'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
 		},
 
 		canCancel: function(pageName) {
-			if (~array.indexOf(['start', 'create-project', 'upload-service-account-key', 'connectiontest', 'error'], pageName)) {
+			if (~array.indexOf(['start', 'create-project', 'upload-service-account-key', 'success', 'error'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
