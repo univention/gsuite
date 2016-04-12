@@ -199,7 +199,7 @@ define([
 						type: Text,
 						name: 'download_link',
 						content: this.formatOrderedList([
-							_('Download <a href="/simplesamlphp/saml2/idp/certificate" target="_blank">the Identity Provider certificate</a> and upload it under <i>Verification certificate</i>.'),
+							_('Download <a download="certificate.crt" href="/simplesamlphp/saml2/idp/certificate" target="_blank">the Identity Provider certificate</a> and upload it under <i>Verification certificate</i>.'),
 							_('Click on <i>Next</i> to complete the setup.')
 						], {start: 2})
 					}]
