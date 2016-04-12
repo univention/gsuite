@@ -159,6 +159,45 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set deleteObjectClass=0 \
 	--set disableUDMWeb=1 || die
 
+udm saml/serviceprovider create "$@" \
+	--ignore_exists \
+	--position "cn=saml-serviceprovider,cn=univention,$ldap_base" \
+	--set isActivated=TRUE \
+	--set Identifier=google-apps-for-work \
+	--set NameIDFormat="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified" \
+	--set AssertionConsumerService="https://www.google.com/a/UNDEFINED-DOMAIN/acs" \
+	--set simplesamlNameIDAttribute="uid" \
+	--set serviceProviderOrganizationName="Google Apps for Work" || die
+
+# user template
+univention-directory-manager settings/usertemplate create "$@" --ignore_exists \
+	--position "cn=templates,cn=univention,$ldap_base" \
+	--set name="Google Apps for Work Account" \
+	--set mailPrimaryAddress="<username>@$domainname" \
+	--set UniventionGoogleAppsEnabled="1" \
+	--set serviceprovider="SAMLServiceProviderIdentifier=google-apps-for-work,cn=saml-serviceprovider,cn=univention,$ldap_base" || die
+
+# create mail domain object(s) if missing
+if ! udm mail/domain list "$@" | grep -q "name: $domainname" ; then
+	# Default; create new object with $domainname as mail domain
+	# can be overridden by mail/default/domains
+	domain_list="$domainname"
+	if [ "$mail_default_domains" ] ; then
+		domain_list="$mail_default_domains"
+	fi
+
+	# create required containers
+	udm container/cn create "$@" --ignore_exists --position "$ldap_base" --set name="mail" || die
+	udm container/cn create "$@" --ignore_exists --position "cn=mail,$ldap_base" --set name="domain" || die
+
+	# create new object
+	for domain in $domain_list ; do
+		udm mail/domain create "$@" --ignore_exists \
+			--position "cn=domain,cn=mail,$ldap_base" \
+			--set name="$domain" || die
+	done
+fi
+
 joinscript_save_current_version
 
 exit 0
