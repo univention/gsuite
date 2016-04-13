@@ -127,12 +127,12 @@ msgstr "Dienstkontenschlüssel erstellen"
 
 #: umc/js/googleapps.js:202
 msgid ""
-"Download <a href=\"/simplesamlphp/saml2/idp/certificate\" target=\"_blank"
-"\">the Identity Provider certificate</a> and upload it under <i>Verification "
-"certificate</i>."
+"Download <a download=\"certificate.crt\" href=\"/simplesamlphp/saml2/idp/"
+"certificate\" target=\"_blank\">the Identity Provider certificate</a> and "
+"upload it under <i>Verification certificate</i>."
 msgstr ""
 "Laden Sie <a href=\"/simplesamlphp/saml2/idp/certificate\" target=\"_blank"
-"\">das Identity Provider Zertifikat</a> herunter und laden es unter "
+"\">das Identity Provider Zertifikat</a> herunter und laden Sie es unter "
 "<i>Bestätigungszertifikat</i> hoch."
 
 #: umc/js/googleapps.js:111

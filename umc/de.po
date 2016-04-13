@@ -12,5 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Configuration of the \"Google Apps for work\" connection"
+msgstr "Konfiguration der \"Google Apps for work\" Verbindung"
+
 msgid "Google Apps for Work setup wizard"
 msgstr "Google Apps for Work Einrichtungsassistent"
