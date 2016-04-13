@@ -308,7 +308,7 @@ define([
 		getTextAuthorizeConnection: function() {
 			return _('To authorize the connection between this App and Google Apps for Work please follow these instructions:') + this.formatOrderedList([
 				_('<a href="https://admin.google.com/ManageOauthClients" target="_blank">Click here to access the Admin console</a> to <i>Manage API client access</i>.'),
-				_('Copy and paste the information below into the corresponding field and click <i>Authorize</i>.') + this.img(_('authorize_api_access.png')) + '<br>' + _('Continue by clicking on <i>Next</i>.')
+				_('Copy and paste the information below into the corresponding field and click <i>Authorize</i>.') + this.img(_('authorize_api_access_EN.png')) + '<br>' + _('Continue by clicking on <i>Next</i>.')
 			]);
 		},
 
