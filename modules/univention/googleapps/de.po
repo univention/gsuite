@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-google-apps\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2016-04-07 12:57+0200\n"
+"POT-Creation-Date: 2016-04-13 12:02+0200\n"
 "PO-Revision-Date: 2016-04-07 12:57+0200\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: Univention GmbH <packages@univention.de>\n"
@@ -16,6 +16,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: modules/univention/googleapps/auth.py:201
+#: modules/univention/googleapps/auth.py:178
+msgid "Error when writing credentials to disk."
+msgstr "Fehler beim Schreiben von Zugangsdaten auf die Festplatte."
+
+#: modules/univention/googleapps/auth.py:171
+msgid "Missing data in credentials file."
+msgstr "Fehlende Daten in Schlüsseldatei."
+
+#: modules/univention/googleapps/auth.py:160
+msgid "Please supply the name of a validated domain."
+msgstr "Bitte geben Sie den Namen einer validierten Domäne an."
+
+#: modules/univention/googleapps/auth.py:229
 msgid "Token could not be refreshed, you may try to connect again later."
-msgstr "Der Token konnte nicht erneuert werden. Es kann später erneut versucht werden."
+msgstr ""
+"Der Token konnte nicht erneuert werden. Es kann später erneut versucht "
+"werden."

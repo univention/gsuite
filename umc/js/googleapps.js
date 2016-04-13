@@ -199,7 +199,9 @@ define([
 						type: Text,
 						name: 'download_link',
 						content: this.formatOrderedList([
-							_('Download <a download="certificate.crt" href="/simplesamlphp/saml2/idp/certificate" target="_blank">the Identity Provider certificate</a> and upload it under <i>Verification certificate</i>.'),
+							_('After setting these three addresses, click "Save" in the Google Developers Console, then continue.'),
+							_('Download the Identity Provider certificate <a download="certificate.crt" href="/simplesamlphp/saml2/idp/certificate" target="_blank">here</a>.'),
+							_('Then upload it to the Google Developers Console under <i>Verification certificate</i>.'),
 							_('Click on <i>Next</i> to complete the setup.')
 						], {start: 2})
 					}]

@@ -265,6 +265,7 @@ def handler(dn, new, old, command):
 		# save/update google objectId and object data in UDM object
 		udm_user = ol.get_udm_user(dn)
 		udm_user["UniventionGoogleAppsObjectID"] = new_user["id"]
+		udm_user["UniventionGoogleAppsPrimaryEmail"] = new_user["primaryEmail"]
 		udm_user["UniventionGoogleAppsData"] = base64.encodestring(zlib.compress(json.dumps(new_user)))
 		udm_user.modify()
 		logger.info("Added google account of user %r. primaryEmail: %r id: %r", new["uid"][0],
@@ -296,6 +297,7 @@ def handler(dn, new, old, command):
 		# ldapError: Inappropriate matching: modify/delete: univentionGoogleAppsData: no equality matching rule
 		# Explanation: http://gcolpart.evolix.net/blog21/delete-facsimiletelephonenumber-attribute/
 		udm_user["UniventionGoogleAppsData"] = base64.encodestring(zlib.compress(json.dumps(None)))
+		udm_user["UniventionGoogleAppsPrimaryEmail"] = None
 		udm_user["UniventionGoogleAppsObjectID"] = None
 		udm_user.modify()
 		username = old["uid"][0]
@@ -324,6 +326,7 @@ def handler(dn, new, old, command):
 		udm_user = ol.get_udm_user(dn)
 		google_user = ol.get_google_user(new)
 		udm_user["UniventionGoogleAppsObjectID"] = google_user["id"]
+		udm_user["UniventionGoogleAppsPrimaryEmail"] = google_user["primaryEmail"]
 		udm_user["UniventionGoogleAppsData"] = base64.encodestring(zlib.compress(json.dumps(google_user)))
 		udm_user.modify()
 		logger.info("Modified google account of user %r.", old["uid"][0])

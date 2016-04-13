@@ -47,7 +47,7 @@ _ = Translation('univention-googleapps').translate
 
 
 CONFDIR = "/etc/univention-google-apps"
-CREDENTAILS_FILE = CONFDIR + "/credentials.json"
+CREDENTIALS_FILE = CONFDIR + "/credentials.json"
 SCOPE = [
 	"https://www.googleapis.com/auth/admin.directory.user",
 	"https://www.googleapis.com/auth/admin.directory.group",
@@ -113,7 +113,7 @@ class GappsAuth(object):
 
 	@staticmethod
 	def uninitialize():
-		with open(CREDENTAILS_FILE, "w") as fp:
+		with open(CREDENTIALS_FILE, "w") as fp:
 			json.dump({}, fp)
 
 	def get_credentials(self):
@@ -134,23 +134,30 @@ class GappsAuth(object):
 		try:
 			credentials = cls._load_credentials()
 
-			if credentials and not credentials.invalid:
+			if credentials and not credentials.invalid and credentials.kwargs["domain"]:
 				return credentials
 			else:
-				raise NoCredentials("No valid credentials found in '{}'.".format(CREDENTAILS_FILE))
+				raise NoCredentials("No valid credentials found in '{}'.".format(CREDENTIALS_FILE))
 		except (AttributeError, IOError, KeyError):
-			raise NoCredentials("No valid credentials found in '{}'.".format(CREDENTAILS_FILE))
+			raise NoCredentials("No valid credentials found in '{}'.".format(CREDENTIALS_FILE))
 
 	@classmethod
 	def store_credentials(cls, client_credentials, impersonate_user, **kwargs):
 		"""
-		Load data to store from a JSOn file supplied by Googles Developers Console.
+		Store credentials from a JSON file supplied by Googles Developers Console.
 		:param client_credentials: dict: service account credentials, must have
 			keys client_email, client_id and private_key
 		:param impersonate_user: str: email address of admin user
 		:param kwargs: additional parameters to pass to SignedJwtAssertionCredentials()
+			must contain "domain=<domain validated by google>"
 		:return: None
 		"""
+		try:
+			if "." not in kwargs["domain"]:
+				raise KeyError("")
+		except (KeyError, TypeError):
+			logger.exception("GappsAuth.store_credentials() Missing name of validated domain.")
+			raise MissingClientCredentials(_("Please supply the name of a validated domain."))
 		try:
 			credentials = SignedJwtAssertionCredentials(
 				service_account_name=client_credentials["client_email"],
@@ -163,12 +170,21 @@ class GappsAuth(object):
 			logger.exception("Missing data in client_credentials=%r", client_credentials)
 			raise MissingClientCredentials(_("Missing data in credentials file."))
 
-		storage = Storage(CREDENTAILS_FILE)
+		storage = Storage(CREDENTIALS_FILE)
 		try:
 			storage.put(credentials)
 		except IOError:
-			logger.exception("GappsAuth.store_credentials() IOError when writing %r.", CREDENTAILS_FILE)
+			logger.exception("GappsAuth.store_credentials() IOError when writing %r.", CREDENTIALS_FILE)
 			raise CredentialsStorageError(_("Error when writing credentials to disk."))
+
+	@classmethod
+	def get_domain(cls):
+		"""
+		Get validated domain that was configured in wizard.
+		:return: str: domain name or raises NoCredentials
+		"""
+		credentials = cls._get_credentials()
+		return credentials.kwargs["domain"]
 
 	@staticmethod
 	def _load_credentials():
@@ -176,11 +192,11 @@ class GappsAuth(object):
 		Fetch credentials from disk for usage by oauth2client library.
 		:return: oauth2client.file.Storage object
 		"""
-		storage = Storage(CREDENTAILS_FILE)
+		storage = Storage(CREDENTIALS_FILE)
 		try:
 			return storage.get()
 		except IOError:
-			logger.exception("GappsAuth.get_credentials() IOError when reading %r.", CREDENTAILS_FILE)
+			logger.exception("GappsAuth.get_credentials() IOError when reading %r.", CREDENTIALS_FILE)
 			raise
 
 	def get_service_object(self, service_name="admin", version="directory_v1"):
@@ -205,10 +221,10 @@ class GappsAuth(object):
 					# for API access, but Googles servers have not realized yet it.
 					# The oauthlib will set the credentials to "invalid", which
 					# will make further connection attempts fail.
-					with open(CREDENTAILS_FILE, "rb") as fp:
+					with open(CREDENTIALS_FILE, "rb") as fp:
 						creds = json.load(fp)
 					creds["invalid"] = False
-					with open(CREDENTAILS_FILE, "wb") as fp:
+					with open(CREDENTIALS_FILE, "wb") as fp:
 						json.dump(creds, fp)
 					raise AuthenticationErrorRetry, AuthenticationErrorRetry(_("Token could not be refreshed, "
 						"you may try to connect again later."), chained_exc=exc), sys.exc_info()[2]

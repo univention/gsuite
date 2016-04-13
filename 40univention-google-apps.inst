@@ -104,6 +104,7 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set longDescription="Enable user for Google Apps for Work" \
 	--set translationLongDescription='"de_DE" "Benutzer für Nutzung von Google Apps for Work aktivieren"' \
 	--set tabAdvanced=0 \
+	--set tabPosition=1 \
 	--set tabName="Google apps" \
 	--set translationTabName='"de_DE" "Google Apps"' \
 	--set module="users/user" \
@@ -158,6 +159,31 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set ldapMapping=univentionGoogleAppsObjectID \
 	--set deleteObjectClass=0 \
 	--set disableUDMWeb=1 || die
+
+udm settings/extended_attribute create "$@" --ignore_exists \
+	--position "cn=custom attributes,cn=univention,$ldap_base" \
+	--set name="UniventionGoogleAppsPrimaryEmail" \
+	--set CLIName="UniventionGoogleAppsPrimaryEmail" \
+	--set shortDescription="Email address and username in Google Directory" \
+	--set translationShortDescription='"de_DE" "E-Mail-Adresse und Benutzername im Google Verzeichnis"' \
+	--set longDescription="Email address and username in Google Directory" \
+	--set translationLongDescription='"de_DE" "E-Mail-Adresse und Benutzername im Google Verzeichnis"' \
+	--set tabAdvanced=0 \
+	--set tabName="Google apps" \
+	--set tabPosition=2 \
+	--set translationTabName='"de_DE" "Google Apps"' \
+	--set module="users/user" \
+	--set syntax=emailAddress \
+	--set default=0 \
+	--set multivalue=0 \
+	--set valueRequired=0 \
+	--set mayChange=1 \
+	--set doNotSearch=0 \
+	--set objectClass=univentionGoogleApps \
+	--set ldapMapping=univentionGoogleAppsPrimaryEmail \
+	--set deleteObjectClass=0 \
+	--set overwriteTab=0 \
+	--set fullWidth=1 || die
 
 udm saml/serviceprovider create "$@" \
 	--ignore_exists \

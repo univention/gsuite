@@ -1,3 +1,12 @@
+univention-google-apps (0.0.13-6) unstable; urgency=low
+
+  * Bug #37949: store primaryEmail of google user in extended attribute, so it
+    can be used by the SSO identity provider.
+  * fix typo
+  * Bug #41019: change wording, add translations
+
+ -- Daniel Troeder <troeder@univention.de>  Wed, 13 Apr 2016 15:51:19 +0200
+
 univention-google-apps (0.0.13-5) unstable; urgency=low
 
   * Bug #41019: add missing translations
