@@ -1,3 +1,10 @@
+univention-google-apps (0.0.13-7) unstable; urgency=low
+
+  * Bug #41019: fix sanitize call
+  * use named parameter when storing the domain
+
+ -- Daniel Troeder <troeder@univention.de>  Wed, 13 Apr 2016 16:27:01 +0200
+
 univention-google-apps (0.0.13-6) unstable; urgency=low
 
   * Bug #37949: store primaryEmail of google user in extended attribute, so it

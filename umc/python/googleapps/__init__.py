@@ -93,8 +93,8 @@ class Instance(Base):
 		tmpfile=StringSanitizer(required=True)
 	), required=True))
 	@sanitize_body(DictSanitizer(dict(
-		email=EmailSanitizer(required=True)
-		domain=StringSanitizer(required=True)
+		email=EmailSanitizer(required=True),
+		domain=StringSanitizer(required=True),
 	), required=True))
 	def upload(self, request):
 		GappsAuth.uninitialize()
@@ -104,7 +104,7 @@ class Instance(Base):
 			except ValueError:
 				raise UMC_Error(_('The uploaded file is not a JSON credentials file.'))
 			try:
-				GappsAuth.store_credentials(data, request.body['email'], request.body['domain'])
+				GappsAuth.store_credentials(data, request.body['email'], domain=request.body['domain'])
 			except GoogleAppError as exc:
 				raise UMC_Error(str(exc))
 		self.finished(request.id, {
