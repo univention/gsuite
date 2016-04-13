@@ -33,6 +33,7 @@
 
 import json
 import functools
+import subprocess
 
 from univention.lib.i18n import Translation
 from univention.management.console.base import Base, UMC_Error, UMC_OptionSanitizeError
@@ -93,6 +94,7 @@ class Instance(Base):
 	), required=True))
 	@sanitize_body(DictSanitizer(dict(
 		email=EmailSanitizer(required=True)
+		domain=StringSanitizer(required=True)
 	), required=True))
 	def upload(self, request):
 		GappsAuth.uninitialize()
@@ -102,7 +104,7 @@ class Instance(Base):
 			except ValueError:
 				raise UMC_Error(_('The uploaded file is not a JSON credentials file.'))
 			try:
-				GappsAuth.store_credentials(data, request.body['email'])
+				GappsAuth.store_credentials(data, request.body['email'], request.body['domain'])
 			except GoogleAppError as exc:
 				raise UMC_Error(str(exc))
 		self.finished(request.id, {
@@ -118,6 +120,10 @@ class Instance(Base):
 		try:
 			ol = GoogleAppsListener(None, {}, {})
 			ol.gh.list_users(projection="basic")
+			try:
+				subprocess.call(["invoke-rc.d", "univention-directory-listener", "restart"])
+			except (EnvironmentError,):
+				pass
 			return progress(finished=True)
 		except AuthenticationErrorRetry:
 			return progress(message=_('Waiting for Google directory to authorize the connection.'))

@@ -112,7 +112,23 @@ define([
 						required: true,
 						onChange: lang.hitch(this, function(value) {
 							this.getWidget('upload-service-account-key', 'upload').set('dynamicOptions', {
-								email: value
+								email: value,
+								domain: this.getWidget('upload-service-account-key', 'domain').get('value')
+							});
+						})
+					}, {
+						type: Text,
+						name: 'info-domain',
+						content: this.getTextUploadServiceAccountKeyDomain()
+					}, {
+						type: TextBox,
+						name: 'domain',
+						label: _('Domain'),
+						required: true,
+						onChange: lang.hitch(this, function(value) {
+							this.getWidget('upload-service-account-key', 'upload').set('dynamicOptions', {
+								domain: value,
+								email: this.getWidget('upload-service-account-key', 'email').get('value')
 							});
 						})
 					}, {
@@ -125,7 +141,8 @@ define([
 						buttonLabel: _('Upload service account key'),
 						command: 'googleapps/upload',
 						dynamicOptions: {
-							email: ''
+							email: '',
+							domain: ''
 						},
 						onUploadStarted: lang.hitch(this, function() {
 							this._uploadDeferred = new Deferred();
@@ -292,10 +309,16 @@ define([
 			]);
 		},
 
+		getTextUploadServiceAccountKeyDomain: function() {
+			return this.formatOrderedList([
+				_('Enter the mail domain that was configured for the Google Apps for Work account.')
+			], {start: 2});
+		},
+
 		getTextUploadServiceAccountKey: function() {
 			return this.formatOrderedList([
 				_('Click on the button below and select the just downloaded JSON key file. This will upload the credentials key file to UCS.')
-			], {start: 2});
+			], {start: 3});
 		},
 
 		getTextEnableDomainWideDelegation: function() {
