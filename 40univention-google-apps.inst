@@ -108,6 +108,7 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set tabName="Google apps" \
 	--set translationTabName='"de_DE" "Google Apps"' \
 	--set module="users/user" \
+        --set module="settings/usertemplate" \
 	--set syntax=boolean \
 	--set default=0 \
 	--set multivalue=0 \
@@ -170,11 +171,10 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set translationLongDescription='"de_DE" "E-Mail-Adresse und Benutzername im Google Verzeichnis"' \
 	--set tabAdvanced=0 \
 	--set tabName="Google apps" \
-	--set tabPosition=2 \
+	--set tabPosition=3 \
 	--set translationTabName='"de_DE" "Google Apps"' \
 	--set module="users/user" \
 	--set syntax=emailAddress \
-	--set default=0 \
 	--set multivalue=0 \
 	--set valueRequired=0 \
 	--set mayChange=1 \
@@ -185,15 +185,31 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set overwriteTab=0 \
 	--set fullWidth=1 || die
 
-udm saml/serviceprovider create "$@" \
-	--ignore_exists \
-	--position "cn=saml-serviceprovider,cn=univention,$ldap_base" \
-	--set isActivated=TRUE \
-	--set Identifier=google-apps-for-work \
-	--set NameIDFormat="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified" \
-	--set AssertionConsumerService="https://www.google.com/a/UNDEFINED-DOMAIN/acs" \
-	--set simplesamlNameIDAttribute="uid" \
-	--set serviceProviderOrganizationName="Google Apps for Work" || die
+# Add univentionGoogleAppsPrimaryEmail to saml/idp/ldap/get_attributes
+GA_ATTR="univentionGoogleAppsPrimaryEmail"
+if ! echo "${saml_idp_ldap_get_attributes}" | grep -q "${GA_ATTR}"; then
+	ucr set saml/idp/ldap/get_attributes="${saml_idp_ldap_get_attributes}, '${GA_ATTR}'"
+fi
+# Update/ create google.com provider (also available in univention-saml!)
+if udm saml/serviceprovider list "$@" | grep -q "SAMLServiceProviderIdentifier=google.com,cn=saml-serviceprovider,cn=univention,$ldap_base" ; then
+	udm saml/serviceprovider modify "$@" \
+		--dn "SAMLServiceProviderIdentifier=google.com,cn=saml-serviceprovider,cn=univention,$ldap_base" \
+		--set isActivated=TRUE \
+		--set NameIDFormat="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified" \
+		--set AssertionConsumerService="https://www.google.com/a/UNDEFINED-DOMAIN/acs" \
+		--set simplesamlNameIDAttribute="univentionGoogleAppsPrimaryEmail" \
+		--set serviceProviderOrganizationName="Google Apps for Work" || die
+else
+	udm saml/serviceprovider create "$@" \
+		--ignore_exists \
+		--position "cn=saml-serviceprovider,cn=univention,$ldap_base" \
+		--set isActivated=TRUE \
+		--set Identifier=google.com \
+		--set NameIDFormat="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified" \
+		--set AssertionConsumerService="https://www.google.com/a/UNDEFINED-DOMAIN/acs" \
+		--set simplesamlNameIDAttribute="univentionGoogleAppsPrimaryEmail" \
+		--set serviceProviderOrganizationName="Google Apps for Work" || die
+fi
 
 # user template
 univention-directory-manager settings/usertemplate create "$@" --ignore_exists \
@@ -201,7 +217,7 @@ univention-directory-manager settings/usertemplate create "$@" --ignore_exists \
 	--set name="Google Apps for Work Account" \
 	--set mailPrimaryAddress="<username>@$domainname" \
 	--set UniventionGoogleAppsEnabled="1" \
-	--set serviceprovider="SAMLServiceProviderIdentifier=google-apps-for-work,cn=saml-serviceprovider,cn=univention,$ldap_base" || die
+	--set serviceprovider="SAMLServiceProviderIdentifier=google.com,cn=saml-serviceprovider,cn=univention,$ldap_base" || die
 
 # create mail domain object(s) if missing
 if ! udm mail/domain list "$@" | grep -q "name: $domainname" ; then

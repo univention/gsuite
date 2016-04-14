@@ -41,6 +41,14 @@ from oauth2client.client import SignedJwtAssertionCredentials, AccessTokenRefres
 
 from univention.googleapps.logging2udebug import get_logger
 from univention.lib.i18n import Translation
+from univention.management.console.config import ucr
+ucr.load()
+from univention.config_registry.frontend import ucr_update
+import univention.admin.modules as udm_modules
+udm_modules.update()
+import univention.admin.objects as udm_objects
+import univention.admin.uexceptions as udm_exceptions
+import univention.admin.uldap as udm_uldap
 
 
 _ = Translation('univention-googleapps').translate
@@ -53,6 +61,7 @@ SCOPE = [
 	"https://www.googleapis.com/auth/admin.directory.group",
 	"https://www.googleapis.com/auth/admin.directory.group.member",
 	"https://www.googleapis.com/auth/admin.directory.domain.readonly"]
+GOOGLE_APPS_SERVICEPROVIDER_DN = "SAMLServiceProviderIdentifier=google.com,cn=saml-serviceprovider,cn=univention,%s" % ucr['ldap/base']
 
 
 logger = get_logger("google-apps", "gafw")
@@ -176,6 +185,37 @@ class GappsAuth(object):
 		except IOError:
 			logger.exception("GappsAuth.store_credentials() IOError when writing %r.", CREDENTIALS_FILE)
 			raise CredentialsStorageError(_("Error when writing credentials to disk."))
+
+		try:
+			access, position = udm_uldap.getAdminConnection()
+			service_provider = udm_objects.get(udm_modules.get("saml/serviceprovider"), None, access, None, GOOGLE_APPS_SERVICEPROVIDER_DN)
+			if service_provider:
+				service_provider["AssertionConsumerService"] = "https://www.google.com/a/%s/acs" % kwargs["domain"]
+				service_provider.modify()
+			else:
+				logger.exception("GappsAuth.store_credentials() service provider object not found %s.", GOOGLE_APPS_SERVICEPROVIDER_DN)
+		except udm_exceptions.base as exc:
+			# from umc.modules.udm.udm_ldap.py
+			def __get_udm_exception_msg(e):
+				msg = getattr(e, 'message', '')
+				if getattr(e, 'args', False):
+					if e.args[0] != msg or len(e.args) != 1:
+						for arg in e.args:
+							msg += ' ' + arg
+				return msg
+			msg = __get_udm_exception_msg(exc)
+			logger.exception("GappsAuth.store_credentials() udm exception %s.", msg)
+			raise CredentialsStorageError(_("Error when modifying service provider."))
+
+		ucr_update(ucr, {
+			"ucs/web/overview/entries/service/SP/description": "Single Sign-On login for Google Apps for Work",
+			"ucs/web/overview/entries/service/SP/label": "Google Apps for Work login",
+			"ucs/web/overview/entries/service/SP/link": "https://%s/simplesamlphp/saml2/idp/SSOService.php?spentityid=google.com&RelayState=https://www.google.com/a/%s/Dashboard" % (ucr["ucs/server/sso/fqdn"], kwargs["domain"]),
+			"ucs/web/overview/entries/service/SP/description/de": "Single-Sign-On Link für Google Apps for Work",
+			"ucs/web/overview/entries/service/SP/label/de": "Google Apps for Work login",
+			"ucs/web/overview/entries/service/SP/priority": "50",
+			"ucs/web/overview/entries/service/SP/icon": "/googleapps.png"
+			})
 
 	@classmethod
 	def get_domain(cls):

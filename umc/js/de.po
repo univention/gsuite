@@ -143,8 +143,7 @@ msgid ""
 "href=\"/simplesamlphp/saml2/idp/certificate\" target=\"_blank\">here</a>."
 msgstr ""
 "Laden Sie das Identity Provider Zertifikat <a download=\"certificate.crt\" href=\"/simplesamlphp/saml2/"
-"idp/certificate\" target=\"_blank\">hier</a> herunter und laden Sie es unter "
-"<i>Bestätigungszertifikat</i> hoch."
+"idp/certificate\" target=\"_blank\">hier</a> herunter."
 
 #: umc/js/googleapps.js:111
 msgid "E-mail address"

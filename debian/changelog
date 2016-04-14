@@ -1,3 +1,11 @@
+univention-google-apps (0.0.13-8) unstable; urgency=medium
+
+  * Bug #41019: Add single sign-on backend functions
+  * Fix translation
+  * Fix user template
+
+ -- Erik Damrose <damrose@univention.de>  Thu, 14 Apr 2016 15:47:57 +0200
+
 univention-google-apps (0.0.13-7) unstable; urgency=low
 
   * Bug #41019: fix sanitize call
