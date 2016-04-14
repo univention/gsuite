@@ -142,7 +142,7 @@ msgid ""
 "Download the Identity Provider certificate <a download=\"certificate.crt\" "
 "href=\"/simplesamlphp/saml2/idp/certificate\" target=\"_blank\">here</a>."
 msgstr ""
-"Laden Sie das Identity Provider Zertifikat <a href=\"/simplesamlphp/saml2/"
+"Laden Sie das Identity Provider Zertifikat <a download=\"certificate.crt\" href=\"/simplesamlphp/saml2/"
 "idp/certificate\" target=\"_blank\">hier</a> herunter und laden Sie es unter "
 "<i>Bestätigungszertifikat</i> hoch."
 
