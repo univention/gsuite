@@ -150,6 +150,8 @@ class GappsHandler(object):
 		:param method: str: see _modify_object()
 		:return: dict: modified user
 		"""
+		if "primaryEmail" in properties:
+			properties["primaryEmail"] = self.fix_email(properties["primaryEmail"])
 		key = dict(userKey=user_id)
 		return self._modify_object("users", properties, key, method)
 
