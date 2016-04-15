@@ -1,3 +1,10 @@
+univention-google-apps (0.0.13-10) unstable; urgency=low
+
+  * Bug #37949: use only one UCR instance
+  * resize images
+
+ -- Daniel Troeder <troeder@univention.de>  Fri, 15 Apr 2016 08:58:44 +0200
+
 univention-google-apps (0.0.13-9) unstable; urgency=medium
 
   * Bug #41019: Version bump
