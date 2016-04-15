@@ -34,6 +34,7 @@
 import httplib2
 import json
 import sys
+from urllib import quote
 
 from apiclient import discovery
 from oauth2client.file import Storage
@@ -204,12 +205,14 @@ class GappsAuth(object):
 			logger.exception("GappsAuth.store_credentials() udm exception %s.", msg)
 			raise CredentialsStorageError(_("Error when modifying service provider."))
 
+		sp_query_string = "?spentityid=google.com&RelayState={}".format(
+			quote("https://www.google.com/a/{}/Dashboard".format(kwargs["domain"])))
+		sp_link = "https://{}/simplesamlphp/saml2/idp/SSOService.php{}".format(
+			ucr["ucs/server/sso/fqdn"], sp_query_string)
 		ucr_update(ucr, {
 			"ucs/web/overview/entries/service/SP/description": "Single Sign-On login for Google Apps for Work",
 			"ucs/web/overview/entries/service/SP/label": "Google Apps for Work login",
-			"ucs/web/overview/entries/service/SP/link": "https://%s/simplesamlphp/saml2/idp/SSOService.php?"
-				"spentityid=google.com&RelayState=https://www.google.com/a/%s/Dashboard" % (
-					ucr["ucs/server/sso/fqdn"], kwargs["domain"]),
+			"ucs/web/overview/entries/service/SP/link": sp_link,
 			"ucs/web/overview/entries/service/SP/description/de": "Single-Sign-On Link für Google Apps for Work",
 			"ucs/web/overview/entries/service/SP/label/de": "Google Apps for Work login",
 			"ucs/web/overview/entries/service/SP/priority": "50",
