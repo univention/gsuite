@@ -223,16 +223,33 @@ define([
 						], {start: 2})
 					}]
 				}, {
-					name: 'success',
+					name: 'success1',
 					headerText: _('Successfully configured Google Apps for Work'),
 					helpText: '',
 					widgets: [{
 						type: Text,
 						name: 'infos',
 						content: _('Congratulations, the connection between UCS and Google Apps for Work has been established.') + ' ' +
-							_('Users can now be synced to Google Apps for Work by activating the sync on the users <i>Google Apps</i> tab.') + '<br>' + this.img(_('google_user.png'))
+							_('Users can now be synchronized to Google Apps for Work by activating the synchronization on the users <i>Google Apps</i> tab.') + '<br>' + this.img(_('google_user.png'))
 					}]
-
+				}, {
+/*					name: 'success2',
+					headerText: _('Successfully configured Google Apps for Work'),
+					helpText: '',
+					widgets: [{
+						type: Text,
+						name: 'infos',
+						content: '<p></p>'
+					}]
+				}, {
+*/					name: 'success3',
+					headerText: _('Successfully configured Google Apps for Work'),
+					helpText: '',
+					widgets: [{
+						type: Text,
+						name: 'infos',
+						content: _('Synchronized users can log into Google Apps for Work by using the link on the <a href="/ucs-overview" target="_blank">UCS overview page</a>.') + '<br>' + this.img(_('google-sso-login.png'))
+					}]
 				}, {
 					name: 'error',
 					headerText: _('An error occurred'),
@@ -421,21 +438,21 @@ define([
 		},
 
 		hasNext: function(pageName) {
-			if (~array.indexOf(['success', 'error'], pageName)) {
+			if (~array.indexOf(['success3', 'error'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
 		},
 
 		hasPrevious: function(pageName) {
-			if (~array.indexOf(['enable-domain-wide-delegation', 'single-sign-on-setup', 'error', 'success'], pageName)) {
+			if (~array.indexOf(['enable-domain-wide-delegation', 'single-sign-on-setup', 'error', 'success1'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
 		},
 
 		canCancel: function(pageName) {
-			if (~array.indexOf(['start', 'create-project', 'upload-service-account-key', 'success', 'error'], pageName)) {
+			if (~array.indexOf(['start', 'create-project', 'upload-service-account-key', 'success1', 'success2', 'success3', 'error'], pageName)) {
 				return false;
 			}
 			return this.inherited(arguments);
