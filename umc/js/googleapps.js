@@ -59,7 +59,7 @@ define([
 				pages: [{
 					name: 'start',
 					headerText: _('Welcome'),
-					helpText: '',
+					helpText: _('Welcome. This wizard will help you setup a secure connection between UCS and the Google directory.'),
 					widgets: [{
 						type: Text,
 						name: 'already-initialized',
@@ -296,15 +296,15 @@ define([
 
 		getTextStart: function() {
 			return '<p>' + _('Welcome to the Univention <a href="https://apps.google.com/" target="_blank">Google Apps for Work</a> configuration wizard.') + '</p><p>' +
-				_('It will guide you through the process of setting up automatic provisioning of Google Apps for Work accounts for your user accounts.') + '<br>' +
-				_('To use this app you need a valid Google Apps for Work admin acccount and a <a href="https://support.google.com/a/topic/9196" target="_blank">verified domain</a>.') +
+				_('It will guide you through the process of setting up a secure connection to the Google Directory, so that UCS can automatically provision Google Apps for Work accounts.') + '</p><p>' +
+				_('To use this app you need a valid Google Apps for Work admin acccount and a domain for which the ownership has been <a href="https://support.google.com/a/topic/9196" target="_blank">verified by Google</a>.') +
 				'</p>';
 		},
 
 		getTextCreateProject: function() {
 			return _('Please follow the steps to create a new project in the <i>Google Developers Console</i>.') + this.formatOrderedList([
 				_('Login to the <a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a>.'),
-				_('Create a new project by using the drop down menu in the top navgation bar.') + this.img(_('new_project_navigation.png')),
+				_('Create a new project by using the drop down menu in the top navgation bar.') + this.img(_('admin_console_create_project_EN.png')),
 				_('Give the project a name, for example "UCS sync".') + this.img(_('new_project.png')) + '<br>' +  _('Continue when Google has finished creating the project by clicking on <i>Next</i>.')
 			]);
 		},
@@ -369,7 +369,7 @@ define([
 		getTextSingleSignOnSetup: function() {
 			return '<p>' + _('To finalize the setup, single sign-on has to be configured for the Google Apps for Work domain.') + '</p>' + this.formatOrderedList([
 				_('Open the <a href="https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso" target="_blank">security settings in the Admin Console</a> to configure the single sign-on settings.'),
-				_('In the security settings only the checkbox <i>Setup SSO with third party identity provider</i> needs to be activated and the following values inserted into the input fields:') + this.img('google_sso_EN.png')
+				_('In the security settings only the checkbox <i>Setup SSO with third party identity provider</i> needs to be activated and the following values inserted into the input fields:') + this.img(_('google_sso_EN.png'))
 			]);
 		},
 

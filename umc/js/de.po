@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-management-console-module-googleapps\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2016-04-18 14:36+0200\n"
+"POT-Creation-Date: 2016-04-18 14:52+0200\n"
 "PO-Revision-Date: 2016-04-13 08:42+0100\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: Univention GmbH <packages@univention.de>\n"
@@ -244,11 +244,13 @@ msgstr ""
 
 #: umc/js/googleapps.js:299
 msgid ""
-"It will guide you through the process of setting up automatic provisioning "
-"of Google Apps for Work accounts for your user accounts."
+"It will guide you through the process of setting up a secure connection to "
+"the Google Directory, so that UCS can automatically provision Google Apps "
+"for Work accounts."
 msgstr ""
-"Er wird Sie durch den Prozess begleiten, automatische Provisionierung von "
-"Google Apps for Work Konten für Ihre Benutzerkonten einzurichten."
+"Er wird Sie durch den Prozess begleiten, eine sichere Verbindung zum Google "
+"Verzeichnis herzustellen um UCS zu ermöglichen automatisch Google Apps for "
+"Work Konten einzurichten."
 
 #: umc/js/googleapps.js:306
 msgid ""
@@ -433,12 +435,13 @@ msgstr ""
 #: umc/js/googleapps.js:300
 msgid ""
 "To use this app you need a valid Google Apps for Work admin acccount and a "
-"<a href=\"https://support.google.com/a/topic/9196\" target=\"_blank"
-"\">verified domain</a>."
+"domain for which the ownership has been <a href=\"https://support.google.com/"
+"a/topic/9196\" target=\"_blank\">verified by Google</a>."
 msgstr ""
-"Um diese App zu benutzen benötigen Sie ein gültiges Google Apps for Work "
-"Administratorkonto und eine <a href=\"https://support.google.com/a/"
-"topic/9196\" target=\"_blank\">verifizierte Domäne</a>."
+"Um diese App zu benutzen, benötigen Sie ein gültiges Google Apps for Work "
+"Administratorkonto und eine Domäne deren Besitz gegenüber <a href=\"https://"
+"support.google.com/a/topic/9196?hl=de\" target=\"_blank\">Google "
+"verifiziert</a> wurde."
 
 #: umc/js/googleapps.js:103
 msgid ""
@@ -487,6 +490,14 @@ msgstr ""
 "Willkommen zum Univention <a href=\"https://apps.google.com/\" target="
 "\"_blank\">Google Apps for Work</a> Konfigurationsassistenten."
 
+#: umc/js/googleapps.js:62
+msgid ""
+"Welcome. This wizard will help you setup a secure connection between UCS and "
+"the Google directory."
+msgstr ""
+"Willkommen. Dieser Einrichtungsassistent wird Ihnen dabei helfen eine "
+"sichere Verbindung zum Google Verzeichnis herzustellen."
+
 #: umc/js/googleapps.js:235
 #, python-format
 msgid ""
@@ -500,6 +511,10 @@ msgstr ""
 #, python-format
 msgid "You may add or remove attributes by using the %s."
 msgstr "Sie können mithilfe des %s Attribute löschen oder hinzufügen."
+
+#: umc/js/googleapps.js:307
+msgid "admin_console_create_project_EN.png"
+msgstr "admin_console_create_project_DE.png"
 
 #: umc/js/googleapps.js:330
 msgid "admin_email.png"
@@ -541,6 +556,10 @@ msgstr "google_admin_sdk_enable_de.png"
 msgid "google_admin_sdk_link.png"
 msgstr "google_admin_sdk_link.png"
 
+#: umc/js/googleapps.js:372
+msgid "google_sso_EN.png"
+msgstr "google_sso_DE.png"
+
 #: umc/js/googleapps.js:235
 msgid "google_user.png"
 msgstr "google_user_de.png"
@@ -548,10 +567,6 @@ msgstr "google_user_de.png"
 #: umc/js/googleapps.js:308
 msgid "new_project.png"
 msgstr "new_project_de.png"
-
-#: umc/js/googleapps.js:307
-msgid "new_project_navigation.png"
-msgstr "new_project_navigation_de.png"
 
 #: umc/js/googleapps.js:324
 msgid "new_service_account.png"
