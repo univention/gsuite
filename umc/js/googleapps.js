@@ -242,7 +242,7 @@ define([
 						type: Text,
 						name: 'infos',
 						content: this.formatParagraphs([
-							_('For each UCS user account for which Google Apps for Work is enabled, an account in the Google Apps for Work directory is created and selected account attributes get synchronized from UCS to the Google directory.'),
+							_('For the UCS user account for which Google Apps for Work is enabled, an account in the Google Apps for Work directory is created and selected account attributes get synchronized from UCS to the Google directory.'),
 							_('Via the Univention Config Registry variables <i>google-apps/attributes/mapping/.*</i> can be configured which LDAP attributes (e.g. given name, surname, etc.) of a user account are sychronized.') + ' ' +
 							_('You may add or remove attributes by using the %s.', [tools.linkToModule({module: 'ucr'})])
 						])
