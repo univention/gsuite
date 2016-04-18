@@ -29,7 +29,7 @@ print "*** list_groups() returned:"
 for g in groups1:
 	print "id: '{id}' name: '{name}' email: '{email}' description: '{description}'".format(**g)
 
-domain = gh.get_primary_domain()["domainName"]
+domain = gh.get_primary_domain_from_disk()
 args = google_group_args(domain)
 print "*** create_group(args), args={}".format(args)
 new_group1 = gh.create_group(**args)

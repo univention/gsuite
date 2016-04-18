@@ -35,6 +35,7 @@ import httplib2
 import json
 import sys
 from urllib import quote
+import os.path
 
 from apiclient import discovery
 from oauth2client.file import Storage
@@ -56,7 +57,7 @@ ucr.load()
 
 
 CONFDIR = "/etc/univention-google-apps"
-CREDENTIALS_FILE = CONFDIR + "/credentials.json"
+CREDENTIALS_FILE = os.path.join(CONFDIR, "credentials.json")
 SCOPE = [
 	"https://www.googleapis.com/auth/admin.directory.user",
 	"https://www.googleapis.com/auth/admin.directory.group",

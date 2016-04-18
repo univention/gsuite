@@ -291,18 +291,28 @@ class GappsHandler(object):
 		customer_id = self.get_customer_id()
 		return self._list_objects("domains", customer=customer_id)
 
-	def get_primary_domain(self):
+	def get_primary_domain_from_google(self, verified=True):
 		"""
 		Fetches the primary domain from the list of registered domains.
+		:param verified: bool: if the domain must have been verified
 		:return: dict (domain resource)
 		"""
 		domains = self.list_domains()
-		if not domains:
-			raise RuntimeError("No domains")
 		for domain in domains:
-			if domain["isPrimary"]:
-				return domain
-		return domains[0]
+			if verified:
+				if domain["isPrimary"] and domain["verified"]:
+					return domain
+			else:
+				if domain["isPrimary"]:
+					return domain
+		raise RuntimeError("No {}primary domain found.".format("verified " if verified else ""))
+
+	def get_primary_domain_from_disk(self):
+		"""
+		Gert domain name that was configured in wizard.
+		:return: str: domain name
+		"""
+		return self.auth.get_domain()
 
 	def fix_email(self, email):
 		"""
@@ -317,13 +327,11 @@ class GappsHandler(object):
 			local_part, domain_part = m.groups()
 		else:
 			local_part = email
-			domain_part = None
 		if local_part:
 			local_part = local_part.replace(" ", "_")
 		else:
 			local_part = self.get_random_ascii_string()
-		if not domain_part or domain_part not in map(operator.itemgetter("domainName"), self.list_domains()):
-			domain_part = self.get_primary_domain()["domainName"]
+		domain_part = self.get_primary_domain_from_disk()
 		new_email = "{}@{}".format(local_part, domain_part)
 		if email != new_email:
 			self.logger.error("Email address %r invalid, changed to %r.", email, new_email)

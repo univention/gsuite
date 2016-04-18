@@ -16,7 +16,7 @@ from univention.googleapps.handler import GappsHandler
 
 
 gh = GappsHandler(None)
-domain = gh.get_primary_domain()["domainName"]
+domain = gh.get_primary_domain_from_disk()
 args = google_user_args(domain, minimal=False)
 
 print "*** Creating test user..."

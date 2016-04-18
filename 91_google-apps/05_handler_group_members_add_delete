@@ -13,7 +13,7 @@ from univention.googleapps.handler import GappsHandler
 
 
 gh = GappsHandler(None)
-domain = gh.get_primary_domain()["domainName"]
+domain = gh.get_primary_domain_from_disk()
 grp_args = google_group_args(domain)
 usr1_args = google_user_args(domain)
 usr2_args = google_user_args(domain)

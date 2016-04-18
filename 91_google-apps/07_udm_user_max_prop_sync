@@ -43,7 +43,7 @@ with utils.AutomaticListenerRestart() as alr:
 			utils.restart_listener()
 
 			print "*** Creating mail domain matching domain registered with google..."
-			maildomain = gh.get_primary_domain()["domainName"]
+			maildomain = gh.get_primary_domain_from_disk()
 			udm.create_object(
 				"mail/domain",
 				position="cn=domain,cn=mail,{}".format(ucr["ldap/base"]),

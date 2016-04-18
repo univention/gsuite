@@ -224,7 +224,7 @@ class GoogleAppsListener(object):
 		desc = new.get("description", [""])[0] or None
 		name = new["cn"][0]
 		email = new["mailPrimaryAddress"][0] or "{}@{}".format(name.replace(" ", "_"),
-			self.gh.get_primary_domain()["domainName"])
+			self.gh.get_primary_domain_from_disk())
 		return self.create_google_group(name, desc, new["entryDN"][0], email)
 
 	def create_google_group_from_ldap(self, group_dn, add_members=True):
@@ -239,7 +239,7 @@ class GoogleAppsListener(object):
 		desc = udm_group["description"]
 		name = udm_group["name"]
 		email = udm_group["mailAddress"] or "{}@{}".format(name.replace(" ", "_"),
-			self.gh.get_primary_domain()["domainName"])
+			self.gh.get_primary_domain_from_disk())
 		return self.create_google_group(name, desc, group_dn, email, add_members)
 
 	def modify_google_group(self, old, new):
@@ -359,7 +359,7 @@ class GoogleAppsListener(object):
 				args["name"] = new["cn"][0]
 			elif attrib == "mailPrimaryAddress":
 				args["email"] = new.get("mailPrimaryAddress", [""])[0] or "{}@{}".format(
-					new["cn"].replace(" ", "_"), self.gh.get_primary_domain()["domainName"])
+					new["cn"].replace(" ", "_"), self.gh.get_primary_domain_from_disk())
 			else:
 				pass
 		if args:
@@ -581,7 +581,7 @@ class GoogleAppsListener(object):
 
 	def _get_random_email_address(self):
 		local_part = "".join([random.choice(string.ascii_letters + string.digits) for _ in range(12)])
-		return "{}@{}".format(local_part, self.gh.get_primary_domain()["domainName"])
+		return "{}@{}".format(local_part, self.gh.get_primary_domain_from_disk())
 
 	def _walk_resource(self, node, data_source):
 		"""
