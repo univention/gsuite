@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-management-console-module-googleapps\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2016-04-15 09:36+0200\n"
+"POT-Creation-Date: 2016-04-18 10:40+0200\n"
 "PO-Revision-Date: 2016-04-13 08:42+0100\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: Univention GmbH <packages@univention.de>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: umc/js/googleapps.js:352
+#: umc/js/googleapps.js:349
 msgid ""
 "<a href=\"https://admin.google.com/ManageOauthClients\" target=\"_blank"
 "\">Click here to access the Admin console</a> to <i>Manage API client "
@@ -25,24 +25,24 @@ msgstr ""
 #: umc/js/googleapps.js:66
 msgid ""
 "<b>Warning!</b> The configuration has already been done. If you continue, "
-"the current connection information will be replaced."
+"the current connection settings will be replaced."
 msgstr ""
 "<b>Warnung!</b> Die Konfiguration wurde bereit durchgeführt. Die aktuellen "
-"Verbindungsinformationen werden ersetzt wenn fortgefahren wird."
+"Verbindungseinstellungen werden ersetzt wenn fortgefahren wird."
 
-#: umc/js/googleapps.js:219
+#: umc/js/googleapps.js:369
 msgid ""
-"After setting these three addresses, click \"Save\" in the Google Developers "
-"Console, then continue."
+"After setting these addresses, click on <i>Save</i> in the Google Developers "
+"Console."
 msgstr ""
-"Nach setzen dieser drei Adressen, clicken Sie in der Google Developers "
-"Console auf \"Sichern\", fahren Sie dann fort."
+"Nach dem Setzen dieser Adressen, klicken Sie in der Google Developers "
+"Console auf \"Speichern\"."
 
-#: umc/js/googleapps.js:255
+#: umc/js/googleapps.js:252
 msgid "An error occurred"
 msgstr "Ein Fehler ist aufgetreten"
 
-#: umc/js/googleapps.js:260
+#: umc/js/googleapps.js:257
 msgid ""
 "An error occurred while testing the connection to Google Apps for Work. "
 "Please run the wizard again."
@@ -54,22 +54,30 @@ msgstr ""
 msgid "Authorize connection between Google and UCS"
 msgstr "Verbindung zwischen Google und UCS authorisieren."
 
-#: umc/js/googleapps.js:212
+#: umc/js/googleapps.js:214
 msgid "Change password URL"
 msgstr "URL Passwortänderung"
 
-#: umc/js/googleapps.js:317
+#: umc/js/googleapps.js:356
+msgid ""
+"Click on <i>Authorize</i> and continue this wizard by clicking on <i>Next</"
+"i>."
+msgstr ""
+"Klicken Sie auf <i>Authorisieren</i> und fahren sie im "
+"Einrichtungsassistenten durch klicken auf <i>Weiter</i> fort."
+
+#: umc/js/googleapps.js:314
 msgid ""
 "Click on <i>Create credentials</i> and select <i>Service account key</i>."
 msgstr ""
 "Klicken Sie auf <i>Anmeldedaten erstellen</i> und wählen "
 "<i>Dienstkontoschlüssel</i>."
 
-#: umc/js/googleapps.js:222
+#: umc/js/googleapps.js:372
 msgid "Click on <i>Next</i> to complete the setup."
 msgstr "Klicken Sie auf <i>Weiter</i> um die Konfiguration zu abzuschließen."
 
-#: umc/js/googleapps.js:337
+#: umc/js/googleapps.js:334
 msgid ""
 "Click on the button below and select the just downloaded JSON key file. This "
 "will upload the credentials key file to UCS."
@@ -82,7 +90,7 @@ msgstr ""
 msgid "Client Name"
 msgstr "Client Name"
 
-#: umc/js/googleapps.js:232
+#: umc/js/googleapps.js:229
 msgid ""
 "Congratulations, the connection between UCS and Google Apps for Work has "
 "been established."
@@ -90,11 +98,11 @@ msgstr ""
 "Gratulation, die Verbindung zwischen UCS und Google Apps for Work wurde "
 "hergestellt."
 
-#: umc/js/googleapps.js:346 umc/js/googleapps.js:353
+#: umc/js/googleapps.js:343
 msgid "Continue by clicking on <i>Next</i>."
 msgstr "Fahren Sie durch einen Klick auf <i>Weiter</i> fort."
 
-#: umc/js/googleapps.js:302
+#: umc/js/googleapps.js:299
 msgid ""
 "Continue when Google has finished creating the project by clicking on "
 "<i>Next</i>."
@@ -102,21 +110,19 @@ msgstr ""
 "Fahren Sie durch klicken auf <i>Weiter</i> fort, wenn Google das Projekt "
 "fertiggestellt hat."
 
-#: umc/js/googleapps.js:353
-msgid ""
-"Copy and paste the information below into the corresponding field and click "
-"<i>Authorize</i>."
+#: umc/js/googleapps.js:350
+msgid "Copy and paste the information below into the corresponding fields."
 msgstr ""
 "Kopieren und fügen Sie die unten stehenden Informationen in die zugehörigen "
-"Felder ein und klicken Sie <i>Authorize</i>."
+"Felder ein."
 
 #: umc/js/googleapps.js:75
 msgid "Create a new project"
 msgstr "Neues Projekt erstellen"
 
-#: umc/js/googleapps.js:301
+#: umc/js/googleapps.js:298
 msgid ""
-"Create a new project by using the drop-down menu in the top navgation bar."
+"Create a new project by using the drop down menu in the top navgation bar."
 msgstr ""
 "Erstellen Sie ein neues Projekt durch Benutzung des Drop-Down-Menü in der "
 "oberen Navigationsleiste."
@@ -133,24 +139,20 @@ msgstr ""
 msgid "Create service account key"
 msgstr "Dienstkontenschlüssel erstellen"
 
-#: umc/js/googleapps.js:126
-msgid "Domain"
-msgstr "Domain"
-
-#: umc/js/googleapps.js:220
+#: umc/js/googleapps.js:370
 msgid ""
-"Download the Identity Provider certificate <a download=\"certificate.crt\" "
-"href=\"/simplesamlphp/saml2/idp/certificate\" target=\"_blank\">here</a>."
+"Download the <a download=\"certificate.crt\" href=\"/simplesamlphp/saml2/idp/"
+"certificate\" target=\"_blank\">UCS Identity Provider certificate</a>."
 msgstr ""
-"Laden Sie das Identity Provider Zertifikat <a download=\"certificate.crt\" "
-"href=\"/simplesamlphp/saml2/idp/certificate\" target=\"_blank\">hier</a> "
+"Laden Sie das <a download=\"certificate.crt\" href=\"/simplesamlphp/saml2/"
+"idp/certificate\" target=\"_blank\">UCS Identity Provider Zertifikat</a> "
 "herunter."
 
 #: umc/js/googleapps.js:111
 msgid "E-mail address"
 msgstr "E-mail Adresse"
 
-#: umc/js/googleapps.js:346
+#: umc/js/googleapps.js:343
 msgid ""
 "Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name "
 "for the consent screen</i> and click on <i>Save</i>."
@@ -159,35 +161,29 @@ msgstr ""
 "einen <i>Produktname für den Zustimmungsbildschirm</i> und bestätigen Sie "
 "mit <i>Speichern</i>."
 
-#: umc/js/googleapps.js:84
-msgid "Enable Admin SDK API"
-msgstr "Amin SDK API aktivieren"
-
 #: umc/js/googleapps.js:161
 msgid "Enable Google Apps domain wide delegation"
 msgstr "Domain-weite Google-Apps-Delegation aktivieren"
 
-#: umc/js/googleapps.js:310
+#: umc/js/googleapps.js:307
 msgid "Enable it."
 msgstr "Aktivieren Sie es."
 
-#: umc/js/googleapps.js:325
-msgid ""
-"Enter the e-mail address of the admin user you used to login to the Google "
-"Developers Console. The e-mail address can be displayed by clicking on the "
-"profile button in the top right corner."
-msgstr ""
-"Geben Sie die E-Mail Adresse ein, die Sie für die Anmeldung an die Google "
-"Developers Console benutzt haben. Die E-Mail Adresse kann durch klicken auf "
-"den Profil-Button in der oberen rechten Ecke angezeigt werden."
+#: umc/js/googleapps.js:84
+msgid "Enable the <i>Admin SDK API</i>"
+msgstr "<i>Admin SDK API</i> aktivieren"
 
-#: umc/js/googleapps.js:331
+#: umc/js/googleapps.js:328
 msgid ""
-"Enter the mail domain that was configured for the Google Apps for Work "
-"account."
+"Enter the domain that was verified during the configuration of the Google "
+"Apps for Work account."
 msgstr ""
-"Geben Sie die Domain ein, die für den Google Apps for Work konfiguriert "
-"wurde."
+"Geben Sie die bei der Einrichtung des Google Apps for Work Kontos "
+"verifizierte Domäne ein."
+
+#: umc/js/googleapps.js:322
+msgid "Enter the e-mail address into the input field below."
+msgstr ""
 
 #: umc/js/googleapps.js:171
 msgid ""
@@ -197,33 +193,42 @@ msgstr ""
 "Feingranulare Zugangsberechtigungen für das Dienstkonto müssen in der Admin-"
 "Konsole konfiguriert werden."
 
-#: umc/js/googleapps.js:430
+#: umc/js/googleapps.js:449
 msgid "Finish"
 msgstr "Fertigstellen"
 
-#: umc/js/googleapps.js:302
+#: umc/js/googleapps.js:299
 msgid "Give the project a name, for example \"UCS sync\"."
 msgstr "Geben Sie dem Projekt einen Namen, z.B: \"UCS sync\"."
 
-#: umc/js/googleapps.js:308
-msgid "Go to the <i>API Manager</i>"
-msgstr "Öffnen Sie den <i>API Manager</i>"
-
-#: umc/js/googleapps.js:405
+#: umc/js/googleapps.js:424
 msgid "Google Apps for Work configuration"
 msgstr "Google Apps for Work Konfiguration"
 
-#: umc/js/googleapps.js:318
+#: umc/js/googleapps.js:315
 msgid ""
 "In the new window choose <i>New service account</i> from the drop down menu. "
 "Enter a name for the service account (e.g. <i>UCS sync</i>) and select "
-"<i>JSON</i> as the key type."
+"<i>JSON</i> as the key type. The <i>Service account ID</i> will be generated "
+"automatically and can be kept like this."
 msgstr ""
 "Im neuen Fenster wählen Sie <i>Neues Dienstkonto</i> aus der Drop-Down-"
 "Liste. Geben Sie einen Namen für das Dienstkonto ein (z.B. <i>UCS sync</i>) "
-"und wählen Sie <i>JSON</i> als Schlüsseltyp aus."
+"und wählen Sie <i>JSON</i> als Schlüsseltyp aus. Die <i>Dienstkonten-ID</i> "
+"wird automatisch erstellt und kann so beibelassen werden."
 
-#: umc/js/googleapps.js:293
+#: umc/js/googleapps.js:363
+msgid ""
+"In the security settings only the checkbox <i>Setup SSO with third party "
+"identity provider</i> needs to be activated and the following values "
+"inserted into the input fields:"
+msgstr ""
+"In den Sicherheitseinstellungen muss lediglich die Checkbox "
+"<i>Einmalanmeldung (SSO) mit Identität durch Drittanbieter einrichten</i> "
+"aktiviert werden und die folgenden Werte in die Eingabefelder eingegeben "
+"werden:"
+
+#: umc/js/googleapps.js:290
 msgid ""
 "It will guide you through the process of setting up automatic provisioning "
 "of Google Apps for Work accounts for your user accounts."
@@ -231,65 +236,83 @@ msgstr ""
 "Er wird Sie durch den Prozess begleiten, automatische Provisionierung von "
 "Google Apps for Work Konten für Ihre Benutzerkonten einzurichten."
 
-#: umc/js/googleapps.js:316
+#: umc/js/googleapps.js:297
+msgid ""
+"Login to the <a href=\"https://console.developers.google.com/\" target="
+"\"_blank\">Google Developers Console</a>."
+msgstr ""
+"Melden Sie sich an der <a href=\"https://console.developers.google.com/\" "
+"target=\"_blank\">Google Developers Console</a> an."
+
+#: umc/js/googleapps.js:305
+msgid "Make sure you are in the <i>API Manager</i>."
+msgstr "Stellen Sie sicher, dass Sie sich im <i>API Manager</i> befinden."
+
+#: umc/js/googleapps.js:313
 msgid "Navigate to <i>Credentials</i>"
 msgstr "Navigieren Sie zu <i>Zugangsdaten</i>."
+
+#: umc/js/googleapps.js:341
+msgid ""
+"On the <i>Credentials</i> page in the Google Developers Console, click in "
+"the very right on <i>Manage service accounts</i>."
+msgstr ""
+"Auf der <i>Zugangsdaten</i>-Seite in der Google Developers Console klicken "
+"Sie ganz rechts auf <i>Dienstkonten verwalten</i>."
 
 #: umc/js/googleapps.js:185
 msgid "One or More API Scopes"
 msgstr "Ein oder mehrere API-Bereiche"
 
-#: umc/js/googleapps.js:309
+#: umc/js/googleapps.js:362
+msgid ""
+"Open the <a href=\"https://admin.google.com/AdminHome?"
+"fral=1#SecuritySettings:flyout=sso\" target=\"_blank\">security settings in "
+"the Admin Console</a> to configure the single sign-on settings."
+msgstr ""
+"Öffnen Sie die <a href=\"https://admin.google.com/AdminHome?"
+"fral=1#SecuritySettings:flyout=sso\" target=\"_blank"
+"\">Sicherheitseinstellungen in der Admin Konsole</a>, um die Single Sign-on "
+"Einstellungen zu konfigurieren."
+
+#: umc/js/googleapps.js:306
 msgid "Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section."
 msgstr ""
 "Öffnen Sie die <i>Admin SDK</i> Seite in der <i>Google Apps APIs</i> Sektion."
 
-#: umc/js/googleapps.js:300
+#: umc/js/googleapps.js:296
 msgid ""
-"Please login to the <a href=\"https://console.developers.google.com/\" "
-"target=\"_blank\">Google Developers Console</a>."
+"Please follow the steps to create a new project in the <i>Google Developers "
+"Console</i>."
 msgstr ""
-"Bitte melden Sie sich an der <a href=\"https://console.developers.google.com/"
-"\" target=\"_blank\">Google Developers Console</a> an."
+"Bitte folgen Sie den Schritten, um ein neues Projekt in der <i>Google "
+"Developers Console</i> zu erstellen."
 
-#: umc/js/googleapps.js:200
+#: umc/js/googleapps.js:202
 msgid "Sign-in page URL"
 msgstr "Anmeldeseiten-URL"
 
-#: umc/js/googleapps.js:206
+#: umc/js/googleapps.js:208
 msgid "Sign-out page URL"
 msgstr "URL der Abmeldeseite"
 
-#: umc/js/googleapps.js:189
+#: umc/js/googleapps.js:193
 msgid "Single Sign-On setup"
 msgstr "Single Sign-On Konfiguration"
 
-#: umc/js/googleapps.js:343
-#, python-brace-format
-msgid ""
-"Still on the <i>Credentials</i> page, click on <a href="
-"\"{serviceaccounts_link}\" target=\"_blank\">Manage service accounts</a>"
-msgstr ""
-"Weiterhin auf der <i>Zugangsdaten</i> Seite klicken Sie auf <a href="
-"\"{serviceaccounts_link}\" target=\"_blank\">Dienstkonten verwalten</a>"
-
-#: umc/js/googleapps.js:344
-msgid ""
-"Still on the <i>Credentials</i> page, click on <i>Manage service accounts</"
-"i> on the right."
-msgstr ""
-"Weiterhin auf der <i>Zugangsdaten</i> Seite klicken Sie auf <i>Dienstkonten "
-"verwalten</i>."
-
-#: umc/js/googleapps.js:227 umc/js/googleapps.js:237 umc/js/googleapps.js:246
+#: umc/js/googleapps.js:224 umc/js/googleapps.js:234 umc/js/googleapps.js:243
 msgid "Successfully configured Google Apps for Work"
 msgstr "Google Apps for Work wurde erfolgreich eingerichtet"
 
-#: umc/js/googleapps.js:251
+#: umc/js/googleapps.js:248
 msgid ""
 "Synchronized users can log into Google Apps for Work by using the link on "
-"the <a href=\"/ucs-overview\" target=\"_blank\">UCS overview page</a>."
-msgstr "Synchronisierte Benutzer können sich bei Google Apps for Work anmelden, indem sie den Link auf der <a href=\"/ucs-overview\" target=\"_blank\">UCS Übersichtsseite</a> nutzen."
+"the <a href=\"/ucs-overview#services\" target=\"_blank\">UCS overview page</"
+"a>."
+msgstr ""
+"Synchronisierte Benutzer können sich bei Google Apps for Work anmelden, "
+"indem sie den Link auf der <a href=\"/ucs-overview#services\" target=\"_blank"
+"\">UCS Übersichtsseite</a> nutzen."
 
 #: umc/js/googleapps.js:85
 msgid ""
@@ -299,19 +322,36 @@ msgstr ""
 "Die <i>Admin SDK API</i> wird benutzt, um Benutzerkonten und Gruppen im "
 "Google Verzeichnis zu erstellen."
 
-#: umc/js/googleapps.js:319
+#: umc/js/googleapps.js:194
+msgid ""
+"The UCS SAML Identity Provider needs to be configured in the security "
+"settings."
+msgstr "Der UCS SAML Identity Provider muss in den Sicherheitseinstellungen konfiguriert werden."
+
+#: umc/js/googleapps.js:321
+msgid ""
+"The setup wizard now needs the e-mail address of the administrator user you "
+"used to login to the Google Developers Console. The e-mail address can be "
+"displayed by clicking on the profile button in the top right corner."
+msgstr ""
+"Der Einrichtungsassistent benötigt nun die E-Mail Adresse des Administrator "
+"Benutzers, die Sie für die Anmeldung an die Google Developers Console "
+"benutzt haben. Die E-Mail Adresse kann durch klicken auf den Profil-Button "
+"in der oberen rechten Ecke angezeigt werden."
+
+#: umc/js/googleapps.js:316
 msgid "Then continue by clicking on <i>Next</i>."
 msgstr "Danach fahren sie durch klicken auf <i>Weiter</i> fort."
 
-#: umc/js/googleapps.js:345
+#: umc/js/googleapps.js:342
 msgid ""
-"Then edit the service account you just created by right clicking the three "
-"dots on the right."
+"Then edit the service account you just created by clicking the three dots on "
+"the right."
 msgstr ""
-"Dann bearbeiten Sie das gerade erstellt Dienstkonto durch rechtsklicken auf "
-"die drei Punkte an der rechten Seite."
+"Dann bearbeiten Sie das gerade erstellte Dienstkonto durch klicken auf die "
+"drei Punkte an der rechten Seite."
 
-#: umc/js/googleapps.js:221
+#: umc/js/googleapps.js:371
 msgid ""
 "Then upload it to the Google Developers Console under <i>Verification "
 "certificate</i>."
@@ -319,7 +359,7 @@ msgstr ""
 "Laden Sie es nun in der Google Developers Console bei "
 "<i>Bestätigungszertifikat</i> hoch."
 
-#: umc/js/googleapps.js:310
+#: umc/js/googleapps.js:307
 msgid ""
 "This may take a minute. When Google has finished enabling the Admin SDK API, "
 "continue by clicking on <i>Next</i>."
@@ -327,7 +367,7 @@ msgstr ""
 "Das kann einige Minuten dauern. Wenn Google die Aktivierung der Admin SDK "
 "API abgeschlossen hat, fahren Sie durch klicken auf <i>Weiter</i> fort."
 
-#: umc/js/googleapps.js:319
+#: umc/js/googleapps.js:316
 msgid ""
 "This will offer you to download the key file after clicking on <i>Create</"
 "i>. Save this key file on your hard disk in a secure location."
@@ -354,7 +394,7 @@ msgstr ""
 "synchronisieren muss ein neues Projekt in der Google Developers Console "
 "erstellt werden."
 
-#: umc/js/googleapps.js:351
+#: umc/js/googleapps.js:348
 msgid ""
 "To authorize the connection between this App and Google Apps for Work please "
 "follow these instructions:"
@@ -362,33 +402,27 @@ msgstr ""
 "Um die Verbindung zwischen dieser App und Google Apps for Work zu "
 "authorisieren folgen Sie bitte den Anweisungen:"
 
-#: umc/js/googleapps.js:195
+#: umc/js/googleapps.js:361
 msgid ""
 "To finalize the setup, single sign-on has to be configured for the Google "
-"Apps for Work domain. <a href=\"https://admin.google.com/AdminHome?"
-"fral=1#SecuritySettings:flyout=sso\" target=\"_blank\">Open this link to "
-"configure single sign-on</a>, and supply the following information on the "
-"new browser tab:"
+"Apps for Work domain."
 msgstr ""
-"Um die Konfiguration abzuschließen muss Single Sign-On für die Google Apps "
-"for Work Domäne konfiguriert werden. <a href=\"https://admin.google.com/"
-"AdminHome?fral=1#SecuritySettings:flyout=sso\" target=\"_blank\">Öffnen Sie "
-"diesen Link um Single Sign-On einzurichten</a> und geben Sie die folgenden "
-"Informationen im neuen Browser-Tab an:"
+"Um die Konfiguration abzuschließen muss Single Sing-on für die Google Apps "
+"for Work Domäne eingerichtet werden."
 
-#: umc/js/googleapps.js:294
+#: umc/js/googleapps.js:291
 msgid ""
 "To use this app you need a valid Google Apps for Work admin acccount and a "
 "<a href=\"https://support.google.com/a/topic/9196\" target=\"_blank"
 "\">verified domain</a>."
 msgstr ""
-"Um diese App zu benutzen benötigen Sie einen gültiges Google Apps for Work "
+"Um diese App zu benutzen benötigen Sie ein gültiges Google Apps for Work "
 "Administratorkonto und eine <a href=\"https://support.google.com/a/"
 "topic/9196\" target=\"_blank\">verifizierte Domäne</a>."
 
 #: umc/js/googleapps.js:103
 msgid ""
-"UCS will use the encryption key for comunication with the Google directory."
+"UCS will use the encryption key for communicating with the Google directory."
 msgstr ""
 "UCS wird den Schlüssel benutzen, um mit dem Google Verzeichnis zu "
 "kommunizieren."
@@ -397,19 +431,15 @@ msgstr ""
 msgid "Upload service account key"
 msgstr "Dienstkontenschlüssel hochladen"
 
-#: umc/js/googleapps.js:233
-msgid ""
-"Users can now be synchronized to Google Apps for Work by activating the synchronization "
-"on the users <i>Google Apps</i> tab."
-msgstr ""
-"Benutzer können nun zu Google Apps for Work synchronisiert werden durch "
-"aktivieren der Synchronisation im <i>Google Apps</i>-Tab einen Benutzers."
+#: umc/js/googleapps.js:126
+msgid "Verified domain name"
+msgstr "Verifizierter Domänenname"
 
 #: umc/js/googleapps.js:61
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: umc/js/googleapps.js:292
+#: umc/js/googleapps.js:289
 msgid ""
 "Welcome to the Univention <a href=\"https://apps.google.com/\" target="
 "\"_blank\">Google Apps for Work</a> configuration wizard."
@@ -417,54 +447,67 @@ msgstr ""
 "Willkommen zum Univention <a href=\"https://apps.google.com/\" target="
 "\"_blank\">Google Apps for Work</a> Konfigurationsassistenten."
 
-#: umc/js/googleapps.js:325
+#: umc/js/googleapps.js:230
+#, python-format
+msgid ""
+"You can now activate the Google Apps for Work synchronization for users on "
+"the <i>Google Apps</i> tab in the %s."
+msgstr ""
+"Sie können nun die Google Apps for Work Synchronisation für Benutzer im "
+"<i>Google Apps</i>-Tab im %s aktivieren."
+
+#: umc/js/googleapps.js:321
 msgid "admin_email.png"
 msgstr "admin_email_de.png"
 
-#: umc/js/googleapps.js:308
+#: umc/js/googleapps.js:305
 msgid "api_manager_nav.png"
 msgstr "api_manager_nav_de.png"
 
-#: umc/js/googleapps.js:353
+#: umc/js/googleapps.js:350
 msgid "authorize_api_access_EN.png"
 msgstr "authorize_api_access_DE.png"
 
-#: umc/js/googleapps.js:317
+#: umc/js/googleapps.js:314
 msgid "create_service_account_key.png"
 msgstr "create_service_account_key_de.png"
 
-#: umc/js/googleapps.js:316
+#: umc/js/googleapps.js:313
 msgid "credentials_nav.png"
 msgstr "credentials_nav_de.png"
 
-#: umc/js/googleapps.js:345
+#: umc/js/googleapps.js:342
 msgid "edit_service_account.png"
 msgstr "edit_service_account_de.png"
 
-#: umc/js/googleapps.js:346
+#: umc/js/googleapps.js:343
 msgid "enable_delegation_and_prod_name.png"
 msgstr "enable_delegation_and_prod_name_de.png"
 
-#: umc/js/googleapps.js:251
+#: umc/js/googleapps.js:248
 msgid "google-sso-login.png"
 msgstr "google-sso-login_de.png"
 
-#: umc/js/googleapps.js:310
+#: umc/js/googleapps.js:307
 msgid "google_admin_sdk_enable.png"
 msgstr "google_admin_sdk_enable_de.png"
 
-#: umc/js/googleapps.js:309
+#: umc/js/googleapps.js:306
 msgid "google_admin_sdk_link.png"
 msgstr "google_admin_sdk_link.png"
 
-#: umc/js/googleapps.js:233
+#: umc/js/googleapps.js:230
 msgid "google_user.png"
 msgstr "google_user_de.png"
 
-#: umc/js/googleapps.js:302
+#: umc/js/googleapps.js:299
 msgid "new_project.png"
 msgstr "new_project_de.png"
 
-#: umc/js/googleapps.js:318
+#: umc/js/googleapps.js:298
+msgid "new_project_navigation.png"
+msgstr "new_project_navigation_de.png"
+
+#: umc/js/googleapps.js:315
 msgid "new_service_account.png"
 msgstr "new_service_account_de.png"

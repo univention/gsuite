@@ -111,7 +111,7 @@ class Instance(Base):
 			'client_id': data['client_id'],
 			'scope': ','.join(SCOPE),
 #			'serviceaccounts_link': 'https://console.developers.google.com/permissions/serviceaccounts?project=%s' % (urllib.quote(data['project_id']),)
-		})
+		}, message=_('The credentials have been successfully uploaded.'))
 
 	@simple_response
 	def state(self):
