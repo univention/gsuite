@@ -177,11 +177,13 @@ define([
 						type: TextBox,
 						name: 'client_id',
 						sizeClass: 'Two',
+						readOnly: true,
 						label: _('Client Name')
 					}, {
 						type: TextArea,
 						name: 'scope',
 						sizeClass: 'Two',
+						readOnly: true,
 						label: _('One or More API Scopes')
 					}, {
 						type: Text,
@@ -200,18 +202,21 @@ define([
 						type: TextBox,
 						name: 'sign-in-url',
 						label: _('Sign-in page URL'),
+						readOnly: true,
 						sizeClass: 'Two',
 						value: ''
 					}, {
 						type: TextBox,
 						name: 'sign-out-url',
 						label: _('Sign-out page URL'),
+						readOnly: true,
 						sizeClass: 'Two',
 						value: ''
 					}, {
 						type: TextBox,
 						name: 'change-password-url',
 						label: _('Change password URL'),
+						readOnly: true,
 						sizeClass: 'Two',
 						value: ''
 					}, {
