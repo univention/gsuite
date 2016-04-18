@@ -184,7 +184,7 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set deleteObjectClass=0 \
 	--set overwriteTab=0 \
 	--set notEditable=1 \
-	--set hook="GooglePrimaryAdress" \
+	--set hook="GooglePrimaryAdressHook" \
 	--set fullWidth=1 || die
 
 # Add univentionGoogleAppsPrimaryEmail to saml/idp/ldap/get_attributes
