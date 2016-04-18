@@ -226,27 +226,31 @@ define([
 					}]
 				}, {
 					name: 'success1',
-					headerText: _('Successfully configured Google Apps for Work'),
-					helpText: '',
+					headerText: _('Google Apps for Work setup complete'),
+					helpText: _('User accounts may now be enabled for Google Apps for Work access.'),
 					widgets: [{
 						type: Text,
 						name: 'infos',
 						content: _('Congratulations, the connection between UCS and Google Apps for Work has been established.') + ' ' +
-							_('You can now activate the Google Apps for Work synchronization for users on the <i>Google Apps</i> tab in the %s.', [tools.linkToModule({module: 'udm', flavor: 'users/user'})]) + '<br>' + this.img(_('google_user.png'))
+							_('You can now enable the Google Apps for Work synchronization for users on the <i>Google Apps</i> tab in the %s.', [tools.linkToModule({module: 'udm', flavor: 'users/user'})]) + '<br>' + this.img(_('google_user.png'))
 					}]
 				}, {
-/*					name: 'success2',
-					headerText: _('Successfully configured Google Apps for Work'),
-					helpText: '',
+					name: 'success2',
+					headerText: _('Google Apps for Work setup complete'),
+					helpText: _('The configuration of synchronized attributes can be done via Univention Config Registry.'),
 					widgets: [{
 						type: Text,
 						name: 'infos',
-						content: '<p></p>'
+						content: this.formatParagraphs([
+							_('For each UCS user account for which Google Apps for Work is enabled, an account in the Google Apps for Work directory is created and selected account attributes get synchronized from UCS to the Google directory.'),
+							_('Via the Univention Config Registry variables <i>google-apps/attributes/mapping/.*</i> can be configured which LDAP attributes (e.g. given name, surname, etc.) of a user account are sychronized.') + ' ' +
+							_('You may add or remove attributes by using the %s.', [tools.linkToModule({module: 'ucr'})])
+						])
 					}]
 				}, {
-*/					name: 'success3',
-					headerText: _('Successfully configured Google Apps for Work'),
-					helpText: '',
+					name: 'success3',
+					headerText: _('Google Apps for Work setup complete'),
+					helpText: _('Users can now single sign on into the Google Apps for Work account.'),
 					widgets: [{
 						type: Text,
 						name: 'infos',
@@ -315,7 +319,7 @@ define([
 
 		getTextCreateServiceAccountKey: function() {
 			return this.formatOrderedList([
-				_('Navigate to <i>Credentials</i>') + this.img(_('credentials_nav.png')),
+				_('Navigate to <i>Credentials</i>.') + this.img(_('credentials_nav.png')),
 				_('Click on <i>Create credentials</i> and select <i>Service account key</i>.') + this.img(_('create_service_account_key.png')),
 				_('In the new window choose <i>New service account</i> from the drop down menu. Enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type. The <i>Service account ID</i> will be generated automatically and can be kept like this.') + this.img(_('new_service_account.png')),
 				_('This will offer you to download the key file after clicking on <i>Create</i>. Save this key file on your hard disk in a secure location.') + '<br>' + _('Then continue by clicking on <i>Next</i>.')
