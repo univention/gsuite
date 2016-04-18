@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-management-console-module-googleapps\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2016-04-18 15:10+0200\n"
+"POT-Creation-Date: 2016-04-18 15:23+0200\n"
 "PO-Revision-Date: 2016-04-13 08:42+0100\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: Univention GmbH <packages@univention.de>\n"
@@ -479,8 +479,16 @@ msgstr ""
 "Nachname, etc.) eines Benutzerkontos synchronisiert werden."
 
 #: umc/js/googleapps.js:61
-msgid "Welcome"
-msgstr "Willkommen"
+msgid "Welcome to the Google Apps for Work configuration"
+msgstr "Willkommen zur Google Apps for Work Konfiguration"
+
+#: umc/js/googleapps.js:62
+msgid ""
+"Welcome to the Google Apps for Work setup wizard. In a few steps you will "
+"setup a secure connection between UCS and the Google directory."
+msgstr ""
+"Willkommen zum Google Apps for Work Einrichtungsassistent. In einigen Schritte werden Sie helfen eine "
+"sichere Verbindung zum Google Verzeichnis herzustellen."
 
 #: umc/js/googleapps.js:298
 msgid ""
@@ -489,14 +497,6 @@ msgid ""
 msgstr ""
 "Willkommen zum Univention <a href=\"https://apps.google.com/\" target="
 "\"_blank\">Google Apps for Work</a> Konfigurationsassistenten."
-
-#: umc/js/googleapps.js:62
-msgid ""
-"Welcome. This wizard will help you setup a secure connection between UCS and "
-"the Google directory."
-msgstr ""
-"Willkommen. Dieser Einrichtungsassistent wird Ihnen dabei helfen eine "
-"sichere Verbindung zum Google Verzeichnis herzustellen."
 
 #: umc/js/googleapps.js:235
 #, python-format

@@ -58,8 +58,8 @@ define([
 			lang.mixin(this, {
 				pages: [{
 					name: 'start',
-					headerText: _('Welcome'),
-					helpText: _('Welcome. This wizard will help you setup a secure connection between UCS and the Google directory.'),
+					headerText: _('Welcome to the Google Apps for Work configuration'),
+					helpText: _('Welcome to the Google Apps for Work setup wizard. In a few steps you will setup a secure connection between UCS and the Google directory.'),
 					widgets: [{
 						type: Text,
 						name: 'already-initialized',
