@@ -1,2 +1,3 @@
 etc/univention-google-apps
 var/lib/univention-google-apps
+usr/share/pyshared/univention/admin/hooks.d
