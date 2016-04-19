@@ -1,11 +1,43 @@
-import re
+# -*- coding: utf-8 -*-
+#
+# Univention Google Apps for Work - UDM hook to set user property
+# UniventionGoogleAppsPrimaryEmail that is configured notEditable=1
+#
+# Copyright 2016 Univention GmbH
+#
+# http://www.univention.de/
+#
+# All rights reserved.
+#
+# The source code of this program is made available
+# under the terms of the GNU Affero General Public License version 3
+# (GNU AGPL V3) as published by the Free Software Foundation.
+#
+# Binary versions of this program provided by Univention to you as
+# well as other copyrighted, protected or trademarked materials like
+# Logos, graphics, fonts, specific documentations and configurations,
+# cryptographic keys etc. are subject to a license agreement between
+# you and Univention and not subject to the GNU AGPL V3.
+#
+# In the case you use this program under the terms of the GNU AGPL V3,
+# the program is provided in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License with the Debian GNU/Linux or Univention distribution in file
+# /usr/share/common-licenses/AGPL-3; if not, see
+# <http://www.gnu.org/licenses/>.
+
+import json
+import base64
+import zlib
 
 import univention.debug as ud
 from univention.admin.hook import simpleHook
 from univention.lib.i18n import Translation
 import univention.admin.uexceptions
-
-from univention.googleapps.auth import GappsAuth
 
 _ = Translation('univention-googleapps').translate
 msg_require_mail = _("Google Apps for Work users must have a primary e-mail address specified.")
@@ -18,15 +50,14 @@ class GooglePrimaryAdressHook(simpleHook):
 	def log(msg):
 		ud.debug(ud.LISTENER, ud.ERROR, msg)
 
-	@staticmethod
-	def get_google_primary_address(mailPrimaryAddress):
-		m = re.match(r"(.*)@([^@]*)", mailPrimaryAddress)
-		if m:
-			local_part, domain_part = m.groups()
-		else:
-			raise univention.admin.uexceptions.valueError(msg_require_mail)
-		domain_part = GappsAuth.get_domain()
-		return "{}@{}".format(local_part, domain_part)
+	def get_google_primary_address(self, gdata_encoded):
+		gdata = json.loads(zlib.decompress(base64.decodestring(gdata_encoded)))
+		try:
+			return gdata.get("primaryEmail")
+		except AttributeError:
+			# None
+			# (We should actually never get here, as long as UniventionGoogleAppsEnabled=1.)
+			return ""
 
 	def hook_ldap_pre_create(self, module):
 		if not module.get("mailPrimaryAddress"):
@@ -37,10 +68,12 @@ class GooglePrimaryAdressHook(simpleHook):
 			raise univention.admin.uexceptions.valueError(msg_require_mail)
 
 	def hook_ldap_modlist(self, module, ml=[]):
-		if module.get("UniventionGoogleAppsEnabled") and module.hasChanged("mailPrimaryAddress"):
-			ml.append((
-				"univentionGoogleAppsPrimaryEmail",
-				module.get("UniventionGoogleAppsPrimaryEmail"),
-				self.get_google_primary_address(module["mailPrimaryAddress"])
-			))
+		if module.hasChanged("UniventionGoogleAppsData"):
+			old = module.get("UniventionGoogleAppsPrimaryEmail")
+			if module.get("UniventionGoogleAppsEnabled"):
+				new = self.get_google_primary_address(module["UniventionGoogleAppsData"])
+			else:
+				new = ""
+			if old != new:
+				ml.append(("univentionGoogleAppsPrimaryEmail", old, new))
 		return ml
