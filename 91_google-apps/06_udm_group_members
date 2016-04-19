@@ -14,8 +14,7 @@ from univention.config_registry import handler_set
 
 from univention.googleapps.handler import GappsHandler, ResourceNotFoundError
 from univention.googleapps.listener import GoogleAppsListener
-from helpers.gapps_test_helpers import listener_attributes_data, udm_user_args, check_udm2google_user
-
+from helpers.gapps_test_helpers import listener_attributes_data, udm_user_args, check_udm2google_user, setup_domain
 gl = GoogleAppsListener(None, listener_attributes_data, {})
 gh = GappsHandler(None)
 
@@ -24,13 +23,8 @@ with udm_test.UCSTestUDM() as udm:
 		handler_set(["google-apps/groups/sync=yes", "google-apps/debug/werror=yes"])
 		utils.restart_listener()
 
-		print "*** Creating mail domain matching domain registered with google..."
 		maildomain = gh.get_primary_domain_from_disk()
-		udm.create_object(
-			"mail/domain",
-			position="cn=domain,cn=mail,{}".format(ucr["ldap/base"]),
-			name=maildomain
-		)
+		setup_domain(maildomain, udm, ucr)
 
 		group_name = uts.random_name()
 		group_email = "{}.{}@{}".format(group_name, uts.random_name()[:5], maildomain)

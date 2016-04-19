@@ -108,7 +108,6 @@ listener_attributes_data = dict(
 				value='%mobile'
 			)
 		],
-		primaryEmail='%mailPrimaryAddress',
 		relations=[
 			dict(
 				customType='secretary',
@@ -414,3 +413,16 @@ def check_udm2google_user(udm_args, g_user, domain=None, complete=True):
 				res.append((k, "'{}' (from {})".format(udm_value, udm_values), google_values))
 
 	return not fail, res
+
+
+def setup_domain(domainname, udm, ucr):
+		position = "cn=domain,cn=mail,{}".format(ucr["ldap/base"])
+		try:
+			utils.verify_ldap_object("cn={},{}".format(domainname, position))
+		except utils.LDAPObjectNotFound:
+			print "*** Creating mail domain matching domain registered with google..."
+			udm.create_object(
+				"mail/domain",
+				position=position,
+				name=domainname
+			)

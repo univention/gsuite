@@ -52,16 +52,16 @@ from univention.googleapps.logging2udebug import get_logger
 # attributes that should be anonymized (google-apps/attributes/anonymize):
 attributes_anonymize = list()
 # template of user resource, constructed from UCRVs:
-g_user_resource_template = dict()
+g_user_resource_template = dict(primaryEmail="%mailPrimaryAddress")
 # attributes that should not be synced (google-apps/attributes/never):
 attributes_never = list()
 # mapping from UCS LDAP attributes to properties in the template:
-ldap2google = dict()
+ldap2google = dict(mailPrimaryAddress=["primaryEmail"])
 # user is not allowed to set these:
 google_attributes_blacklisted = ["univentionGoogleAppsObjectID", "univentionGoogleAppsData", "kind", "id", "etag",
 	"isAdmin", "isDelegatedAdmin", "lastLoginTime", "creationTime", "deletionTime", "agreedToTerms", "password",
 	"hashFunction", "suspended", "suspensionReason", "changePasswordAtNextLogin", "ipWhitelisted", "nonEditableAliases",
-	"customerId", "isMailboxSetup", "thumbnailPhotoEtag"]
+	"customerId", "isMailboxSetup", "thumbnailPhotoEtag", "primaryEmail"]
 # used to create a correct user resource:
 # * check user supplied properties
 # * set the correct object type for each property
@@ -162,7 +162,7 @@ def get_listener_attributes():
 	attributes_anonymize.sort()
 	attributes_never.sort()
 
-	attrs = {"univentionGoogleAppsEnabled"}
+	attrs = {"univentionGoogleAppsEnabled", "mailPrimaryAddress"}
 	attrs.update(ldap2google.keys())
 	return sorted(list(attrs))
 

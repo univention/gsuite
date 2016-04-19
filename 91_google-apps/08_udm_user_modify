@@ -16,7 +16,7 @@ from univention.config_registry import handler_set, handler_unset
 
 from univention.googleapps.handler import GappsHandler
 from univention.googleapps.listener import GoogleAppsListener
-from helpers.gapps_test_helpers import udm_user_args, check_udm2google_user, listener_attributes_data
+from helpers.gapps_test_helpers import udm_user_args, check_udm2google_user, listener_attributes_data, setup_domain
 
 
 def _test(udm_args, a_user, domain, check_complete):
@@ -45,7 +45,6 @@ with utils.AutomaticListenerRestart() as alr:
 				"google-apps/attributes/mapping/addresses/3=type=custom,customType=locality,locality=%roomNumber",
 				"google-apps/attributes/mapping/emails/1=type=work,address=%mail",
 				"google-apps/attributes/mapping/emails/2=type=other,address=%mailAlternativeAddress",
-				"google-apps/attributes/mapping/primaryEmail=%mailPrimaryAddress",
 				"google-apps/attributes/mapping/organizations=primary=True,name=%o,description=%employeeType",
 				"google-apps/attributes/mapping/relations=type=custom,customType=secretary,value=%secretary",
 				"google-apps/attributes/mapping/externalIds=type=organization,value=%employeeNumber",
@@ -53,13 +52,8 @@ with utils.AutomaticListenerRestart() as alr:
 			])
 			utils.restart_listener()
 
-			print "*** Creating mail domain matching domain registered with google..."
 			maildomain = gh.get_primary_domain_from_disk()
-			udm.create_object(
-				"mail/domain",
-				position="cn=domain,cn=mail,{}".format(ucr["ldap/base"]),
-				name=maildomain
-			)
+			setup_domain(maildomain, udm, ucr)
 
 			user_args = udm_user_args(minimal=False)
 			user_args["set"]["UniventionGoogleAppsEnabled"] = 1

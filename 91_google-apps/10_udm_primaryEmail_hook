@@ -1,0 +1,52 @@
+#!/usr/share/ucs-test/runner python
+## -*- coding: utf-8 -*-
+## desc: test UDM hook that sets UniventionGoogleAppsPrimaryEmail
+## tags: [apptest]
+## exposure: dangerous
+## packages:
+##   - univention-google-apps
+
+import time
+
+import univention.testing.ucr as ucr_test
+import univention.testing.udm as udm_test
+import univention.testing.utils as utils
+
+from univention.googleapps.handler import GappsHandler
+from univention.googleapps.listener import GoogleAppsListener
+from helpers.gapps_test_helpers import udm_user_args, listener_attributes_data, setup_domain
+
+
+gl = GoogleAppsListener(None, listener_attributes_data, {})
+gh = GappsHandler(None)
+
+with udm_test.UCSTestUDM() as udm:
+	with ucr_test.UCSTestConfigRegistry() as ucr:
+		maildomain = gh.get_primary_domain_from_disk()
+		setup_domain(maildomain, udm, ucr)
+
+		user_args = udm_user_args(minimal=True)
+		user_args["set"]["UniventionGoogleAppsEnabled"] = 1
+
+		print "*** Creating user..."
+		user_dn, username = udm.create_user(check_for_drs_replication=True, **user_args)
+		time.sleep(5)
+
+		print "*** Checking that user was created (UniventionGoogleAppsObjectID in UDM object)..."
+		udm_user = gl.get_udm_user(user_dn)
+		if not udm_user.get("UniventionGoogleAppsObjectID"):
+			utils.fail("User was not created.")
+
+		print "*** Checking that primaryEmail was set to local part of mailPrimaryAddress and the primary domain registered with Google..."
+		google_user = gh.get_user(udm_user["UniventionGoogleAppsObjectID"], projection="full")
+		calc_mail = "{}@{}".format(user_args["set"]["mailPrimaryAddress"].rpartition("@")[0], maildomain)
+		if google_user["primaryEmail"] != calc_mail:
+			utils.fail("google_user[primaryEmail]='{}' but should be '{}'.".format(
+				google_user["primaryEmail"], calc_mail))
+
+		print "*** Checking that UniventionGoogleAppsPrimaryEmail was set to primaryEmail by UDM hook..."
+		if google_user["primaryEmail"] != udm_user["UniventionGoogleAppsPrimaryEmail"]:
+			import pprint
+			pprint.pprint(udm_user.__dict__)
+			utils.fail("UniventionGoogleAppsPrimaryEmail='{}' but should be '{}'.".format(
+				udm_user["UniventionGoogleAppsPrimaryEmail"], google_user["primaryEmail"]))
