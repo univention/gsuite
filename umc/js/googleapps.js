@@ -510,6 +510,21 @@ define([
 					this._wizard._progressDeferred.reject();
 				}
 			}));
+			this._wizard.set('headerButtons', [{
+				name: 'help',
+				iconClass: 'umcHelpIconWhite',
+				label: _('Help'),
+				callback: lang.hitch(this, function() {
+					dialog.alert([
+						_('This wizard helps you to configure the connection between UCS and Google Apps for Work.'), '<br>',
+						_('You need a <a href="%(domain)s" target="_blank">verified domain</a> and access to the <a href="%(dev)s" target="_blank">Google Developer Console</a> as well as to the <a href="%(admin)s" target="_blank">Google Admin Console</a> with a Google Apps for Work administrator account.', {
+							domain: _('https://support.google.com/a/topic/9196'),
+							dev: _('https://console.developers.google.com/'),
+							admin: _('https://admin.google.com/ManageOauthClients')
+						})
+					].join(' '), _('Google Apps for Work setup wizard'));
+				})
+			}]);
 		},
 
 		buildRendering: function() {

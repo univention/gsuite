@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-management-console-module-googleapps\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2016-04-20 09:21+0200\n"
+"POT-Creation-Date: 2016-04-20 12:38+0200\n"
 "PO-Revision-Date: 2016-04-13 08:42+0100\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: Univention GmbH <packages@univention.de>\n"
@@ -229,6 +229,14 @@ msgstr "Google Apps for Work Konfiguration"
 msgid "Google Apps for Work setup complete"
 msgstr "Google Apps for Work Einrichtung abgeschlossen"
 
+#: umc/js/googleapps.js:525
+msgid "Google Apps for Work setup wizard"
+msgstr "Google Apps for Work Einrichtungsassistent"
+
+#: umc/js/googleapps.js:516
+msgid "Help"
+msgstr "Hilfe"
+
 #: umc/js/googleapps.js:329
 msgid ""
 "In the new window choose <i>New service account</i> from the drop down menu. "
@@ -390,6 +398,14 @@ msgstr ""
 "herunterladen angeboten. Speichern Sie die Schlüsseldatei an einem sicheren "
 "Ort auf Ihrer Festplatte."
 
+#: umc/js/googleapps.js:519
+msgid ""
+"This wizard helps you to configure the connection between UCS and Google "
+"Apps for Work."
+msgstr ""
+"Dieser Einrichtungsassistent hilft Ihnen die Verbindung zwischen UCS und "
+"Google Apps for Work zu konfigurieren."
+
 #: umc/js/googleapps.js:162
 msgid ""
 "To allow UCS to automatically create, modify and delete Google user "
@@ -518,6 +534,19 @@ msgstr ""
 msgid "You may add or remove attributes by using the %s."
 msgstr "Sie können mithilfe des %s Attribute löschen oder hinzufügen."
 
+#: umc/js/googleapps.js:520
+#, python-format
+msgid ""
+"You need a <a href=\"%(domain)s\" target=\"_blank\">verified domain</a> and "
+"access to the <a href=\"%(dev)s\" target=\"_blank\">Google Developer "
+"Console</a> as well as to the <a href=\"%(admin)s\" target=\"_blank\">Google "
+"Admin Console</a> with a Google Apps for Work administrator account."
+msgstr ""
+"Sie benötigen eine <a href=\"%(domain)s\" target=\"_blank\">verifizierte "
+"Domäne</a> und Zugang mit einem Google Apps for Work Administratorkonto zur "
+"<a href=\"%(dev)s\" target=\"_blank\">Google Developer Console</a> und zur "
+"<a href=\"%(admin)s\" target=\"_blank\">Google Admin Console</a>."
+
 #: umc/js/googleapps.js:311
 msgid "admin_console_create_project_EN.png"
 msgstr "admin_console_create_project_DE.png"
@@ -569,6 +598,18 @@ msgstr "google_sso_DE.png"
 #: umc/js/googleapps.js:235
 msgid "google_user.png"
 msgstr "google_user_de.png"
+
+#: umc/js/googleapps.js:523
+msgid "https://admin.google.com/ManageOauthClients"
+msgstr "https://admin.google.com/ManageOauthClients"
+
+#: umc/js/googleapps.js:522
+msgid "https://console.developers.google.com/"
+msgstr "https://console.developers.google.com/"
+
+#: umc/js/googleapps.js:521
+msgid "https://support.google.com/a/topic/9196"
+msgstr "https://support.google.com/a/topic/9196?hl=de"
 
 #: umc/js/googleapps.js:312
 msgid "new_project.png"
