@@ -292,6 +292,10 @@ define([
 					widget.set('value', value);
 				}
 			}));
+			var infos = this.getWidget('single-sign-on-setup', 'infos');
+			infos.set('content', lang.replace(infos.get('content'), {
+				certificate_link: lang.replace('<a download="certificate.crt" href="data:application/octet-stream;charset=utf-8;base64,{certificate}" target="_blank">', data.result) + _('UCS Identity Provider certificate') + '</a>'
+			}));
 		},
 
 		getTextStart: function() {
@@ -313,7 +317,8 @@ define([
 			return this.formatOrderedList([
 				_('Make sure you are in the <i>API Manager</i>.') + this.img(_('api_manager_nav.png')),
 				_('Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section.') + this.img(_('google_admin_sdk_link.png')),
-				_('Enable it.') + this.img(_('google_admin_sdk_enable.png')) + '<br>' + _('This may take a minute. When Google has finished enabling the Admin SDK API, continue by clicking on <i>Next</i>.')
+				_('Enable it. This may take a minute.') + this.img(_('google_admin_sdk_enable.png')),
+				_('When Google has finished enabling the <i>Admin SDK API</i>, ignore the displayed notification and continue by clicking on <i>Next</i>.')
 			]);
 		},
 
@@ -348,7 +353,7 @@ define([
 			return this.formatOrderedList([
 				//<a href="{serviceaccounts_link}" target="_blank">Manage service accounts</a>
 				_('On the <i>Credentials</i> page in the Google Developers Console, click in the very right on <i>Manage service accounts</i>.'),
-				_('Then edit the service account you just created by clicking the three dots on the right.') + this.img(_('edit_service_account.png')),
+				_('Then edit the service account you just created by clicking the three dots on the right (please maximize your window if the three dots aren\'t shown).') + this.img(_('edit_service_account.png')),
 				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name for the consent screen</i> and click on <i>Save</i>.') + this.img(_('enable_delegation_and_prod_name.png')) + '<br>' + _('Continue by clicking on <i>Next</i>.')
 			]);
 		},
@@ -356,12 +361,12 @@ define([
 		getTextAuthorizeConnection: function() {
 			return _('To authorize the connection between this App and Google Apps for Work please follow these instructions:') + this.formatOrderedList([
 				_('<a href="https://admin.google.com/ManageOauthClients" target="_blank">Click here to access the Admin console</a> to <i>Manage API client access</i>.'),
-				_('Copy and paste the information below into the corresponding fields.') + this.img(_('authorize_api_access_EN.png'))
+				_('Copy and paste the information below into the corresponding fields (like seen in the screenshot below).')
 			]);
 		},
 
 		getTextAuthorizeConnectionEnd: function() {
-			return this.formatOrderedList([
+			 return this.img(_('authorize_api_access_EN.png')) + this.formatOrderedList([
 				_('Click on <i>Authorize</i> and continue this wizard by clicking on <i>Next</i>.')
 			], {start: 3});
 		},
@@ -369,17 +374,18 @@ define([
 		getTextSingleSignOnSetup: function() {
 			return '<p>' + _('To finalize the setup, single sign-on has to be configured for the Google Apps for Work domain.') + '</p>' + this.formatOrderedList([
 				_('Open the <a href="https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso" target="_blank">security settings in the Admin Console</a> to configure the single sign-on settings.'),
-				_('In the security settings only the checkbox <i>Setup SSO with third party identity provider</i> needs to be activated and the following values inserted into the input fields:') + this.img(_('google_sso_EN.png'))
+				_('Download the {certificate_link}.'),
+				_('Activate the checkbox <i>Setup SSO with third party identity provider</i> in the security settings.'),
+				_('Then upload the certificate as <i>Verification certificate</i> by clicking on <i>CHOOSE FILE</i> and <i>UPLOAD</i>.'),
+				_('As last step the following values needs to be inserted into the input fields as can be seen in the screenshot below:')
 			]);
 		},
 
 		getTextSingleSignOnSetupCertificate: function() {
 			return this.formatOrderedList([
-				_('After setting these addresses, click on <i>Save</i> in the Google Developers Console.'),
-				_('Download the <a download="certificate.crt" href="/simplesamlphp/saml2/idp/certificate" target="_blank">UCS Identity Provider certificate</a>.'),
-				_('Then upload it to the Google Developers Console under <i>Verification certificate</i>.'),
+				_('After setting these addresses, click on <i>Save</i>.') + this.img(_('google_sso_EN.png')),
 				_('Click on <i>Next</i> to complete the setup.')
-			], {start: 3});
+			], {start: 6});
 		},
 
 		formatParagraphs: function(data) {
