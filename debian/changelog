@@ -1,3 +1,9 @@
+univention-google-apps (0.0.16-3) unstable; urgency=low
+
+  * Bug #41019: bump
+
+ -- Daniel Troeder <troeder@univention.de>  Wed, 20 Apr 2016 12:48:56 +0200
+
 univention-google-apps (0.0.16-2) unstable; urgency=medium
 
   * Bug #41019: enhance wizard
