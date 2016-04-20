@@ -27,4 +27,4 @@ msgstr "Die hochgeladenen Datei ist keine JSON Schlüsseldatei."
 
 #: umc/python/googleapps/__init__.py:131
 msgid "Waiting for Google directory to authorize the connection."
-msgstr "Warte auf das Google Verzeichnis um die Verbindung zu authorisieren."
+msgstr "Warte auf das Google Verzeichnis um die Verbindung zu autorisieren."
