@@ -59,7 +59,7 @@ define([
 				pages: [{
 					name: 'start',
 					headerText: _('Welcome to the Google Apps for Work configuration'),
-					helpText: _('Welcome to the Google Apps for Work setup wizard. In a few steps you will setup a secure connection between UCS and the Google directory.'),
+					helpText: _('Welcome to the Google Apps for Work setup wizard. A few steps are needed to complete the configuration process.'),
 					widgets: [{
 						type: Text,
 						name: 'already-initialized',
@@ -300,7 +300,7 @@ define([
 
 		getTextStart: function() {
 			return '<p>' + _('Welcome to the Univention <a href="https://apps.google.com/" target="_blank">Google Apps for Work</a> configuration wizard.') + '</p><p>' +
-				_('It will guide you through the process of setting up a secure connection to the Google Directory, so that UCS can automatically provision Google Apps for Work accounts.') + '</p><p>' +
+				_('The wizard will guide you through the process of setting up a secure connection to the directory in Google Apps for Work. Thereby UCS is able to automatically provision accounts in Google Apps for Work.') + '</p><p>' +
 				_('To use this app you need a valid Google Apps for Work admin acccount and a domain for which the ownership has been <a href="https://support.google.com/a/topic/9196" target="_blank">verified by Google</a>.') +
 				'</p>';
 		},

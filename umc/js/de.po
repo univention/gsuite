@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-management-console-module-googleapps\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2016-04-20 12:38+0200\n"
+"POT-Creation-Date: 2016-04-21 13:00+0200\n"
 "PO-Revision-Date: 2016-04-13 08:42+0100\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: Univention GmbH <packages@univention.de>\n"
@@ -146,7 +146,7 @@ msgid ""
 "Create an encryption key to securly authenticate the UCS server to the "
 "Google directory."
 msgstr ""
-"Erstellen Sie ein Schlüssel um UCS sicher mit dem Google Verzeichnis zu "
+"Erstellen Sie einen Schlüssel, um UCS sicher mit dem Google Verzeichnis zu "
 "authentifizieren."
 
 #: umc/js/googleapps.js:93
@@ -248,16 +248,6 @@ msgstr ""
 "Liste. Geben Sie einen Namen für das Dienstkonto ein (z.B. <i>UCS sync</i>) "
 "und wählen Sie <i>JSON</i> als Schlüsseltyp aus. Die <i>Dienstkonten-ID</i> "
 "wird automatisch erstellt und kann so beibehalten werden."
-
-#: umc/js/googleapps.js:303
-msgid ""
-"It will guide you through the process of setting up a secure connection to "
-"the Google Directory, so that UCS can automatically provision Google Apps "
-"for Work accounts."
-msgstr ""
-"Er wird Sie durch den Prozess begleiten, eine sichere Verbindung zum Google "
-"Verzeichnis herzustellen um UCS zu ermöglichen automatisch Google Apps for "
-"Work Konten einzurichten."
 
 #: umc/js/googleapps.js:310
 msgid ""
@@ -368,6 +358,16 @@ msgstr ""
 "benutzt haben. Die E-Mail Adresse kann durch klicken auf den Profil-Button "
 "in der oberen rechten Ecke angezeigt werden."
 
+#: umc/js/googleapps.js:303
+msgid ""
+"The wizard will guide you through the process of setting up a secure "
+"connection to the directory in Google Apps for Work. Thereby UCS is able to "
+"automatically provision accounts in Google Apps for Work."
+msgstr ""
+"Der Assistent wird Sie durch den Prozess begleiten, eine sichere Verbindung "
+"zum Verzeichnis in Google Apps for Work herzustellen. Damit ist es UCS "
+"möglich, automatisch Konten bei Google Apps for Work einzurichten."
+
 #: umc/js/googleapps.js:330
 msgid "Then continue by clicking on <i>Next</i>."
 msgstr "Danach fahren sie durch klicken auf <i>Weiter</i> fort."
@@ -394,7 +394,7 @@ msgid ""
 "This will offer you to download the key file after clicking on <i>Create</"
 "i>. Save this key file on your hard disk in a secure location."
 msgstr ""
-"Nach dem klicken auf <i>Erstellen</i> wird die Schlüsseldatei zum "
+"Nach dem Klicken auf <i>Erstellen</i> wird die Schlüsseldatei zum "
 "herunterladen angeboten. Speichern Sie die Schlüsseldatei an einem sicheren "
 "Ort auf Ihrer Festplatte."
 
@@ -411,8 +411,8 @@ msgid ""
 "To allow UCS to automatically create, modify and delete Google user "
 "accounts, \"Domain-wide Delegation\" must be enabled for the service account."
 msgstr ""
-"Um UCS zu erlauben, automatisch Google Benutzerkonten zu erstellen, "
-"bearbeiten und löschen muss die \"Domain-weite Delegation\" für dieses "
+"Um UCS zu erlauben, automatisch Google Benutzerkonten zu erstellen, zu "
+"bearbeiten und zu löschen, muss die \"Domain-weite Delegation\" für dieses "
 "Dienstkonto aktiviert werden."
 
 #: umc/js/googleapps.js:76
@@ -496,12 +496,11 @@ msgstr "Willkommen zur Google Apps for Work Konfiguration"
 
 #: umc/js/googleapps.js:62
 msgid ""
-"Welcome to the Google Apps for Work setup wizard. In a few steps you will "
-"setup a secure connection between UCS and the Google directory."
+"Welcome to the Google Apps for Work setup wizard. A few steps are needed to "
+"complete the configuration process."
 msgstr ""
-"Willkommen zum Google Apps for Work Einrichtungsassistent. In einigen "
-"Schritte werden Sie helfen eine sichere Verbindung zum Google Verzeichnis "
-"herzustellen."
+"Willkommen zum Google Apps for Work Einrichtungsassistent. Es sind einige "
+"Schritte notwendig, um den Konfigurationsprozess fertigzustellen."
 
 #: umc/js/googleapps.js:302
 msgid ""
