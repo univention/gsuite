@@ -292,10 +292,6 @@ define([
 					widget.set('value', value);
 				}
 			}));
-			var infos = this.getWidget('single-sign-on-setup', 'infos');
-			infos.set('content', lang.replace(infos.get('content'), {
-				certificate_link: lang.replace('<a download="certificate.crt" href="data:application/octet-stream;charset=utf-8;base64,{certificate}" target="_blank">', data.result) + _('UCS Identity Provider certificate') + '</a>'
-			}));
 		},
 
 		getTextStart: function() {
@@ -374,7 +370,7 @@ define([
 		getTextSingleSignOnSetup: function() {
 			return '<p>' + _('To finalize the setup, single sign-on has to be configured for the Google Apps for Work domain.') + '</p>' + this.formatOrderedList([
 				_('Open the <a href="https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso" target="_blank">security settings in the Admin Console</a> to configure the single sign-on settings.'),
-				_('Download the {certificate_link}.'),
+				lang.replace(_('Download the {certificate_link}.'), {certificate_link: '<a href="/univention-management-console/command/googleapps/certificate.crt" target="_blank">' + _('UCS Identity Provider certificate') + '</a>'}),
 				_('Activate the checkbox <i>Setup SSO with third party identity provider</i> in the security settings.'),
 				_('Then upload the certificate as <i>Verification certificate</i> by clicking on <i>CHOOSE FILE</i> and <i>UPLOAD</i>.'),
 				_('As last step the following values needs to be inserted into the input fields as can be seen in the screenshot below:')

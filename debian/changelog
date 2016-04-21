@@ -1,3 +1,9 @@
+univention-google-apps (0.0.17-1) unstable; urgency=medium
+
+  * Bug #41019: fix certificate download in IE11
+
+ -- Florian Best <best@univention.de>  Thu, 21 Apr 2016 13:24:59 +0200
+
 univention-google-apps (0.0.16-3) unstable; urgency=low
 
   * Bug #41019: bump

@@ -81,14 +81,16 @@ class Instance(Base):
 	def query(self):
 		fqdn = '%s.%s' % (ucr['hostname'], ucr['domainname'])
 		sso_fqdn = ucr.get('ucs/server/sso/fqdn', 'ucs-sso.%s' % (ucr['domainname'],))
+		return {
+			'initialized': GappsAuth.is_initialized(),
+			'sign-in-url': 'https://%s/simplesamlphp/saml2/idp/SSOService.php' % (sso_fqdn,),
+			'sign-out-url': 'https://%s/simplesamlphp/saml2/idp/initSLO.php?RelayState=/simplesamlphp/logout.php' % (sso_fqdn,),
+			'change-password-url': 'https://%s/univention-management-console/' % (fqdn,),
+		}
+
+	def certificate(self, request):
 		with open(ucr['saml/idp/certificate/certificate'], 'rb') as fd:
-			return {
-				'initialized': GappsAuth.is_initialized(),
-				'sign-in-url': 'https://%s/simplesamlphp/saml2/idp/SSOService.php' % (sso_fqdn,),
-				'sign-out-url': 'https://%s/simplesamlphp/saml2/idp/initSLO.php?RelayState=/simplesamlphp/logout.php' % (sso_fqdn,),
-				'change-password-url': 'https://%s/univention-management-console/' % (fqdn,),
-				'certificate': fd.read().encode('base64').rstrip(),
-			}
+			self.finished(request.id, fd.read(), mimetype='application/octet-stream')
 
 	@file_upload
 	@sanitize(DictSanitizer(dict(

@@ -10,5 +10,6 @@
 		<command name="googleapps/query" function="query"/>
 		<command name="googleapps/upload" function="upload"/>
 		<command name="googleapps/state" function="state"/>
+		<command name="googleapps/certificate.crt" function="certificate"/>
 	</module>
 </umc>

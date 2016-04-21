@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-management-console-module-googleapps\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2016-04-20 09:21+0200\n"
+"POT-Creation-Date: 2016-04-21 13:24+0200\n"
 "PO-Revision-Date: 2016-01-14 11:26+0100\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: Univention GmbH <packages@univention.de>\n"
@@ -12,19 +12,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: umc/python/googleapps/__init__.py:121
+#: umc/python/googleapps/__init__.py:123
 msgid "The configuration of Google Apps for Work is not yet complete."
 msgstr ""
 "Die Konfiguration von Google Apps for Work ist noch nicht abgeschlossen."
 
-#: umc/python/googleapps/__init__.py:116
+#: umc/python/googleapps/__init__.py:118
 msgid "The credentials have been successfully uploaded."
 msgstr "Die Zugangsdaten wurden erfolgreich hochgeladen."
 
-#: umc/python/googleapps/__init__.py:107
+#: umc/python/googleapps/__init__.py:109
 msgid "The uploaded file is not a JSON credentials file."
 msgstr "Die hochgeladenen Datei ist keine JSON Schlüsseldatei."
 
-#: umc/python/googleapps/__init__.py:131
+#: umc/python/googleapps/__init__.py:133
 msgid "Waiting for Google directory to authorize the connection."
 msgstr "Warte auf das Google Verzeichnis um die Verbindung zu autorisieren."
