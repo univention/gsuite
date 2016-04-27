@@ -498,7 +498,7 @@ define([
 			this._wizard = new SetupWizard({
 				umcpCommand: lang.hitch(this, 'umcpCommand')
 			});
-			this.standbyDuring(this.umcpCommand('googleapps/query').then(lang.hitch(this._wizard, 'initWizard')));
+			this.standbyDuring(this.umcpCommand('googleapps/query').then(lang.hitch(this._wizard, 'initWizard'), lang.hitch(this, 'closeModule')));
 			this._wizard.on('finished', lang.hitch(this, 'closeModule'));
 			this._wizard.on('cancel', lang.hitch(this, 'closeModule'));
 			this.on('close', lang.hitch(this, function() {
