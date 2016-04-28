@@ -64,7 +64,7 @@ msgstr ""
 
 #: umc/js/googleapps.js:170
 msgid "Authorize connection between Google and UCS"
-msgstr "Verbindung zwischen Google und UCS authorisieren."
+msgstr "Verbindung zwischen Google und UCS autorisieren."
 
 #: umc/js/googleapps.js:218
 msgid "Change password URL"
@@ -430,7 +430,7 @@ msgid ""
 "follow these instructions:"
 msgstr ""
 "Um die Verbindung zwischen dieser App und Google Apps for Work zu "
-"authorisieren folgen Sie bitte den Anweisungen:"
+"autorisieren folgen Sie bitte den Anweisungen:"
 
 #: umc/js/googleapps.js:371
 msgid ""
