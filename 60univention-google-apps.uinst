@@ -34,6 +34,7 @@
 VERSION=1
 
 . /usr/share/univention-join/joinscripthelper.lib
+. /usr/share/univention-lib/base.sh
 . /usr/share/univention-lib/ldap.sh
 
 joinscript_init
@@ -52,6 +53,8 @@ then
 	udm settings/extended_attribute remove "$@" \
 		--dn "cn=UniventionGoogleAppsGroupObjectID,cn=custom attributes,cn=univention,$ldap_base"
 fi
+
+stop_udm_cli_server
 
 joinscript_remove_script_from_status_file univention-google-apps
 

@@ -34,6 +34,7 @@
 VERSION=1
 
 . /usr/share/univention-join/joinscripthelper.lib
+. /usr/share/univention-lib/base.sh
 . /usr/share/univention-lib/ldap.sh
 
 joinscript_init
@@ -240,6 +241,8 @@ if ! udm mail/domain list "$@" | grep -q "name: $domainname" ; then
 			--set name="$domain" || die
 	done
 fi
+
+stop_udm_cli_server
 
 joinscript_save_current_version
 
