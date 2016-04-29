@@ -45,6 +45,7 @@ from univention.googleapps.logging2udebug import get_logger
 from univention.lib.i18n import Translation
 from univention.config_registry import ConfigRegistry
 from univention.config_registry.frontend import ucr_update
+from univention.config_registry import handler_commit
 import univention.admin.modules as udm_modules
 import univention.admin.objects as udm_objects
 import univention.admin.uexceptions as udm_exceptions
@@ -219,6 +220,7 @@ class GappsAuth(object):
 			"ucs/web/overview/entries/service/SP/priority": "50",
 			"ucs/web/overview/entries/service/SP/icon": "/googleapps.png"
 			})
+		handler_commit(['/etc/simplesamlphp/metadata.d/google-apps-for-work.php'])
 
 	@classmethod
 	def get_domain(cls):

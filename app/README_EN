@@ -1,0 +1,7 @@
+<p>The Google Apps for Work connector allows to easily provision Google accounts with single sign-on for users.</p>
+<ul>
+    <li>To use this app, a Google Apps for Work administrator account is required.</li>
+    <li>To test Google Apps for Work free of charge for a month, a test account can be created at <a href="https://apps.google.com/">apps.google.com</a>.</li>
+    <li>To create, modify and delete accounts, this app needs administrative access to the Google Apps for Work account. A <a href="javascript:void(0)" onclick="require('umc/app').openModule('googleapps')">setup wizard</a> will guide you through the configuration process.</li>
+</ul>
+<p>Users need to be modified in the <a href="javascript:void(0)" onclick="require('umc/app').openModule('udm', 'users/user')">Domain administration</a> in order to use this service.</p>

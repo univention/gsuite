@@ -84,7 +84,7 @@ class Instance(Base):
 		return {
 			'initialized': GappsAuth.is_initialized(),
 			'sign-in-url': 'https://%s/simplesamlphp/saml2/idp/SSOService.php' % (sso_fqdn,),
-			'sign-out-url': 'https://%s/simplesamlphp/saml2/idp/initSLO.php?RelayState=/simplesamlphp/logout.php' % (sso_fqdn,),
+			'sign-out-url': 'https://%s/simplesamlphp/saml2/idp/SingleLogoutService.php?ReturnTo=/ucs-overview' % (sso_fqdn,),
 			'change-password-url': 'https://%s/univention-management-console/' % (fqdn,),
 		}
 

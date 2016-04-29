@@ -1,3 +1,12 @@
+univention-google-apps (0.0.19-2) unstable; urgency=medium
+
+  * Bug #37949: Only rely on univentionGoogleAppsEnabled to enable SSO
+  * Ship own sso metadata for google-apps, do not reuse existing udm object
+  * Add dependency on python-univention-directory-manager (>= 11.0.2-15)
+  * Commit current app metadata
+
+ -- Erik Damrose <damrose@univention.de>  Fri, 29 Apr 2016 17:05:58 +0200
+
 univention-google-apps (0.0.19-1) unstable; urgency=medium
 
   * Bug #41019: prevent form submit on enter
