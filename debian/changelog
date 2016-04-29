@@ -1,3 +1,9 @@
+univention-google-apps (0.0.18-1) unstable; urgency=medium
+
+  * Bug #41019: textual changes
+
+ -- Florian Best <best@univention.de>  Fri, 29 Apr 2016 10:15:58 +0200
+
 univention-google-apps (0.0.17-1) unstable; urgency=medium
 
   * Bug #41019: fix certificate download in IE11

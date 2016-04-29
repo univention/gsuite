@@ -320,7 +320,7 @@ msgid ""
 "a>."
 msgstr ""
 "Synchronisierte Benutzer können sich bei Google Apps for Work anmelden, "
-"indem sie den Link auf der <a href=\"/ucs-overview#services\" target=\"_blank"
+"indem Sie den Link auf der <a href=\"/ucs-overview#services\" target=\"_blank"
 "\">UCS Übersichtsseite</a> nutzen."
 
 #: umc/js/googleapps.js:85
