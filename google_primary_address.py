@@ -60,11 +60,11 @@ class GooglePrimaryAdressHook(simpleHook):
 			return ""
 
 	def hook_ldap_pre_create(self, module):
-		if not module.get("mailPrimaryAddress"):
+		if module.get("UniventionGoogleAppsEnabled") and not module.get("mailPrimaryAddress"):
 			raise univention.admin.uexceptions.valueError(msg_require_mail)
 
 	def hook_ldap_pre_modify(self, module):
-		if not module.get("mailPrimaryAddress"):
+		if module.get("UniventionGoogleAppsEnabled") and not module.get("mailPrimaryAddress"):
 			raise univention.admin.uexceptions.valueError(msg_require_mail)
 
 	def hook_ldap_modlist(self, module, ml=[]):
