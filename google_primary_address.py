@@ -50,6 +50,14 @@ class GooglePrimaryAdressHook(simpleHook):
 	def log(msg):
 		ud.debug(ud.LISTENER, ud.ERROR, msg)
 
+	@staticmethod
+	def str2bool(val):
+		try:
+			return bool(int(val))
+		except TypeError:
+			# None
+			return False
+
 	def get_google_primary_address(self, gdata_encoded):
 		gdata = json.loads(zlib.decompress(base64.decodestring(gdata_encoded)))
 		try:
@@ -60,17 +68,17 @@ class GooglePrimaryAdressHook(simpleHook):
 			return ""
 
 	def hook_ldap_pre_create(self, module):
-		if module.get("UniventionGoogleAppsEnabled") and not module.get("mailPrimaryAddress"):
+		if self.str2bool(module.get("UniventionGoogleAppsEnabled")) and not module.get("mailPrimaryAddress"):
 			raise univention.admin.uexceptions.valueError(msg_require_mail)
 
 	def hook_ldap_pre_modify(self, module):
-		if module.get("UniventionGoogleAppsEnabled") and not module.get("mailPrimaryAddress"):
+		if self.str2bool(module.get("UniventionGoogleAppsEnabled")) and not module.get("mailPrimaryAddress"):
 			raise univention.admin.uexceptions.valueError(msg_require_mail)
 
 	def hook_ldap_modlist(self, module, ml=[]):
 		if module.hasChanged("UniventionGoogleAppsData"):
 			old = module.get("UniventionGoogleAppsPrimaryEmail")
-			if module.get("UniventionGoogleAppsEnabled"):
+			if self.str2bool(module.get("UniventionGoogleAppsEnabled")):
 				new = self.get_google_primary_address(module["UniventionGoogleAppsData"])
 			else:
 				new = ""
