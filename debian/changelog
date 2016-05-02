@@ -1,3 +1,9 @@
+univention-google-apps (0.0.19-4) unstable; urgency=low
+
+  * Bug #41019: update UMC users module screenshot
+
+ -- Daniel Troeder <troeder@univention.de>  Mon, 02 May 2016 10:47:11 +0200
+
 univention-google-apps (0.0.19-3) unstable; urgency=medium
 
   * Bug #37949: Remove overview links in unjoin script
