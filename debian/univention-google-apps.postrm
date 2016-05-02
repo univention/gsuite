@@ -38,12 +38,4 @@ then
 	call_unjoinscript 60univention-google-apps.uinst
 fi
 
-ucr unset ucs/web/overview/entries/service/SP/description \
-	ucs/web/overview/entries/service/SP/label \
-	ucs/web/overview/entries/service/SP/link \
-	ucs/web/overview/entries/service/SP/description/de \
-	ucs/web/overview/entries/service/SP/label/de \
-	ucs/web/overview/entries/service/SP/priority \
-	ucs/web/overview/entries/service/SP/icon
-
 exit 0
