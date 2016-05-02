@@ -206,7 +206,8 @@ fi
 univention-directory-manager settings/usertemplate create "$@" --ignore_exists \
 	--position "cn=templates,cn=univention,$ldap_base" \
 	--set name="Google Apps for Work Account" \
-	--set UniventionGoogleAppsEnabled="1" || die
+	--set UniventionGoogleAppsEnabled="1" \
+	--set mailPrimaryAddress="<username>@$domainname" || die
 
 # create mail domain object(s) if missing
 if ! udm mail/domain list "$@" | grep -q "name: $domainname" ; then
