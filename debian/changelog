@@ -1,3 +1,9 @@
+univention-google-apps (0.0.19-5) unstable; urgency=low
+
+  * Bug #41185: fix crash on deleted attributes
+
+ -- Daniel Troeder <troeder@univention.de>  Mon, 02 May 2016 15:15:01 +0200
+
 univention-google-apps (0.0.19-4) unstable; urgency=low
 
   * Bug #41019: update UMC users module screenshot

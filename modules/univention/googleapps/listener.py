@@ -151,7 +151,7 @@ class GoogleAppsListener(object):
 			logger.debug("No modifications - nothing to do.")  # DEBUG
 			return
 		logger.debug("modifications: %r",
-			["{} ({}): {}".format(mod, ",".join(self.attrs["google_attribs"][mod]), new[mod]) for mod in modifications])
+			["{} ({}): {}".format(mod, ",".join(self.attrs["google_attribs"][mod]), new.get(mod)) for mod in modifications])
 
 		changed_google_properties = set()
 		for modification in modifications:
