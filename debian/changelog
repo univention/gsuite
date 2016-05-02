@@ -1,3 +1,9 @@
+univention-google-apps (0.0.19-7) unstable; urgency=medium
+
+  * Bug #37949: Remove install instruction for removed directory
+
+ -- Erik Damrose <damrose@univention.de>  Mon, 02 May 2016 16:27:58 +0200
+
 univention-google-apps (0.0.19-6) unstable; urgency=medium
 
   * Bug #37949: do not use default simplesamlphp include directory
