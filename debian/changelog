@@ -1,3 +1,9 @@
+univention-google-apps (0.0.19-6) unstable; urgency=medium
+
+  * Bug #37949: do not use default simplesamlphp include directory
+
+ -- Erik Damrose <damrose@univention.de>  Mon, 02 May 2016 16:25:38 +0200
+
 univention-google-apps (0.0.19-5) unstable; urgency=low
 
   * Bug #41185: fix crash on deleted attributes

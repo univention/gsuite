@@ -6,4 +6,4 @@ Multifile: etc/simplesamlphp/metadata/saml20-sp-remote.php
 Subfile: etc/simplesamlphp/metadata/50univention-google-apps.php
 
 Type: file
-File: etc/simplesamlphp/metadata.d/google-apps-for-work.php
+File: etc/simplesamlphp/metadata.include/google-apps-for-work.php

@@ -220,7 +220,7 @@ class GappsAuth(object):
 			"ucs/web/overview/entries/service/SP/priority": "50",
 			"ucs/web/overview/entries/service/SP/icon": "/googleapps.png"
 			})
-		handler_commit(['/etc/simplesamlphp/metadata.d/google-apps-for-work.php'])
+		handler_commit(['/etc/simplesamlphp/metadata.include/google-apps-for-work.php'])
 
 	@classmethod
 	def get_domain(cls):
