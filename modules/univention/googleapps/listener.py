@@ -153,6 +153,13 @@ class GoogleAppsListener(object):
 		logger.debug("modifications: %r",
 			["{} ({}): {}".format(mod, ",".join(self.attrs["google_attribs"][mod]), new.get(mod)) for mod in modifications])
 
+		if any([x in modifications for x in ["displayName", "familyName", "givenName"]]):
+			# GThe gogle directory will only accept a complete 'name' property.
+			# Setting any of the values to None will make it ignore the change.
+			new["displayName"] = new.get("displayName", "")
+			new["familyName"] = new.get("familyName", "")
+			new["givenName"] = new.get("givenName", "")
+
 		changed_google_properties = set()
 		for modification in modifications:
 			try:
