@@ -1,9 +1,9 @@
 .umc-googleapps-page .umcPageIcon {
     background-repeat: no-repeat;
-    height: 120px;
+    height: 150px;
     background-size: contain;
     background-position: center bottom;
-    background-image: url(googleapps/google.png);
+    background-image: url(googleapps/logo.svg);
 }
 
 .umc .umc-googleapps-page .umcPageHelpText {

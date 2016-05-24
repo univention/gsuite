@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <umc version="2.0">
-	<module id="googleapps" priority="50" version="1.0" icon="googleapps">
+	<module id="googleapps" priority="50" version="1.0">
 		<name>Google Apps for Work setup wizard</name>
 		<description>Configuration of the Google Apps for Work connector</description>
 		<keywords></keywords>

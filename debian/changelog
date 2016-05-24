@@ -1,3 +1,9 @@
+univention-google-apps (0.0.19-10) unstable; urgency=medium
+
+  * Bug #41258: Update logos
+
+ -- Erik Damrose <damrose@univention.de>  Tue, 24 May 2016 17:08:37 +0200
+
 univention-google-apps (0.0.19-9) unstable; urgency=low
 
   * Bug #41185: fix special case of property 'name'
