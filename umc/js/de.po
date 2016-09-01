@@ -75,7 +75,7 @@ msgid ""
 "Click on <i>Authorize</i> and continue this wizard by clicking on <i>Next</"
 "i>."
 msgstr ""
-"Klicken Sie auf <i>Authorisieren</i> und fahren sie im "
+"Klicken Sie auf <i>Autorisieren</i> und fahren sie im "
 "Einrichtungsassistenten durch klicken auf <i>Weiter</i> fort."
 
 #: umc/js/googleapps.js:324
