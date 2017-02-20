@@ -316,12 +316,12 @@ msgstr "Single Sign-On Konfiguration"
 #: umc/js/googleapps.js:257
 msgid ""
 "Synchronized users can log into Google Apps for Work by using the link on "
-"the <a href=\"/ucs-overview#services\" target=\"_blank\">UCS overview page</"
+"the <a href=\"/univention/\" target=\"_blank\">UCS portal</"
 "a>."
 msgstr ""
 "Synchronisierte Benutzer können sich bei Google Apps for Work anmelden, "
-"indem Sie den Link auf der <a href=\"/ucs-overview#services\" target=\"_blank"
-"\">UCS Übersichtsseite</a> nutzen."
+"indem Sie den Link auf dem <a href=\"/univention/\" target=\"_blank"
+"\">UCS Portal</a> nutzen."
 
 #: umc/js/googleapps.js:85
 msgid ""

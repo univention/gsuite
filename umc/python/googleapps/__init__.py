@@ -39,7 +39,7 @@ from univention.lib.i18n import Translation
 from univention.management.console.base import Base, UMC_Error, UMC_OptionSanitizeError
 from univention.management.console.config import ucr
 
-from univention.management.console.modules.decorators import sanitize, simple_response, file_upload
+from univention.management.console.modules.decorators import sanitize, simple_response, file_upload, allow_get_request
 from univention.management.console.modules.sanitizers import StringSanitizer, DictSanitizer, EmailSanitizer, ValidationError, MultiValidationError
 
 from univention.googleapps.auth import GappsAuth, SCOPE, GoogleAppError, AuthenticationError, AuthenticationErrorRetry
@@ -84,10 +84,11 @@ class Instance(Base):
 		return {
 			'initialized': GappsAuth.is_initialized(),
 			'sign-in-url': 'https://%s/simplesamlphp/saml2/idp/SSOService.php' % (sso_fqdn,),
-			'sign-out-url': 'https://%s/simplesamlphp/saml2/idp/SingleLogoutService.php?ReturnTo=/ucs-overview' % (sso_fqdn,),
-			'change-password-url': 'https://%s/univention-management-console/' % (fqdn,),
+			'sign-out-url': 'https://%s/simplesamlphp/saml2/idp/SingleLogoutService.php?ReturnTo=/univention/' % (sso_fqdn,),
+			'change-password-url': 'https://%s/univention/management/' % (fqdn,),
 		}
 
+	@allow_get_request
 	def certificate(self, request):
 		with open(ucr['saml/idp/certificate/certificate'], 'rb') as fd:
 			self.finished(request.id, fd.read(), mimetype='application/octet-stream')
@@ -114,7 +115,7 @@ class Instance(Base):
 		self.finished(request.id, {
 			'client_id': data['client_id'],
 			'scope': ','.join(SCOPE),
-#			'serviceaccounts_link': 'https://console.developers.google.com/permissions/serviceaccounts?project=%s' % (urllib.quote(data['project_id']),)
+			# 'serviceaccounts_link': 'https://console.developers.google.com/permissions/serviceaccounts?project=%s' % (urllib.quote(data['project_id']),)
 		}, message=_('The credentials have been successfully uploaded.'))
 
 	@simple_response

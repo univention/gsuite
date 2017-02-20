@@ -254,7 +254,7 @@ define([
 					widgets: [{
 						type: Text,
 						name: 'infos',
-						content: _('Synchronized users can log into Google Apps for Work by using the link on the <a href="/ucs-overview#services" target="_blank">UCS overview page</a>.') + '<br>' + this.img(_('google-sso-login.png'))
+						content: _('Synchronized users can log into Google Apps for Work by using the link on the <a href="/univention/" target="_blank">UCS portal</a>.') + '<br>' + this.img(_('google-sso-login.png'))
 					}]
 				}, {
 					name: 'error',
@@ -373,7 +373,7 @@ define([
 		getTextSingleSignOnSetup: function() {
 			return '<p>' + _('To finalize the setup, single sign-on has to be configured for the Google Apps for Work domain.') + '</p>' + this.formatOrderedList([
 				_('Open the <a href="https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso" target="_blank">security settings in the Admin Console</a> to configure the single sign-on settings.'),
-				lang.replace(_('Download the {certificate_link}.'), {certificate_link: '<a href="/univention-management-console/command/googleapps/certificate.crt" target="_blank">' + _('UCS Identity Provider certificate') + '</a>'}),
+				lang.replace(_('Download the {certificate_link}.'), {certificate_link: '<a href="/univention/command/googleapps/certificate.crt" target="_blank">' + _('UCS Identity Provider certificate') + '</a>'}),
 				_('Activate the checkbox <i>Setup SSO with third party identity provider</i> in the security settings.'),
 				_('Then upload the certificate as <i>Verification certificate</i> by clicking on <i>CHOOSE FILE</i> and <i>UPLOAD</i>.'),
 				_('As last step the following values needs to be inserted into the input fields as can be seen in the screenshot below:')
