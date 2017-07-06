@@ -48,7 +48,6 @@ from univention.googleapps.auth import GappsAuth
 from univention.googleapps.listener import GoogleAppsListener
 from univention.googleapps.logging2udebug import get_logger
 
-
 # attributes that should be anonymized (google-apps/attributes/anonymize):
 attributes_anonymize = list()
 # template of user resource, constructed from UCRVs:
@@ -60,7 +59,7 @@ ldap2google = dict(mailPrimaryAddress=["primaryEmail"])
 # user is not allowed to set these:
 google_attributes_blacklisted = ["univentionGoogleAppsObjectID", "univentionGoogleAppsData", "kind", "id", "etag",
 	"isAdmin", "isDelegatedAdmin", "lastLoginTime", "creationTime", "deletionTime", "agreedToTerms", "password",
-	"hashFunction", "suspended", "suspensionReason", "changePasswordAtNextLogin", "ipWhitelisted", "nonEditableAliases",
+	"hashFunction", "changePasswordAtNextLogin", "ipWhitelisted", "nonEditableAliases",
 	"customerId", "isMailboxSetup", "thumbnailPhotoEtag", "primaryEmail"]
 # used to create a correct user resource:
 # * check user supplied properties
@@ -73,6 +72,9 @@ google_user_property_types = dict(addresses=list, agreedToTerms=bool, aliases=li
 	notes=dict, orgUnitPath=unicode, organizations=list, password=unicode, phones=list, primaryEmail=unicode,
 	relations=list, suspended=bool, suspensionReason=unicode, thumbnailPhotoEtag=unicode, thumbnailPhotoUrl=unicode,
 	websites=list)
+# TODO: make a dict besides/instead of google_user_property_types that defines the types inside the dicts too
+# this will also fix the clash for 'name': it is a dict on the top level and exists as property of type str in organizations
+
 # required properties in nested structures in user resource:
 required_properties = dict(
 	emails=["address"],

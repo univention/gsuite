@@ -49,7 +49,7 @@ with utils.AutomaticListenerRestart():
 			])
 			utils.restart_listener()
 
-			user_args = udm_user_args(ucr, minimal=False)
+			user_args = udm_user_args(minimal=False)
 			user_args["set"]["UniventionGoogleAppsEnabled"] = 1
 
 			maildomain = gh.get_primary_domain_from_disk()

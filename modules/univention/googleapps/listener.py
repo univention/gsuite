@@ -649,20 +649,62 @@ class GoogleAppsListener(object):
 		:return: None
 		"""
 		required_properties = self.attrs["required_properties"]
-		logger.debug("required_properties=%r", required_properties)
-		logger.debug("resource=%r", resource)
+		google_types = self.attrs['google_types']
+
 		def _test(struct, key):
 			return all([x in struct.keys() for x in required_properties[key]])
 
+		def _str2bool(val):
+			# try int, to allow 0/1
+			try:
+				return bool(int(val))
+			except ValueError:
+				pass
+			# try 'True' / 'False' to allow LDAP booleans
+			if val.upper() == 'TRUE':
+				return True
+			if val.upper() == 'FALSE':
+				return False
+			return val
+
+		def _fix_value_type(resource):
+			""" Go through resource and and fix the values type (in-place). Incomplete!"""
+			# TODO: make a dict besides google_user_property_types that defines
+			# the types inside the dicts too
+			for k, v in resource.items():
+				if isinstance(v, list):
+					for item in v:
+						if not isinstance(item, dict):
+							raise RuntimeError('Item of list in ressource is not a dict: resource={!r}'.format(resource))
+						else:
+							_fix_value_type(item)
+				if k == 'name':
+					# TODO: name is a dict for on the top level and exists as
+					# property of type str in organizations. cannot handle this currently
+					continue
+				try:
+					gt = google_types[k]
+				except KeyError:
+					continue
+				if gt != type(v):
+					ori_type = type(v)
+					if gt == bool:
+						v = _str2bool(v)
+					nv = gt(v)
+					logger.debug('Changing type of attribute %r from %r to %r. Value old=%r new=%r', k, ori_type, gt, resource[k], nv)
+					resource[k] = nv
+
 		def _multiply_if_has_list(prop):
-			# prop is a list of dicts
+			"""
+			:param prop: [{a: [b, c], f: g}, {x: y}, ..]
+			:return: [{a: b, f: g}, {a: c, f: g}, {x: y}, ..]
+			"""
 			li = list()
 			while prop:
 				p = prop.pop()
 				was_multiplied = False
 				if not isinstance(p, dict):
-					raise RuntimeError("Unexpected type '{}' for item '{}' in property '{}'.".format(type(p), p,
-						prop))
+					raise RuntimeError("Unexpected type {!r} for item {!r} in property {!r}.".format(type(p), p, prop))
 				for k, v in p.items():
 					if isinstance(v, list):
 						values = p.pop(k)
@@ -675,6 +717,8 @@ class GoogleAppsListener(object):
 					li.append(p)
 			return li
 
+		logger.debug("original resource=%r", resource)
+
 		for k, v in resource.items():
 			if k in required_properties:
 				if isinstance(v, list):
@@ -683,12 +727,13 @@ class GoogleAppsListener(object):
 					if not _test(v, k):
 						del resource[k]
 				else:
-					raise RuntimeError("Unexpected type '{}' for key '{}' in resource '{}'.".format(type(v), k,
-						resource))
+					raise RuntimeError("Unexpected type {!r} for key {!r} in resource {!r}.".format(type(v), k, resource))
 			if isinstance(v, list):
 				resource[k] = _multiply_if_has_list(resource[k])
 
-		logger.debug("resource=%r", resource)
+		_fix_value_type(resource)
+
+		logger.debug("fixed resource=%r", resource)
 		return resource
 
 	@staticmethod
