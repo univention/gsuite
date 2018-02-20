@@ -40,7 +40,7 @@ case "$1" in
 	    ;;
 	remove)
 		a2dissite univention-google-apps
-		invoke-rc.d apache2 reload
+		deb-systemd-invoke reload apache2
 		cp /usr/lib/univention-uninstall/60univention-google-apps.uinst \
 			/usr/lib/univention-install/
 	    ;;

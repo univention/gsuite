@@ -127,7 +127,7 @@ class Instance(Base):
 			ol = GoogleAppsListener(None, {}, {})
 			ol.gh.list_users(projection="basic")
 			try:
-				subprocess.call(["invoke-rc.d", "univention-directory-listener", "restart"])
+				subprocess.call(["service", "univention-directory-listener", "restart"])
 			except (EnvironmentError,):
 				pass
 			return progress(finished=True)
