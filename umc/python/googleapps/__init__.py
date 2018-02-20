@@ -45,6 +45,7 @@ from univention.management.console.modules.sanitizers import StringSanitizer, Di
 
 from univention.googleapps.auth import GappsAuth, SCOPE, GoogleAppError, AuthenticationError, AuthenticationErrorRetry
 from univention.googleapps.listener import GoogleAppsListener
+from univention.googleapps.handler import ForbiddenError
 
 _ = Translation('univention-management-console-module-googleapps').translate
 
@@ -133,5 +134,5 @@ class Instance(Base):
 			return progress(finished=True)
 		except AuthenticationErrorRetry:
 			return progress(message=_('Waiting for Google directory to authorize the connection.'))
-		except AuthenticationError as exc:
+		except (AuthenticationError, ForbiddenError) as exc:
 			raise UMC_Error(str(exc))

@@ -62,6 +62,10 @@ class LimitReachedError(ApiError):
 	pass
 
 
+class ForbiddenError(ApiError):
+	pass
+
+
 class GappsHandler(object):
 	"""
 	Abstraction of Googles Admin Directory API.
@@ -400,7 +404,9 @@ class GappsHandler(object):
 				results = getattr(self.service, object_type)().list(**kwargs).execute()
 			except HttpError as exc:
 				results = dict()
-				if exc.resp.status == 404:
+				if exc.resp.status == 403:
+					raise ForbiddenError(http_error=exc)
+				elif exc.resp.status == 404:
 					raise ResourceNotFoundError(http_error=exc)
 				else:
 					self.logger.exception("Error listing, object_type=%r customer=%r domain=%r kwargs=%r.",
