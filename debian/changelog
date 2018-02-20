@@ -1,3 +1,11 @@
+univention-google-apps (1.0.1-7) unstable; urgency=low
+
+  * Bug #41956: handle certificate verification error
+  * publish print_google_users_and_groups script in
+    /usr/share/univention-google-apps
+
+ -- Daniel Troeder <troeder@univention.de>  Tue, 20 Feb 2018 18:02:31 +0100
+
 univention-google-apps (1.0.1-6) unstable; urgency=low
 
   * Bug #42549: prevent traceback for HTTP 403 (Admin Directory API Access Not

@@ -38,6 +38,7 @@ from urllib import quote
 import os.path
 
 from apiclient import discovery
+from httplib2 import SSLHandshakeError
 from oauth2client.file import Storage
 from oauth2client.client import SignedJwtAssertionCredentials, AccessTokenRefreshError, Error as Oauth2ClientError
 
@@ -93,6 +94,10 @@ class AuthenticationError(GoogleAppError):
 
 
 class AuthenticationErrorRetry(AuthenticationError):
+	pass
+
+
+class SSLError(AuthenticationError):
 	pass
 
 
@@ -273,6 +278,8 @@ class GappsAuth(object):
 						json.dump(creds, fp)
 					raise AuthenticationErrorRetry, AuthenticationErrorRetry(_("Token could not be refreshed, "
 						"you may try to connect again later."), chained_exc=exc), sys.exc_info()[2]
+				except SSLHandshakeError as exc:
+					raise SSLError, SSLError('SSL error. Please check your firewall/proxy settings and the servers system time. Error: {}'.format(exc), chained_exc=exc), sys.exc_info()[2]
 			except Oauth2ClientError as exc:
 				raise AuthenticationError, AuthenticationError(str(exc), chained_exc=exc), sys.exc_info()[2]
 			self.service_objects[key] = service
