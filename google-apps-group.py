@@ -3,7 +3,7 @@
 # Univention Google Apps for Work - listener module to manage groups in
 # Google Directory
 #
-# Copyright 2016 Univention GmbH
+# Copyright 2016-2018 Univention GmbH
 #
 # http://www.univention.de/
 #

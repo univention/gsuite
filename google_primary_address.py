@@ -3,7 +3,7 @@
 # Univention Google Apps for Work - UDM hook to set user property
 # UniventionGoogleAppsPrimaryEmail that is configured notEditable=1
 #
-# Copyright 2016 Univention GmbH
+# Copyright 2016-2018 Univention GmbH
 #
 # http://www.univention.de/
 #

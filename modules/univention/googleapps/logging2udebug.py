@@ -4,7 +4,7 @@
 # Univention Google Apps for Work App - python logging to univention debug
 # bridge (uses syslog if not running on UCS)
 #
-# Copyright 2016 Univention GmbH
+# Copyright 2016-2018 Univention GmbH
 #
 # http://www.univention.de/
 #
