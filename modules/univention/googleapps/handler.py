@@ -405,7 +405,10 @@ class GappsHandler(object):
 			except HttpError as exc:
 				results = dict()
 				if exc.resp.status == 403:
-					raise ForbiddenError(http_error=exc)
+					raise ForbiddenError(
+						'API Access forbidden: Either the Admin Directory API has not been configured in the developers-console or the scopes were not configured in the admin-console. Please rerun the wizard.',
+						http_error=exc
+					)
 				elif exc.resp.status == 404:
 					raise ResourceNotFoundError(http_error=exc)
 				else:
