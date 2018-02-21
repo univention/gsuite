@@ -197,7 +197,7 @@ class GappsAuth(object):
 				service_provider["AssertionConsumerService"] = "https://www.google.com/a/%s/acs" % kwargs["domain"]
 				service_provider.modify()
 			else:
-				logger.exception("GappsAuth.store_credentials() service provider object not found %s.",
+				logger.exception("GappsAuth.store_credentials() SAML service provider object not found %s.",
 					GOOGLE_APPS_SERVICEPROVIDER_DN)
 		except udm_exceptions.base as exc:
 			# from umc.modules.udm.udm_ldap.py
@@ -210,7 +210,7 @@ class GappsAuth(object):
 				return msg
 			msg = __get_udm_exception_msg(exc)
 			logger.exception("GappsAuth.store_credentials() udm exception %s.", msg)
-			raise CredentialsStorageError(_("Error when modifying service provider."))
+			raise CredentialsStorageError(_("Error when modifying SAML service provider."))
 
 		sp_query_string = "?spentityid=google.com&RelayState={}".format(
 			quote("https://www.google.com/a/{}/Dashboard".format(kwargs["domain"])))
@@ -279,7 +279,7 @@ class GappsAuth(object):
 					raise AuthenticationErrorRetry, AuthenticationErrorRetry(_("Token could not be refreshed, "
 						"you may try to connect again later."), chained_exc=exc), sys.exc_info()[2]
 				except SSLHandshakeError as exc:
-					raise SSLError, SSLError('SSL error. Please check your firewall/proxy settings and the servers system time. Error: {}'.format(exc), chained_exc=exc), sys.exc_info()[2]
+					raise SSLError, SSLError(_('SSL error. Please check your firewall/proxy settings and the servers system time. Error: {}').format(exc), chained_exc=exc), sys.exc_info()[2]
 			except Oauth2ClientError as exc:
 				raise AuthenticationError, AuthenticationError(str(exc), chained_exc=exc), sys.exc_info()[2]
 			self.service_objects[key] = service

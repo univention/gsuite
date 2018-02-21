@@ -36,9 +36,13 @@ import random
 import string
 import re
 
+from univention.lib.i18n import Translation
 from apiclient.errors import HttpError
 from univention.googleapps.auth import GappsAuth, GoogleAppError
 from univention.googleapps.logging2udebug import get_logger
+
+
+_ = Translation('univention-googleapps').translate
 
 
 class BadArgumentError(GoogleAppError):
@@ -406,7 +410,7 @@ class GappsHandler(object):
 				results = dict()
 				if exc.resp.status == 403:
 					raise ForbiddenError(
-						'API Access forbidden: Either the Admin Directory API has not been configured in the developers-console or the scopes were not configured in the admin-console. Please rerun the wizard.',
+						_('API Access forbidden: Either the Admin Directory API has not been configured in the developers-console or the scopes were not configured in the admin-console. Please rerun the wizard.'),
 						http_error=exc
 					)
 				elif exc.resp.status == 404:

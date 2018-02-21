@@ -1,3 +1,10 @@
+univention-google-apps (1.0.1-8) unstable; urgency=low
+
+  * Bug #42549: explain problem better, include reason from Bug #41201
+  * add translations
+
+ -- Daniel Troeder <troeder@univention.de>  Wed, 21 Feb 2018 11:05:10 +0100
+
 univention-google-apps (1.0.1-7) unstable; urgency=low
 
   * Bug #41956: handle certificate verification error
