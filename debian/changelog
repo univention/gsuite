@@ -1,6 +1,11 @@
 univention-google-apps (2.0.0-1) unstable; urgency=low
 
   * Bug #46258: adapt to oauth2client lib API change
+  * oauth2client lib expects sys.argv to exist
+  * let discovery.build() authorize httplib2.Http
+  * use indexed LDAP attribute for listener module filter
+  * handle KeyError when deactivating/deleting users that have not been
+    correctly activated
 
  -- Daniel Troeder <troeder@univention.de>  Tue, 06 Mar 2018 14:20:42 +0100
 
