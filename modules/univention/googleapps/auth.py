@@ -37,7 +37,7 @@ import sys
 from urllib import quote
 import os.path
 
-from apiclient import discovery
+from googleapiclient.discovery import build
 from httplib2 import SSLHandshakeError
 from oauth2client.file import Storage
 from oauth2client.client import AccessTokenRefreshError, Error as Oauth2ClientError
@@ -253,26 +253,24 @@ class GappsAuth(object):
 		service = self.service_objects.get(key)
 		if not service:
 			credentials = self.get_credentials()
-			http = credentials.authorize(httplib2.Http())
 			try:
-				try:
-					service = discovery.build(service_name, version, http=http)
-				except AccessTokenRefreshError as exc:
-					if str(exc) != "unauthorized_client":
-						raise
-					# Happens when the user has just authorized a service account
-					# for API access, but Googles servers have not realized yet it.
-					# The oauthlib will set the credentials to "invalid", which
-					# will make further connection attempts fail.
-					with open(CREDENTIALS_FILE, "rb") as fp:
-						creds = json.load(fp)
-					creds["invalid"] = False
-					with open(CREDENTIALS_FILE, "wb") as fp:
-						json.dump(creds, fp)
-					raise AuthenticationErrorRetry, AuthenticationErrorRetry(_("Token could not be refreshed, "
-						"you may try to connect again later."), chained_exc=exc), sys.exc_info()[2]
-				except SSLHandshakeError as exc:
-					raise SSLError, SSLError(_('SSL error. Please check your firewall/proxy settings and the servers system time. Error: {}').format(exc), chained_exc=exc), sys.exc_info()[2]
+				service = build(service_name, version, credentials=credentials)
+			except AccessTokenRefreshError as exc:
+				if str(exc) != "unauthorized_client":
+					raise
+				# Happens when the user has just authorized a service account
+				# for API access, but Googles servers have not realized yet it.
+				# The oauthlib will set the credentials to "invalid", which
+				# will make further connection attempts fail.
+				with open(CREDENTIALS_FILE, "rb") as fp:
+					creds = json.load(fp)
+				creds["invalid"] = False
+				with open(CREDENTIALS_FILE, "wb") as fp:
+					json.dump(creds, fp)
+				raise AuthenticationErrorRetry, AuthenticationErrorRetry(_("Token could not be refreshed, "
+					"you may try to connect again later."), chained_exc=exc), sys.exc_info()[2]
+			except SSLHandshakeError as exc:
+				raise SSLError, SSLError(_('SSL error. Please check your firewall/proxy settings and the servers system time. Error: {}').format(exc), chained_exc=exc), sys.exc_info()[2]
 			except Oauth2ClientError as exc:
 				raise AuthenticationError, AuthenticationError(str(exc), chained_exc=exc), sys.exc_info()[2]
 			self.service_objects[key] = service
