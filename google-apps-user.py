@@ -284,10 +284,12 @@ def handler(dn, new, old, command):
 	if old and not new:
 		logger.debug("old and not new -> DELETE (%r)", dn)
 		try:
-			ol.delete_google_user(old["univentionGoogleAppsObjectID"][0])
-			logger.info("Deleted google account of user %r.", old["uid"][0])
+			object_id = old["univentionGoogleAppsObjectID"][0]
 		except KeyError:
-			pass
+			logger.warn('Trying to delete user without Google ObjectID, ignoring: %r', new['uid'][0])
+			return
+		ol.delete_google_user(object_id)
+		logger.info("Deleted google account of user %r.", old["uid"][0])
 		logger.debug("done (%s)", dn)
 		return
 
@@ -296,7 +298,12 @@ def handler(dn, new, old, command):
 	#
 	if new and not new_enabled:
 		logger.debug("new and not new_enabled -> DEACTIVATE (%r)", dn)
-		ol.delete_google_user(old["univentionGoogleAppsObjectID"][0])
+		try:
+			object_id = old["univentionGoogleAppsObjectID"][0]
+		except KeyError:
+			logger.warn('Trying to deactivate user without Google ObjectID, ignoring: %r', new['uid'][0])
+			return
+		ol.delete_google_user(object_id)
 		# update google objectId and object data in UDM object
 		udm_user = ol.get_udm_user(dn)
 		# Cannot delete UniventionGoogleAppsData, because it would result in:
