@@ -58,7 +58,7 @@ if GappsAuth.is_initialized() and listener.configRegistry.is_true("google-apps/g
 	filter = '(objectClass=posixGroup)'
 	logger.info("google apps group listener active")
 else:
-	filter = '(foo=bar)'
+	filter = '(objectClass=deactivatedGoogleAppsGroupListener)'
 	logger.warn("google apps group listener deactivated")
 attributes = ["cn", "description", "uniqueMember", "mailPrimaryAddress"]
 modrdn = "1"
