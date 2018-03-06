@@ -35,6 +35,7 @@ __package__ = ''  # workaround for PEP 366
 
 import os
 import re
+import sys
 import json
 import base64
 import zlib
@@ -42,6 +43,10 @@ import copy
 from stat import S_IRUSR, S_IWUSR
 import datetime
 import grp
+
+# oauth2client lib expects sys.argv to exist
+if not hasattr(sys, 'argv'):
+	sys.argv = ['']
 
 import listener
 from univention.googleapps.auth import GappsAuth
