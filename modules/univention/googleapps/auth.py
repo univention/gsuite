@@ -40,7 +40,8 @@ import os.path
 from apiclient import discovery
 from httplib2 import SSLHandshakeError
 from oauth2client.file import Storage
-from oauth2client.client import SignedJwtAssertionCredentials, AccessTokenRefreshError, Error as Oauth2ClientError
+from oauth2client.client import AccessTokenRefreshError, Error as Oauth2ClientError
+from oauth2client.service_account import ServiceAccountCredentials
 
 from univention.googleapps.logging2udebug import get_logger
 from univention.lib.i18n import Translation
@@ -145,7 +146,7 @@ class GappsAuth(object):
 		try:
 			credentials = cls._load_credentials()
 
-			if credentials and not credentials.invalid and credentials.kwargs["domain"]:
+			if credentials and not credentials.invalid and credentials._kwargs["domain"]:
 				return credentials
 			else:
 				raise NoCredentials("No valid credentials found in '{}'.".format(CREDENTIALS_FILE))
@@ -169,17 +170,9 @@ class GappsAuth(object):
 		except (KeyError, TypeError):
 			logger.exception("GappsAuth.store_credentials() Missing name of validated domain.")
 			raise MissingClientCredentials(_("Please supply the name of a validated domain."))
-		try:
-			credentials = SignedJwtAssertionCredentials(
-				service_account_name=client_credentials["client_email"],
-				private_key=client_credentials["private_key"],
-				scope=SCOPE,
-				sub=impersonate_user,
-				client_id=client_credentials["client_id"],
-				**kwargs)
-		except KeyError as exc:
-			logger.exception("Missing data in client_credentials=%r", client_credentials)
-			raise MissingClientCredentials(_("Missing data in credentials file."))
+
+		credentials = ServiceAccountCredentials.from_json_keyfile_dict(client_credentials, SCOPE)
+		credentials = credentials.create_scoped(SCOPE).create_delegated(impersonate_user).create_with_claims(kwargs)
 
 		storage = Storage(CREDENTIALS_FILE)
 		try:
@@ -234,7 +227,7 @@ class GappsAuth(object):
 		:return: str: domain name or raises NoCredentials
 		"""
 		credentials = cls._get_credentials()
-		return credentials.kwargs["domain"]
+		return credentials._kwargs["domain"]
 
 	@staticmethod
 	def _load_credentials():
