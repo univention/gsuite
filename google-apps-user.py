@@ -180,7 +180,7 @@ if GappsAuth.is_initialized():
 	filter = '(&(objectClass=univentionGoogleApps)(uid=*))'
 	logger.info("google apps user listener active")
 else:
-	filter = '(foo=bar)'
+	filter = '(objectClass=deactivatedGoogleAppsUserListener)'
 	logger.warn("google apps user listener deactivated")
 attributes = get_listener_attributes()
 modrdn = "1"
