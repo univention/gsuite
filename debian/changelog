@@ -1,3 +1,15 @@
+univention-google-apps (2.0.0-2) unstable; urgency=low
+
+  * Bug #46258: handle lag of users [dis]appearing in/from groups in google
+    directory
+  * use UDM groups property to check users groups
+  * create groups of newly activated users, if the UCS user already existed
+  * fix IndexError if no email is set on group
+  * write group_id to LDAP only if there is one
+  * adapt test to oauth2client lib API change
+
+ -- Daniel Troeder <troeder@univention.de>  Wed, 07 Mar 2018 13:53:38 +0100
+
 univention-google-apps (2.0.0-1) unstable; urgency=low
 
   * Bug #46258: adapt to oauth2client lib API change
