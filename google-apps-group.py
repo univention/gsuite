@@ -86,6 +86,7 @@ def save_old(old):
 		os.chmod(GOOGLEAPPS_GROUP_OLD_JSON, S_IRUSR | S_IWUSR)
 		json.dump(old, fp)
 
+
 def setdata(key, value):
 	global ldap_cred
 	ldap_cred[key] = value
@@ -162,7 +163,8 @@ def handler(dn, new, old, command):
 				# missing / unsynced groups are not a problem for users
 				logger.warn("Modified a group, but cannot find UniventionGoogleAppsObjectID (was probably deleted).")
 				group_id = None
-			ol.udm_group_set_group_id(new["entryDN"][0], group_id)
+			else:
+				ol.udm_group_set_group_id(new["entryDN"][0], group_id)
 			logger.info("Modified group %r (%r).", old["cn"][0], group_id)
 		logger.debug("done (%s)", dn)
 		return
