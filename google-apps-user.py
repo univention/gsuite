@@ -320,6 +320,7 @@ def handler(dn, new, old, command):
 				(ug.dn, ug['UniventionGoogleAppsObjectID']) for ug in udm_groups if ug.get('UniventionGoogleAppsObjectID')
 			]
 			for group_dn, group_id in google_group_ids:
+				ol.wait_for_group_member_to_disappear(group_id, object_id)
 				ol.delete_google_group_if_empty(group_dn, group_id)
 			logger.debug("done (%s)", dn)
 		return

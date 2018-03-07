@@ -35,6 +35,7 @@ import json
 import random
 import string
 import re
+import time
 
 from univention.lib.i18n import Translation
 from apiclient.errors import HttpError
@@ -271,6 +272,48 @@ class GappsHandler(object):
 		modify_args = dict(memberKey=obj_id)
 		properties = dict(id=obj_id, role=role)
 		return self._create_object("members", properties, modify_args, groupKey=group_id)
+
+	def wait_for_group_member_to_appear(self, group_id, obj_id, timeout=10.0, interval=0.5):
+		"""
+		Wait for a member to appear in a group.
+
+		:param group_id: str: group's email address, group alias, or group ID
+		:param obj_id: str: users primary email address, alias email address, or ID
+		:param timeout: float: seconds to wait before giving up (returning False)
+		:param interval: float: seconds to wait between reading group members from Google directory
+		:return: bool: whether the user appeared in the group
+		"""
+		return self._wait_for_group_member_to_dis_or_appear(group_id, obj_id, timeout, interval, True)
+
+	def wait_for_group_member_to_disappear(self, group_id, obj_id, timeout=10.0, interval=0.5):
+		"""
+		Wait for a member to disappear in a group.
+
+		:param group_id: str: group's email address, group alias, or group ID
+		:param obj_id: str: users primary email address, alias email address, or ID
+		:param timeout: float: seconds to wait before giving up (returning False)
+		:param interval: float: seconds to wait between reading group members from Google directory
+		:return: bool: whether the user disappeared in the group
+		"""
+		return self._wait_for_group_member_to_dis_or_appear(group_id, obj_id, timeout, interval, False)
+
+	def _wait_for_group_member_to_dis_or_appear(self, group_id, obj_id, timeout=10.0, interval=0.5, appear=True):
+		"""
+		Common code for wait_for_group_member_to_appear() / wait_for_group_member_to_disappear().
+		"""
+		i = 0
+		while i < timeout:
+			google_users = self.list_members_of_group(group_id)
+			google_user_ids = [g['id'] for g in google_users]
+			if (appear and obj_id in google_user_ids) or (not appear and obj_id not in google_user_ids):
+				return True
+			time.sleep(interval)
+			i += interval
+		self.logger.warn(
+			'User %r did not %sappear in group %r after %r seconds.',
+			obj_id, '' if appear else 'dis', group_id, timeout
+		)
+		return False
 
 	def delete_member_from_group(self, group_id, obj_id):
 		"""

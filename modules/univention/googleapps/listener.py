@@ -212,7 +212,9 @@ class GoogleAppsListener(object):
 			raise RuntimeError("GoogleAppsListener.create_google_group() failed creating group '{}'.".format(name))
 
 		if add_members:
-			self.udm_group_add_members_to_google_group(group_dn, new_group["id"])
+			new_group['_members'] = self.udm_group_add_members_to_google_group(group_dn, new_group["id"])
+		else:
+			new_group['_members'] = []
 		return new_group
 
 	def create_google_group_from_new(self, new):
@@ -267,6 +269,8 @@ class GoogleAppsListener(object):
 		logger.debug("udm_group[name]=%r group_id=%r", udm_group.get("name"), group_id)
 
 		new_google_group = None
+		user_ids_added_to_group_in_google_dir = []
+		user_ids_removed_from_group_in_google_dir = []
 
 		if "uniqueMember" in modification_attributes:
 			# In uniqueMember users and groups are both listed. There is no
@@ -287,11 +291,13 @@ class GoogleAppsListener(object):
 						udm_user.get("UniventionGoogleAppsObjectID")):
 						if group_id:
 							self.gh.add_member_to_group(group_id, udm_user["UniventionGoogleAppsObjectID"])
+							user_ids_added_to_group_in_google_dir.append(udm_user["UniventionGoogleAppsObjectID"])
 						else:
 							# group doesn't exist yet, this is the first member -> create it
 							# all group members will be added automatically (if they are synced)
 							new_google_group = self.create_google_group_from_new(new)
 							group_id = new_google_group["id"]
+							user_ids_added_to_group_in_google_dir = new_google_group['_members']
 							break
 				elif added_member in udm_group["nestedGroup"]:
 					# ignore, let's not support nested groups for now
@@ -331,6 +337,14 @@ class GoogleAppsListener(object):
 							continue
 
 					self.gh.delete_member_from_group(group_id, member_id)
+					user_ids_removed_from_group_in_google_dir.append(member_id)
+
+		# wait for member changes to activate (0.5 - 5 sec per modification)
+		if group_id:
+			for user_id in user_ids_added_to_group_in_google_dir:
+				self.gh.wait_for_group_member_to_appear(group_id, user_id)
+			for user_id in user_ids_removed_from_group_in_google_dir:
+				self.gh.wait_for_group_member_to_disappear(group_id, user_id)
 		logger.debug("Done handling 'uniqueMember' for group %r (%r).", udm_group.get("name"), group_id)
 
 		# remove google group if it is empty
@@ -438,14 +452,17 @@ class GoogleAppsListener(object):
 		to the google group.
 		:param group_dn: DN of UCS group whos members should be added to google group
 		:param group_id: ID of google group that should contain the new members
-		:return: None
+		:return: list: IDs of users added to group
 		"""
 		logger.debug("group_dn=%r group_id=%r", group_dn, group_id)
+		members_ids_added = []
 		for user in self.udm_group_list_google_users(group_dn):
 			if user["UniventionGoogleAppsObjectID"]:
-				self.gh.add_member_to_group(group_id, user["UniventionGoogleAppsObjectID"])
+				member = self.gh.add_member_to_group(group_id, user["UniventionGoogleAppsObjectID"])
+				members_ids_added.append(member['id'])
 			else:
 				logger.error("User %r has no objectID, not adding to group %r.", user["username"], group_id)
+		return members_ids_added
 
 	def udm_group_set_group_id(self, group_dn, group_id):
 		"""
@@ -526,6 +543,9 @@ class GoogleAppsListener(object):
 			if bool(int(udm_user.get("UniventionGoogleAppsEnabled", "0"))):
 				return True
 		return False
+
+	def wait_for_group_member_to_disappear(self, group_id, object_id):
+		return self.gh.wait_for_group_member_to_disappear(group_id, object_id)
 
 	@staticmethod
 	def _anonymize(txt):
