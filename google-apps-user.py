@@ -42,7 +42,6 @@ import zlib
 import copy
 from stat import S_IRUSR, S_IWUSR
 import datetime
-import grp
 
 # oauth2client lib expects sys.argv to exist
 if not hasattr(sys, 'argv'):
@@ -326,17 +325,15 @@ def handler(dn, new, old, command):
 		username = old["uid"][0]
 		logger.info("Deleted google account of user %r.", username)
 
-		filter_s = "(|{})".format("".join("(cn={})".format(g.gr_name) for g in grp.getgrall() if username in g.gr_mem))
-		base = listener.configRegistry["ldap/base"]
-		udm_groups = ol.find_udm_objects("groups/group", filter_s, base, ldap_cred)
-		logger.debug("Looking for empty groups to delete...")
-		for udm_group in udm_groups:
-			try:
-				group_id = udm_group["UniventionGoogleAppsObjectID"]
-				ol.delete_google_group_if_empty(udm_group["entryDN"], group_id)
-			except KeyError:
-				pass
-
+		if group_sync_enabled:
+			logger.info("Looking for empty groups to delete...")
+			udm_groups = [ol.get_udm_group(dn) for dn in udm_user.get('groups', [])]
+			google_group_ids = [
+				(ug.dn, ug['UniventionGoogleAppsObjectID']) for ug in udm_groups if ug.get('UniventionGoogleAppsObjectID')
+			]
+			for group_dn, group_id in google_group_ids:
+				ol.delete_google_group_if_empty(group_dn, group_id)
+			logger.debug("done (%s)", dn)
 		return
 
 	#
