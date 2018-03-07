@@ -140,12 +140,6 @@ class GoogleAppsListener(object):
 		:param new:  dict: listener new object
 		:return: dict: user resource
 		"""
-		# import pprint
-		# logger.debug("**************** old *************")
-		# logger.debug(pprint.pformat(old))
-		# logger.debug("**************** new *************")
-		# logger.debug(pprint.pformat(new))
-		# logger.debug("**********************************")
 		modifications = self._diff_old_new(self.attrs["listener"], old, new)
 		if not modifications:
 			logger.debug("No modifications - nothing to do.")  # DEBUG
@@ -230,7 +224,7 @@ class GoogleAppsListener(object):
 		"""
 		desc = new.get("description", [""])[0] or None
 		name = new["cn"][0]
-		email = new["mailPrimaryAddress"][0] or "{}@{}".format(name.replace(" ", "_"),
+		email = new.get("mailPrimaryAddress", [''])[0] or "{}@{}".format(name.replace(" ", "_"),
 			self.gh.get_primary_domain_from_disk())
 		return self.create_google_group(name, desc, new["entryDN"][0], email)
 
