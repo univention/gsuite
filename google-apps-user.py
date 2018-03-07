@@ -194,6 +194,7 @@ _attrs = dict(
 )
 
 ldap_cred = dict()
+group_sync_enabled = listener.configRegistry.is_true("google-apps/groups/sync", False)
 
 logger.info("listener observing attributes: %r", attributes)
 logger.info("user ressource template: %r", g_user_resource_template)
@@ -271,6 +272,16 @@ def handler(dn, new, old, command):
 		udm_user.modify()
 		logger.info("Added google account of user %r. primaryEmail: %r id: %r", new["uid"][0],
 			new_user["primaryEmail"], new_user["id"])
+
+		if group_sync_enabled and old:
+			# Not a new UCS user, just a new Google user. The group listener
+			# will not be triggered, as no group changes have happend.
+			logger.info("Creating/Modifying users groups...")
+			for dn in udm_user.get('groups', []):
+				if ol.udm_group_has_google_users(dn):
+					google_group = ol.create_google_group_from_ldap(dn)
+					logger.info("Created/Modified group %r with ID %r.", google_group["name"], google_group["id"])
+		logger.debug("done (%s)", dn)
 		return
 
 	#
