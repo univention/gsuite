@@ -37,6 +37,11 @@ if [ "$1" = "configure" ]; then
 	[ -e "$uinst" ] && rm "$uinst"
 fi
 
+if dpkg --compare-versions "2.0.0-4" gt-nl "$2"; then
+	/usr/share/univention-google-apps/convert_credentials_file
+	ucr commit /etc/simplesamlphp/metadata.include/google-apps-for-work.php
+fi
+
 deb-systemd-invoke restart univention-directory-listener
 
 . /usr/share/univention-lib/base.sh
