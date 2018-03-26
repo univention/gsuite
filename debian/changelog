@@ -1,3 +1,9 @@
+univention-google-apps (2.0.0-5) unstable; urgency=medium
+
+  * Bug #46729: Extend conversion script to add a timestamp to backup file
+
+ -- Erik Damrose <damrose@univention.de>  Mon, 26 Mar 2018 17:13:42 +0200
+
 univention-google-apps (2.0.0-4) unstable; urgency=medium
 
   * Bug #46729: Add conversion script to make credentials file of an already
