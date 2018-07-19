@@ -31,7 +31,7 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <http://www.gnu.org/licenses/>.
 
-VERSION=1
+VERSION=2
 
 . /usr/share/univention-join/joinscripthelper.lib
 . /usr/share/univention-lib/base.sh
@@ -188,19 +188,16 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set fullWidth=1 || die
 
 # Add univentionGoogleAppsPrimaryEmail to saml/idp/ldap/get_attributes
-GA_ATTR="univentionGoogleAppsPrimaryEmail univentionGoogleAppsEnabled"
-for attr in ${GA_ATTR}; do
-	if ! echo "${saml_idp_ldap_get_attributes}" | grep -q "${attr}"; then
-		ucr set saml/idp/ldap/get_attributes="$(ucr get saml/idp/ldap/get_attributes), '${attr}'"
-	fi
-done
 
-# Deactivate google.com provider (also available in univention-saml!)
-if udm saml/serviceprovider list "$@" | grep -q "SAMLServiceProviderIdentifier=google.com,cn=saml-serviceprovider,cn=univention,$ldap_base" ; then
-	udm saml/serviceprovider modify "$@" \
-		--dn "SAMLServiceProviderIdentifier=google.com,cn=saml-serviceprovider,cn=univention,$ldap_base" \
-		--set isActivated=FALSE
-fi
+GA_ATTR="univentionGoogleAppsPrimaryEmail univentionGoogleAppsEnabled"
+LDAP_OBJ="$saml_idp_configobject"
+[ -z "$LDAP_OBJ" ] && LDAP_OBJ="id=default-saml-idp,cn=univention,$ldap_base"
+
+for attr in ${GA_ATTR}; do
+	udm saml/idpconfig modify "$@" \
+		--dn="$LDAP_OBJ" \
+		--append LdapGetAttributes="$attr"
+done
 
 # user template
 univention-directory-manager settings/usertemplate create "$@" --ignore_exists \

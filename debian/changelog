@@ -1,3 +1,11 @@
+univention-google-apps (2.0.0-6) unstable; urgency=medium
+
+  * Bug #46438: Replicate SAML metadata to all SSO servers by storing it
+    in LDAP
+  * Store values for UCRv saml/idp/ldap/get_attributes for the app in LDAP
+
+ -- Erik Damrose <damrose@univention.de>  Thu, 19 Jul 2018 16:26:33 +0200
+
 univention-google-apps (2.0.0-5) unstable; urgency=medium
 
   * Bug #46729: Extend conversion script to add a timestamp to backup file

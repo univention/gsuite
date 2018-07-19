@@ -1,0 +1,4 @@
+rm_conffile /etc/univention/templates/files/etc/simplesamlphp/metadata/50univention-google-apps.php 2.0.0-6~
+rm_conffile /etc/univention/templates/files/etc/simplesamlphp/metadata.include/google-apps-for-work.php 2.0.0-6~
+rm_conffile /etc/simplesamlphp/metadata.include/google-apps-for-work.php 2.0.0-6~
+rm_conffile /etc/univention/templates/info/univention-google-apps.info 2.0.0-6~

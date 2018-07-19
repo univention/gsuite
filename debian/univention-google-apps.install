@@ -5,6 +5,7 @@ modules/univention/googleapps/*.mo usr/share/locale/de/LC_MESSAGES/
 google-apps-user.py usr/lib/univention-directory-listener/system/
 google-apps-group.py usr/lib/univention-directory-listener/system/
 google-apps.schema usr/share/univention-google-apps/
+google-apps-for-work.php usr/share/univention-google-apps/
 print_google_users_and_groups usr/share/univention-google-apps/
 convert_credentials_file usr/share/univention-google-apps/
 umc/icons/googleapps.png var/www

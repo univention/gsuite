@@ -187,7 +187,11 @@ class GappsAuth(object):
 			service_provider = udm_objects.get(udm_modules.get("saml/serviceprovider"), None, access, None,
 				GOOGLE_APPS_SERVICEPROVIDER_DN)
 			if service_provider:
+				with open("usr/share/univention-google-apps/google-apps-for-work.php") as templatefile:
+					service_provider_config = templatefile.read()
+				service_provider["isActivated"] = True
 				service_provider["AssertionConsumerService"] = "https://www.google.com/a/%s/acs" % kwargs["domain"]
+				service_provider["rawsimplesamlSPconfig"] = service_provider_config % {"domain": kwargs["domain"]}
 				service_provider.modify()
 			else:
 				logger.exception("GappsAuth.store_credentials() SAML service provider object not found %s.",
@@ -204,6 +208,9 @@ class GappsAuth(object):
 			msg = __get_udm_exception_msg(exc)
 			logger.exception("GappsAuth.store_credentials() udm exception %s.", msg)
 			raise CredentialsStorageError(_("Error when modifying SAML service provider."))
+		except IOError as exc:
+			logger.exception("GappsAuth.store_credentials() IOError while reading sp config template: %s", exc)
+			raise CredentialsStorageError(_("IOError when modifying SAML service provider."))
 
 		sp_query_string = "?spentityid=google.com&RelayState={}".format(
 			quote("https://www.google.com/a/{}/Dashboard".format(kwargs["domain"])))
