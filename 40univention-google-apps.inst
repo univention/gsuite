@@ -59,7 +59,7 @@ univention-config-registry set \
 	google-apps/attributes/mapping/addresses/2?"type=work,locality=%l,postalCode=%postalCode,countryCode=%st,streetAddress=%street,extendedAddress=%departmentNumber" \
 	google-apps/attributes/mapping/addresses/3?"type=custom,customType=locality,locality=%roomNumber" \
 	google-apps/attributes/mapping/emails/1?"type=work,address=%mail" \
-	google-apps/attributes/mapping/emails/2="type=other,address=%mailAlternativeAddress" \
+	google-apps/attributes/mapping/emails/2?"type=other,address=%mailAlternativeAddress" \
 	google-apps/attributes/mapping/organizations?"primary=True,name=%o,description=%employeeType" \
 	google-apps/attributes/mapping/relations?"type=custom,customType=secretary,value=%secretary" \
 	google-apps/attributes/mapping/externalIds?"type=organization,value=%employeeNumber" \
