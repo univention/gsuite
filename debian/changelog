@@ -1,3 +1,9 @@
+univention-google-apps (2.0.0-7) unstable; urgency=medium
+
+  * Bug #46438: Add dependency to required univention-saml version
+
+ -- Erik Damrose <damrose@univention.de>  Tue, 24 Jul 2018 11:43:22 +0200
+
 univention-google-apps (2.0.0-6) unstable; urgency=medium
 
   * Bug #46438: Replicate SAML metadata to all SSO servers by storing it

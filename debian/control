@@ -21,7 +21,8 @@ Depends: ${misc:Depends},
  shell-univention-lib,
  univention-join,
  python-googleapi,
- python-univention-directory-manager (>= 11.0.2-15)
+ python-univention-directory-manager (>= 11.0.2-15),
+ univention-saml (>= 5.0.4-23)
 Recommends: ntp
 Description: Provision Google Apps for Work accounts.
  Synchronize user accounts to Google Directory and enable them to
