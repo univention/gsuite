@@ -154,6 +154,39 @@ class GappsAuth(object):
 			raise NoCredentials("No valid credentials found in '{}'.".format(CREDENTIALS_FILE))
 
 	@classmethod
+	def update_saml_configuration(cls, gsuite_domain):
+		try:
+			udm_modules.update()
+			access, position = udm_uldap.getAdminConnection()
+			service_provider = udm_objects.get(udm_modules.get("saml/serviceprovider"), None, access, None,
+				GOOGLE_APPS_SERVICEPROVIDER_DN)
+			if service_provider:
+				with open("/usr/share/univention-google-apps/google-apps-for-work.php") as templatefile:
+					service_provider_config = templatefile.read()
+				service_provider["isActivated"] = True
+				service_provider["AssertionConsumerService"] = "https://www.google.com/a/%s/acs" % gsuite_domain
+				service_provider["rawsimplesamlSPconfig"] = service_provider_config % {"domain": gsuite_domain}
+				service_provider.modify()
+			else:
+				logger.exception("GappsAuth.update_saml_configuration() SAML service provider object not found %s.",
+					GOOGLE_APPS_SERVICEPROVIDER_DN)
+		except udm_exceptions.base as exc:
+			# from umc.modules.udm.udm_ldap.py
+			def __get_udm_exception_msg(e):
+				msg = getattr(e, 'message', '')
+				if getattr(e, 'args', False):
+					if e.args[0] != msg or len(e.args) != 1:
+						for arg in e.args:
+							msg += ' ' + arg
+				return msg
+			msg = __get_udm_exception_msg(exc)
+			logger.exception("GappsAuth.update_saml_configuration() udm exception %s.", msg)
+			raise CredentialsStorageError(_("Error when modifying SAML service provider."))
+		except IOError as exc:
+			logger.exception("GappsAuth.iupdate_saml_configuration() IOError while reading sp config template: %s", exc)
+			raise CredentialsStorageError(_("IOError when modifying SAML service provider."))
+
+	@classmethod
 	def store_credentials(cls, client_credentials, impersonate_user, **kwargs):
 		"""
 		Store credentials from a JSON file supplied by Googles Developers Console.
@@ -181,36 +214,7 @@ class GappsAuth(object):
 			logger.exception("GappsAuth.store_credentials() IOError when writing %r.", CREDENTIALS_FILE)
 			raise CredentialsStorageError(_("Error when writing credentials to disk."))
 
-		try:
-			udm_modules.update()
-			access, position = udm_uldap.getAdminConnection()
-			service_provider = udm_objects.get(udm_modules.get("saml/serviceprovider"), None, access, None,
-				GOOGLE_APPS_SERVICEPROVIDER_DN)
-			if service_provider:
-				with open("usr/share/univention-google-apps/google-apps-for-work.php") as templatefile:
-					service_provider_config = templatefile.read()
-				service_provider["isActivated"] = True
-				service_provider["AssertionConsumerService"] = "https://www.google.com/a/%s/acs" % kwargs["domain"]
-				service_provider["rawsimplesamlSPconfig"] = service_provider_config % {"domain": kwargs["domain"]}
-				service_provider.modify()
-			else:
-				logger.exception("GappsAuth.store_credentials() SAML service provider object not found %s.",
-					GOOGLE_APPS_SERVICEPROVIDER_DN)
-		except udm_exceptions.base as exc:
-			# from umc.modules.udm.udm_ldap.py
-			def __get_udm_exception_msg(e):
-				msg = getattr(e, 'message', '')
-				if getattr(e, 'args', False):
-					if e.args[0] != msg or len(e.args) != 1:
-						for arg in e.args:
-							msg += ' ' + arg
-				return msg
-			msg = __get_udm_exception_msg(exc)
-			logger.exception("GappsAuth.store_credentials() udm exception %s.", msg)
-			raise CredentialsStorageError(_("Error when modifying SAML service provider."))
-		except IOError as exc:
-			logger.exception("GappsAuth.store_credentials() IOError while reading sp config template: %s", exc)
-			raise CredentialsStorageError(_("IOError when modifying SAML service provider."))
+		cls.update_saml_configuration(kwargs['domain'])
 
 		sp_query_string = "?spentityid=google.com&RelayState={}".format(
 			quote("https://www.google.com/a/{}/Dashboard".format(kwargs["domain"])))

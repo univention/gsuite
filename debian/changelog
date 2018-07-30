@@ -1,3 +1,10 @@
+univention-google-apps (2.0.0-9) unstable; urgency=medium
+
+  * Bug #46438: Fix package update and metadata replication
+    Also fixed the path to the metadata template file
+
+ -- Erik Damrose <damrose@univention.de>  Mon, 30 Jul 2018 13:53:12 +0200
+
 univention-google-apps (2.0.0-8) unstable; urgency=medium
 
   * Bug #46438: Add dependency to required univention-saml version
