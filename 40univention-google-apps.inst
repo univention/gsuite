@@ -228,16 +228,7 @@ if ! udm mail/domain list "$@" | grep -q "name: $domainname" ; then
 fi
 
 if joinscript_check_version_in_range_executed 1 1; then
-	python -c "from univention.googleapps.auth import GappsAuth, NoCredentials, CredentialsStorageError
-try:
-	domain = GappsAuth.get_domain()
-	GappsAuth.update_saml_configuration(domain)
-except NoCredentials as exc:
-	print 'No current connection configured for Google Apps. The saml configuration will not be changed'
-	exit(0)
-except CredentialsStorageError as exc:
-	print 'An error prevented the saml configuration to get updated: %s' % exc
-	exit(1)" || die
+	/usr/share/univention-google-apps/update_saml_configuration|| die
 fi
 
 stop_udm_cli_server

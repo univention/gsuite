@@ -8,5 +8,6 @@ google-apps.schema usr/share/univention-google-apps/
 google-apps-for-work.php usr/share/univention-google-apps/
 print_google_users_and_groups usr/share/univention-google-apps/
 convert_credentials_file usr/share/univention-google-apps/
+update_saml_configuration usr/share/univention-google-apps/
 umc/icons/googleapps.png var/www
 google_primary_address.py usr/share/pyshared/univention/admin/hooks.d/
