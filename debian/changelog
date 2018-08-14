@@ -1,3 +1,9 @@
+univention-google-apps (2.0.0-11) unstable; urgency=low
+
+  * Bug #47414: update scerenshots
+
+ -- Daniel Troeder <troeder@univention.de>  Tue, 14 Aug 2018 13:32:25 +0200
+
 univention-google-apps (2.0.0-10) unstable; urgency=medium
 
   * Bug #46438: Fix package update and metadata replication

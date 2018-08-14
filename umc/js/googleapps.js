@@ -325,7 +325,7 @@ define([
 			return this.formatOrderedList([
 				_('Navigate to <i>Credentials</i>.') + this.img(_('credentials_nav.png')),
 				_('Click on <i>Create credentials</i> and select <i>Service account key</i>.') + this.img(_('create_service_account_key.png')),
-				_('In the new window choose <i>New service account</i> from the drop down menu. Enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type. The <i>Service account ID</i> will be generated automatically and can be kept like this.') + this.img(_('new_service_account.png')),
+				_('In the new window choose <i>New service account</i> from the drop down menu. Enter a name for the service account (e.g. <i>UCS sync</i>) and select <i>JSON</i> as the key type. The <i>Service account ID</i> will be generated automatically and can be kept like this. Activate the roles <i>Project Editor</i>, <i>Service Account Token Creator</i> and <i>Service Account User</i>.') + this.img(_('new_service_account.png')),
 				_('This will offer you to download the key file after clicking on <i>Create</i>. Save this key file on your hard disk in a secure location.') + '<br>' + _('Then continue by clicking on <i>Next</i>.')
 			]);
 		},
@@ -353,7 +353,7 @@ define([
 				//<a href="{serviceaccounts_link}" target="_blank">Manage service accounts</a>
 				_('On the <i>Credentials</i> page in the Google Developers Console, click in the very right on <i>Manage service accounts</i>.'),
 				_('Then edit the service account you just created by clicking the three dots on the right (please maximize your window if the three dots aren\'t shown).') + this.img(_('edit_service_account.png')),
-				_('Enable <i>Google Apps Domain-wide Delegation</i> and enter a <i>Product name for the consent screen</i> and click on <i>Save</i>.') + this.img(_('enable_delegation_and_prod_name.png')) + '<br>' + _('Continue by clicking on <i>Next</i>.')
+				_('To enable <i>G Suite Domain-wide Delegation</i> click on <i>SHOW DOMAIN-WIDE DELEGATION</i>, activate the <i>Enable G Suite Domain-wide Delegation</i> checkbox, enter a <i>Product name for the consent screen</i> and click on <i>Save</i>.') + this.img(_('enable_delegation_and_prod_name.png')) + '<br>' + _('Continue by clicking on <i>Next</i>.')
 			]);
 		},
 
