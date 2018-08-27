@@ -24,15 +24,15 @@ Depends: ${misc:Depends},
  python-univention-directory-manager (>= 11.0.2-15),
  univention-saml (>= 5.0.4-23)
 Recommends: ntp
-Description: Provision Google Apps for Work accounts.
+Description: Provision G Suite accounts.
  Synchronize user accounts to Google Directory and enable them to
- use Google Apps for Work.
+ use G Suite.
 Homepage: https://apps.google.com/
 
 Package: univention-management-console-module-googleapps
 Architecture: all
 Depends: univention-google-apps
-Description: Google Apps for Work wizard UMC module
+Description: G Suite wizard UMC module
 
 Package: ucs-test-google-apps
 Architecture: all
@@ -40,6 +40,6 @@ Depends: ucs-test-libs,
  ucs-test-framework,
  ${misc:Depends}
 Provides: ucs-test-module
-Description: Additional Google Apps for Work App tests for ucs-test
- This package includes some Google Apps for Work App related tests for
+Description: Additional G Suite App tests for ucs-test
+ This package includes some G Suite App related tests for
  ucs-test.

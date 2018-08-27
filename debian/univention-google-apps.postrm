@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Google Apps for Work provisioning
+# G Suite provisioning
 #  postrm file for the debian package
 #
 # Copyright 2016-2018 Univention GmbH

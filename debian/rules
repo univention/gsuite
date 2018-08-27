@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# Univention Google Apps for Work
+# Univention G Suite
 #  rules file for the debian package
 #
 # Copyright 2016-2018 Univention GmbH

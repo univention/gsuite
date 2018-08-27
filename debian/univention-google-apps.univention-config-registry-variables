@@ -29,7 +29,7 @@ Type=bool
 Categories=service-collaboration
 
 [google-apps/groups/sync]
-Description[de]=Sollen Gruppen in denen sich Benutzer mit Google Apps for Work Konto befinden, synchronisiert werden? Standard ist 'no'.
-Description[en]=Should groups that contain users with a Google Apps for Work account be syncronized? Defaults to 'no'.
+Description[de]=Sollen Gruppen in denen sich Benutzer mit G Suite Konto befinden, synchronisiert werden? Standard ist 'no'.
+Description[en]=Should groups that contain users with a G Suite account be syncronized? Defaults to 'no'.
 Type=bool
 Categories=service-collaboration
