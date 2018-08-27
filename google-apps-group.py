@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Univention Google Apps for Work - listener module to manage groups in
+# Univention G Suite - listener module to manage groups in
 # Google Directory
 #
 # Copyright 2016-2018 Univention GmbH
@@ -94,10 +94,10 @@ def setdata(key, value):
 
 def initialize():
 	if not listener.configRegistry.is_true("google-apps/groups/sync", False):
-		raise RuntimeError("Google Apps for Work App: syncing of groups is deactivated.")
+		raise RuntimeError("G Suite App: syncing of groups is deactivated.")
 
 	if not GappsAuth.is_initialized():
-		raise RuntimeError("Google Apps for Work App not initialized yet, please run wizard.")
+		raise RuntimeError("G Suite App not initialized yet, please run wizard.")
 
 
 def clean():
@@ -105,7 +105,7 @@ def clean():
 	Remove  univentionGoogleAppsObjectID and univentionGoogleAppsData from all
 	user objects.
 	"""
-	logger.info("Removing Google Apps for Work ObjectID and Data from all groups.")
+	logger.info("Removing G Suite ObjectID and Data from all groups.")
 	GoogleAppsListener.clean_udm_objects("groups/group", listener.configRegistry["ldap/base"], ldap_cred)
 
 
@@ -115,7 +115,7 @@ def handler(dn, new, old, command):
 	if not listener.configRegistry.is_true("google-apps/groups/sync", False):
 		return
 	if not GappsAuth.is_initialized():
-		raise RuntimeError("Google Apps for Work App not initialized yet, please run wizard.")
+		raise RuntimeError("G Suite App not initialized yet, please run wizard.")
 	else:
 		pass
 

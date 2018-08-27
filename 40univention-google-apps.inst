@@ -1,7 +1,7 @@
 #!/bin/sh
 # -*- coding: utf-8 -*-
 #
-# Google Apps for Work provisioning
+# G Suite provisioning
 #  join script
 #
 # Copyright 2016-2018 Univention GmbH
@@ -99,10 +99,10 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
 	--set name="UniventionGoogleAppsEnabled" \
 	--set CLIName="UniventionGoogleAppsEnabled" \
-	--set shortDescription="Enable user for Google Apps for Work" \
-	--set translationShortDescription='"de_DE" "Benutzer für Nutzung von Google Apps for Work aktivieren"' \
-	--set longDescription="Enable user for Google Apps for Work" \
-	--set translationLongDescription='"de_DE" "Benutzer für Nutzung von Google Apps for Work aktivieren"' \
+	--set shortDescription="Enable user for G Suite" \
+	--set translationShortDescription='"de_DE" "Benutzer für Nutzung von G Suite aktivieren"' \
+	--set longDescription="Enable user for G Suite" \
+	--set translationLongDescription='"de_DE" "Benutzer für Nutzung von G Suite aktivieren"' \
 	--set tabAdvanced=0 \
 	--set tabPosition=1 \
 	--set tabName="Google apps" \
@@ -202,7 +202,7 @@ done
 # user template
 univention-directory-manager settings/usertemplate create "$@" --ignore_exists \
 	--position "cn=templates,cn=univention,$ldap_base" \
-	--set name="Google Apps for Work Account" \
+	--set name="G Suite Account" \
 	--set UniventionGoogleAppsEnabled="1" \
 	--set mailPrimaryAddress="<username>@$domainname" || die
 

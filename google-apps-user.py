@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Univention Google Apps for Work - listener module to provision accounts in
+# Univention G Suite - listener module to provision accounts in
 # Google Directory
 #
 # Copyright 2016-2018 Univention GmbH
@@ -232,7 +232,7 @@ def setdata(key, value):
 
 def initialize():
 	if not GappsAuth.is_initialized():
-		raise RuntimeError("Google Apps for Work App not initialized yet, please run wizard.")
+		raise RuntimeError("G Suite App not initialized yet, please run wizard.")
 
 
 def clean():
@@ -240,7 +240,7 @@ def clean():
 	Remove  univentionGoogleAppsObjectID and univentionGoogleAppsData from all
 	user objects.
 	"""
-	logger.info("clean() removing Google Apps for Work ObjectID and Data from all users.")
+	logger.info("clean() removing G Suite ObjectID and Data from all users.")
 	GoogleAppsListener.clean_udm_objects("users/user", listener.configRegistry["ldap/base"], ldap_cred)
 
 
@@ -248,7 +248,7 @@ def handler(dn, new, old, command):
 	logger.debug("command: %s dn: %s", command, dn)
 
 	if not GappsAuth.is_initialized():
-		raise RuntimeError("Google Apps for Work App not initialized yet, please run wizard.")
+		raise RuntimeError("G Suite App not initialized yet, please run wizard.")
 	else:
 		pass
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 #
-# Univention Google Apps for Work App - handle auth
+# Univention G Suite App - handle auth
 #
 # Copyright 2016-2018 Univention GmbH
 #
@@ -221,11 +221,11 @@ class GappsAuth(object):
 		sp_link = "https://{}/simplesamlphp/saml2/idp/SSOService.php{}".format(
 			ucr["ucs/server/sso/fqdn"], sp_query_string)
 		ucr_update(ucr, {
-			"ucs/web/overview/entries/service/SP/description": "Single Sign-On login for Google Apps for Work",
-			"ucs/web/overview/entries/service/SP/label": "Google Apps for Work login",
+			"ucs/web/overview/entries/service/SP/description": "Single Sign-On login for G Suite",
+			"ucs/web/overview/entries/service/SP/label": "G Suite login",
 			"ucs/web/overview/entries/service/SP/link": sp_link,
-			"ucs/web/overview/entries/service/SP/description/de": "Single-Sign-On Link für Google Apps for Work",
-			"ucs/web/overview/entries/service/SP/label/de": "Google Apps for Work login",
+			"ucs/web/overview/entries/service/SP/description/de": "Single-Sign-On Link für G Suite",
+			"ucs/web/overview/entries/service/SP/label/de": "G Suite login",
 			"ucs/web/overview/entries/service/SP/priority": "50",
 			"ucs/web/overview/entries/service/SP/icon": "/googleapps.png"
 			})

@@ -58,8 +58,8 @@ define([
 			lang.mixin(this, {
 				pages: [{
 					name: 'start',
-					headerText: _('Welcome to the Google Apps for Work configuration'),
-					helpText: _('Welcome to the Google Apps for Work setup wizard. A few steps are needed to complete the configuration process.'),
+					headerText: _('Welcome to the G Suite configuration'),
+					helpText: _('Welcome to the G Suite setup wizard. A few steps are needed to complete the configuration process.'),
 					widgets: [{
 						type: Text,
 						name: 'already-initialized',
@@ -158,7 +158,7 @@ define([
 					}]
 				}, {
 					name: 'enable-domain-wide-delegation',
-					headerText: _('Enable Google Apps domain wide delegation'),
+					headerText: _('Enable G Suite domain wide delegation'),
 					helpText: _('To allow UCS to automatically create, modify and delete Google user accounts, "Domain-wide Delegation" must be enabled for the service account.'),
 					widgets: [{
 						type: Text,
@@ -226,35 +226,35 @@ define([
 					}]
 				}, {
 					name: 'success1',
-					headerText: _('Google Apps for Work setup complete'),
-					helpText: _('User accounts may now be enabled for Google Apps for Work access.'),
+					headerText: _('G Suite setup complete'),
+					helpText: _('User accounts may now be enabled for G Suite access.'),
 					widgets: [{
 						type: Text,
 						name: 'infos',
-						content: _('Congratulations, the connection between UCS and Google Apps for Work has been established.') + ' ' +
-							_('You can now enable the Google Apps for Work synchronization for users on the <i>Google Apps</i> tab in the %s.', [tools.linkToModule({module: 'udm', flavor: 'users/user'})]) + '<br>' + this.img(_('google_user.png'))
+						content: _('Congratulations, the connection between UCS and G Suite has been established.') + ' ' +
+							_('You can now enable the G Suite synchronization for users on the <i>G Suite</i> tab in the %s.', [tools.linkToModule({module: 'udm', flavor: 'users/user'})]) + '<br>' + this.img(_('google_user.png'))
 					}]
 				}, {
 					name: 'success2',
-					headerText: _('Google Apps for Work setup complete'),
+					headerText: _('G Suite setup complete'),
 					helpText: _('The configuration of synchronized attributes can be done via Univention Config Registry.'),
 					widgets: [{
 						type: Text,
 						name: 'infos',
 						content: this.formatParagraphs([
-							_('For the UCS user account for which Google Apps for Work is enabled, an account in the Google Apps for Work directory is created and selected account attributes get synchronized from UCS to the Google directory.'),
+							_('For the UCS user account for which G Suite is enabled, an account in the G Suite directory is created and selected account attributes get synchronized from UCS to the Google directory.'),
 							_('Via the Univention Config Registry variables <i>google-apps/attributes/mapping/.*</i> can be configured which LDAP attributes (e.g. given name, surname, etc.) of a user account are sychronized.') + ' ' +
 							_('You may add or remove attributes by using the %s.', [tools.linkToModule({module: 'ucr'})])
 						])
 					}]
 				}, {
 					name: 'success3',
-					headerText: _('Google Apps for Work setup complete'),
-					helpText: _('Users can now single sign on into the Google Apps for Work account.'),
+					headerText: _('G Suite setup complete'),
+					helpText: _('Users can now single sign on into the G Suite account.'),
 					widgets: [{
 						type: Text,
 						name: 'infos',
-						content: _('Synchronized users can log into Google Apps for Work by using the link on the <a href="/univention/" target="_blank">UCS portal</a>.') + '<br>' + this.img(_('google-sso-login.png'))
+						content: _('Synchronized users can log into G Suite by using the link on the <a href="/univention/" target="_blank">UCS portal</a>.') + '<br>' + this.img(_('google-sso-login.png'))
 					}]
 				}, {
 					name: 'error',
@@ -263,7 +263,7 @@ define([
 					widgets: [{
 						type: Text,
 						name: 'error',
-						content: _('An error occurred while testing the connection to Google Apps for Work. Please run the wizard again.')
+						content: _('An error occurred while testing the connection to G Suite. Please run the wizard again.')
 					}]
 				}]
 			});
@@ -298,9 +298,9 @@ define([
 		},
 
 		getTextStart: function() {
-			return '<p>' + _('Welcome to the Univention <a href="https://apps.google.com/" target="_blank">Google Apps for Work</a> configuration wizard.') + '</p><p>' +
-				_('The wizard will guide you through the process of setting up a secure connection to the directory in Google Apps for Work. Thereby UCS is able to automatically provision accounts in Google Apps for Work.') + '</p><p>' +
-				_('To use this app you need a valid Google Apps for Work admin acccount and a domain for which the ownership has been <a href="https://support.google.com/a/topic/9196" target="_blank">verified by Google</a>.') +
+			return '<p>' + _('Welcome to the Univention <a href="https://apps.google.com/" target="_blank">G Suite</a> configuration wizard.') + '</p><p>' +
+				_('The wizard will guide you through the process of setting up a secure connection to the directory in G Suite. Thereby UCS is able to automatically provision accounts in G Suite.') + '</p><p>' +
+				_('To use this app you need a valid G Suite admin acccount and a domain for which the ownership has been <a href="https://support.google.com/a/topic/9196" target="_blank">verified by Google</a>.') +
 				'</p>';
 		},
 
@@ -315,7 +315,7 @@ define([
 		getTextEnableAdminSDKAPI: function() {
 			return this.formatOrderedList([
 				_('Make sure you are in the <i>API Manager</i>.') + this.img(_('api_manager_nav.png')),
-				_('Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section.') + this.img(_('google_admin_sdk_link.png')),
+				_('Open the <i>Admin SDK</i> page in the <i>G Suite APIs</i> section.') + this.img(_('google_admin_sdk_link.png')),
 				_('Enable it. This may take a minute.') + this.img(_('google_admin_sdk_enable.png')),
 				_('When Google has finished enabling the <i>Admin SDK API</i>, ignore the displayed notification and continue by clicking on <i>Next</i>.')
 			]);
@@ -338,7 +338,7 @@ define([
 
 		getTextUploadServiceAccountKeyDomain: function() {
 			return this.formatOrderedList([
-				_('Enter the domain that was verified during the configuration of the Google Apps for Work account.')
+				_('Enter the domain that was verified during the configuration of the G Suite account.')
 			], {start: 2});
 		},
 
@@ -358,7 +358,7 @@ define([
 		},
 
 		getTextAuthorizeConnection: function() {
-			return _('To authorize the connection between this App and Google Apps for Work please follow these instructions:') + this.formatOrderedList([
+			return _('To authorize the connection between this App and G Suite please follow these instructions:') + this.formatOrderedList([
 				_('<a href="https://admin.google.com/ManageOauthClients" target="_blank">Click here to access the Admin console</a> to <i>Manage API client access</i>.'),
 				_('Copy and paste the information below into the corresponding fields (like seen in the screenshot below).')
 			]);
@@ -371,7 +371,7 @@ define([
 		},
 
 		getTextSingleSignOnSetup: function() {
-			return '<p>' + _('To finalize the setup, single sign-on has to be configured for the Google Apps for Work domain.') + '</p>' + this.formatOrderedList([
+			return '<p>' + _('To finalize the setup, single sign-on has to be configured for the G Suite domain.') + '</p>' + this.formatOrderedList([
 				_('Open the <a href="https://admin.google.com/AdminHome?fral=1#SecuritySettings:flyout=sso" target="_blank">security settings in the Admin Console</a> to configure the single sign-on settings.'),
 				lang.replace(_('Download the {certificate_link}.'), {certificate_link: '<a href="/univention/command/googleapps/certificate.crt" target="_blank">' + _('UCS Identity Provider certificate') + '</a>'}),
 				_('Activate the checkbox <i>Setup SSO with third party identity provider</i> in the security settings.'),
@@ -435,7 +435,7 @@ define([
 			this._progressBar = new ProgressBar();
 			this._progressDeferred = new Deferred();
 			this._progressBar.setInfo(null, null, Infinity);
-			this._progressBar.feedFromDeferred(this._progressDeferred, _('Google Apps for Work configuration'));
+			this._progressBar.feedFromDeferred(this._progressDeferred, _('G Suite configuration'));
 		},
 
 		startPolling: function() {
@@ -515,13 +515,13 @@ define([
 				label: _('Help'),
 				callback: lang.hitch(this, function() {
 					dialog.alert([
-						_('This wizard helps you to configure the connection between UCS and Google Apps for Work.'), '<br>',
-						_('You need a <a href="%(domain)s" target="_blank">verified domain</a> and access to the <a href="%(dev)s" target="_blank">Google Developer Console</a> as well as to the <a href="%(admin)s" target="_blank">Google Admin Console</a> with a Google Apps for Work administrator account.', {
+						_('This wizard helps you to configure the connection between UCS and G Suite.'), '<br>',
+						_('You need a <a href="%(domain)s" target="_blank">verified domain</a> and access to the <a href="%(dev)s" target="_blank">Google Developer Console</a> as well as to the <a href="%(admin)s" target="_blank">Google Admin Console</a> with a G Suite administrator account.', {
 							domain: _('https://support.google.com/a/topic/9196'),
 							dev: _('https://console.developers.google.com/'),
 							admin: _('https://admin.google.com/ManageOauthClients')
 						})
-					].join(' '), _('Google Apps for Work setup wizard'));
+					].join(' '), _('G Suite setup wizard'));
 				})
 			}]);
 		},

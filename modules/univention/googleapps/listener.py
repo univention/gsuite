@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Univention Google Apps for Work - listener module impl
+# Univention G Suite - listener module impl
 #
 # Copyright 2016-2018 Univention GmbH
 #

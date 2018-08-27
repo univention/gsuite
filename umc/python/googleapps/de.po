@@ -13,9 +13,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: umc/python/googleapps/__init__.py:123
-msgid "The configuration of Google Apps for Work is not yet complete."
+msgid "The configuration of G Suite is not yet complete."
 msgstr ""
-"Die Konfiguration von Google Apps for Work ist noch nicht abgeschlossen."
+"Die Konfiguration von G Suite ist noch nicht abgeschlossen."
 
 #: umc/python/googleapps/__init__.py:118
 msgid "The credentials have been successfully uploaded."

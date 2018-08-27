@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Univention Management Console
-#  module: Google Apps for Work setup wizard
+#  module: G Suite setup wizard
 #
 # Copyright 2016-2018 Univention GmbH
 #
@@ -123,7 +123,7 @@ class Instance(Base):
 	@simple_response
 	def state(self):
 		if not GappsAuth.is_initialized():
-			raise UMC_Error(_('The configuration of Google Apps for Work is not yet complete.'))
+			raise UMC_Error(_('The configuration of G Suite is not yet complete.'))
 		try:
 			ol = GoogleAppsListener(None, {}, {})
 			ol.gh.list_users(projection="basic")

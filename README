@@ -1,6 +1,6 @@
 What is this?
 =============
-UMC code and a listener module to enable UCS users to provision Google Apps for Work accounts to their domain users.
+UMC code and a listener module to enable UCS users to provision G Suite accounts to their domain users.
 
 Design
 ======

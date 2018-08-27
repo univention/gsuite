@@ -12,8 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Configuration of the Google Apps for Work connector"
-msgstr "Konfiguration des Google Apps for Work Konnektors"
+msgid "Configuration of the G Suite connector"
+msgstr "Konfiguration des G Suite Konnektors"
 
-msgid "Google Apps for Work setup wizard"
-msgstr "Google Apps for Work Einrichtungsassistent"
+msgid "G Suite setup wizard"
+msgstr "G Suite Einrichtungsassistent"

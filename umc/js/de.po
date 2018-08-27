@@ -48,10 +48,10 @@ msgstr "Ein Fehler ist aufgetreten"
 
 #: umc/js/googleapps.js:266
 msgid ""
-"An error occurred while testing the connection to Google Apps for Work. "
+"An error occurred while testing the connection to G Suite. "
 "Please run the wizard again."
 msgstr ""
-"Ein Fehler trat während dem Verbindungstest mit Google Apps for Work auf. "
+"Ein Fehler trat während dem Verbindungstest mit G Suite auf. "
 "Bitte starten Sie den Einrichtungsassistent erneut."
 
 #: umc/js/googleapps.js:376
@@ -104,10 +104,10 @@ msgstr "Client Name"
 
 #: umc/js/googleapps.js:234
 msgid ""
-"Congratulations, the connection between UCS and Google Apps for Work has "
+"Congratulations, the connection between UCS and G Suite has "
 "been established."
 msgstr ""
-"Gratulation, die Verbindung zwischen UCS und Google Apps for Work wurde "
+"Gratulation, die Verbindung zwischen UCS und G Suite wurde "
 "hergestellt."
 
 #: umc/js/googleapps.js:353
@@ -176,8 +176,8 @@ msgstr ""
 "mit <i>Speichern</i>."
 
 #: umc/js/googleapps.js:161
-msgid "Enable Google Apps domain wide delegation"
-msgstr "Domain-weite Google-Apps-Delegation aktivieren"
+msgid "Enable G Suite domain wide delegation"
+msgstr "Domain-weite G Suite Delegation aktivieren"
 
 #: umc/js/googleapps.js:316
 msgid "Enable it. This may take a minute."
@@ -189,10 +189,9 @@ msgstr "<i>Admin SDK API</i> aktivieren"
 
 #: umc/js/googleapps.js:338
 msgid ""
-"Enter the domain that was verified during the configuration of the Google "
-"Apps for Work account."
+"Enter the domain that was verified during the configuration of the G Suite account."
 msgstr ""
-"Geben Sie die bei der Einrichtung des Google Apps for Work Kontos "
+"Geben Sie die bei der Einrichtung des G Suite Kontos "
 "verifizierte Domäne ein."
 
 #: umc/js/googleapps.js:332
@@ -213,12 +212,12 @@ msgstr "Fertigstellen"
 
 #: umc/js/googleapps.js:245
 msgid ""
-"For the UCS user account for which Google Apps for Work is enabled, an "
-"account in the Google Apps for Work directory is created and selected "
+"For the UCS user account for which G Suite is enabled, an "
+"account in the G Suite directory is created and selected "
 "account attributes get synchronized from UCS to the Google directory."
 msgstr ""
-"Für die UCS-Benutzerkonton, bei denen Google Apps for Work aktiviert wurde, "
-"werden entsprechende Konten im Google Apps for Work Benutzerverzeichnis "
+"Für die UCS-Benutzerkonton, bei denen G Suite aktiviert wurde, "
+"werden entsprechende Konten im G Suite Benutzerverzeichnis "
 "angelegt und ausgewählte Kontoattribute zu diesen synchronisiert."
 
 #: umc/js/googleapps.js:308
@@ -226,16 +225,16 @@ msgid "Give the project a name, for example \"UCS sync\"."
 msgstr "Geben Sie dem Projekt einen Namen, z.B: \"UCS sync\"."
 
 #: umc/js/googleapps.js:435
-msgid "Google Apps for Work configuration"
-msgstr "Google Apps for Work Konfiguration"
+msgid "G Suite configuration"
+msgstr "G Suite Konfiguration"
 
 #: umc/js/googleapps.js:229 umc/js/googleapps.js:239 umc/js/googleapps.js:252
-msgid "Google Apps for Work setup complete"
-msgstr "Google Apps for Work Einrichtung abgeschlossen"
+msgid "G Suite setup complete"
+msgstr "G Suite Einrichtung abgeschlossen"
 
 #: umc/js/googleapps.js:521
-msgid "Google Apps for Work setup wizard"
-msgstr "Google Apps for Work Einrichtungsassistent"
+msgid "G Suite setup wizard"
+msgstr "G Suite Einrichtungsassistent"
 
 #: umc/js/googleapps.js:512
 msgid "Help"
@@ -297,9 +296,9 @@ msgstr ""
 "Einstellungen zu konfigurieren."
 
 #: umc/js/googleapps.js:315
-msgid "Open the <i>Admin SDK</i> page in the <i>Google Apps APIs</i> section."
+msgid "Open the <i>Admin SDK</i> page in the <i>Google G Suite APIs</i> section."
 msgstr ""
-"Öffnen Sie die <i>Admin SDK</i> Seite in der <i>Google Apps APIs</i> Sektion."
+"Öffnen Sie die <i>Admin SDK</i> Seite in der <i>Google G Suite APIs</i> Sektion."
 
 #: umc/js/googleapps.js:305
 msgid ""
@@ -323,11 +322,11 @@ msgstr "Single Sign-On Konfiguration"
 
 #: umc/js/googleapps.js:257
 msgid ""
-"Synchronized users can log into Google Apps for Work by using the link on "
+"Synchronized users can log into G Suite by using the link on "
 "the <a href=\"/univention/\" target=\"_blank\">UCS portal</"
 "a>."
 msgstr ""
-"Synchronisierte Benutzer können sich bei Google Apps for Work anmelden, "
+"Synchronisierte Benutzer können sich bei G Suite anmelden, "
 "indem Sie den Link auf dem <a href=\"/univention/\" target=\"_blank"
 "\">UCS Portal</a> nutzen."
 
@@ -369,12 +368,12 @@ msgstr ""
 #: umc/js/googleapps.js:299
 msgid ""
 "The wizard will guide you through the process of setting up a secure "
-"connection to the directory in Google Apps for Work. Thereby UCS is able to "
-"automatically provision accounts in Google Apps for Work."
+"connection to the directory in G Suite. Thereby UCS is able to "
+"automatically provision accounts in G Suite."
 msgstr ""
 "Der Assistent wird Sie durch den Prozess begleiten, eine sichere Verbindung "
-"zum Verzeichnis in Google Apps for Work herzustellen. Damit ist es UCS "
-"möglich, automatisch Konten bei Google Apps for Work einzurichten."
+"zum Verzeichnis in G Suite herzustellen. Damit ist es UCS "
+"möglich, automatisch Konten bei G Suite einzurichten."
 
 #: umc/js/googleapps.js:326
 msgid "Then continue by clicking on <i>Next</i>."
@@ -408,11 +407,10 @@ msgstr ""
 
 #: umc/js/googleapps.js:515
 msgid ""
-"This wizard helps you to configure the connection between UCS and Google "
-"Apps for Work."
+"This wizard helps you to configure the connection between UCS and G Suite."
 msgstr ""
 "Dieser Einrichtungsassistent hilft Ihnen die Verbindung zwischen UCS und "
-"Google Apps for Work zu konfigurieren."
+"G Suite zu konfigurieren."
 
 #: umc/js/googleapps.js:162
 msgid ""
@@ -434,27 +432,26 @@ msgstr ""
 
 #: umc/js/googleapps.js:358
 msgid ""
-"To authorize the connection between this App and Google Apps for Work please "
+"To authorize the connection between this App and G Suite please "
 "follow these instructions:"
 msgstr ""
-"Um die Verbindung zwischen dieser App und Google Apps for Work zu "
+"Um die Verbindung zwischen dieser App und G Suite zu "
 "autorisieren folgen Sie bitte den Anweisungen:"
 
 #: umc/js/googleapps.js:371
 msgid ""
-"To finalize the setup, single sign-on has to be configured for the Google "
-"Apps for Work domain."
+"To finalize the setup, single sign-on has to be configured for the G Suite domain."
 msgstr ""
-"Um die Konfiguration abzuschließen muss Single Sing-on für die Google Apps "
-"for Work Domäne eingerichtet werden."
+"Um die Konfiguration abzuschließen muss Single Sing-on für die G Suite "
+"Domäne eingerichtet werden."
 
 #: umc/js/googleapps.js:300
 msgid ""
-"To use this app you need a valid Google Apps for Work admin acccount and a "
+"To use this app you need a valid G Suite admin acccount and a "
 "domain for which the ownership has been <a href=\"https://support.google.com/"
 "a/topic/9196\" target=\"_blank\">verified by Google</a>."
 msgstr ""
-"Um diese App zu benutzen, benötigen Sie ein gültiges Google Apps for Work "
+"Um diese App zu benutzen, benötigen Sie ein gültiges G Suite "
 "Administratorkonto und eine Domäne deren Besitz gegenüber <a href=\"https://"
 "support.google.com/a/topic/9196?hl=de\" target=\"_blank\">Google "
 "verifiziert</a> wurde."
@@ -475,14 +472,14 @@ msgid "Upload service account key"
 msgstr "Dienstkontenschlüssel hochladen"
 
 #: umc/js/googleapps.js:230
-msgid "User accounts may now be enabled for Google Apps for Work access."
+msgid "User accounts may now be enabled for G Suite access."
 msgstr ""
-"Benutzerkonten können nun für den Google Apps for Work Zugang aktiviert "
+"Benutzerkonten können nun für den G Suite Zugang aktiviert "
 "werden."
 
 #: umc/js/googleapps.js:253
-msgid "Users can now single sign on into the Google Apps for Work account."
-msgstr "Benutzer können nun Single Sign-On zu Google Apps for Work benutzen."
+msgid "Users can now single sign on into the G Suite account."
+msgstr "Benutzer können nun Single Sign-On zu G Suite benutzen."
 
 #: umc/js/googleapps.js:126
 msgid "Verified domain name"
@@ -499,24 +496,24 @@ msgstr ""
 "Nachname, etc.) eines Benutzerkontos synchronisiert werden."
 
 #: umc/js/googleapps.js:61
-msgid "Welcome to the Google Apps for Work configuration"
-msgstr "Willkommen zur Google Apps for Work Konfiguration"
+msgid "Welcome to the G Suite configuration"
+msgstr "Willkommen zur G Suite Konfiguration"
 
 #: umc/js/googleapps.js:62
 msgid ""
-"Welcome to the Google Apps for Work setup wizard. A few steps are needed to "
+"Welcome to the G Suite setup wizard. A few steps are needed to "
 "complete the configuration process."
 msgstr ""
-"Willkommen zum Google Apps for Work Einrichtungsassistent. Es sind einige "
+"Willkommen zum G Suite Einrichtungsassistent. Es sind einige "
 "Schritte notwendig, um den Konfigurationsprozess fertigzustellen."
 
 #: umc/js/googleapps.js:298
 msgid ""
 "Welcome to the Univention <a href=\"https://apps.google.com/\" target="
-"\"_blank\">Google Apps for Work</a> configuration wizard."
+"\"_blank\">G Suite</a> configuration wizard."
 msgstr ""
 "Willkommen zum Univention <a href=\"https://apps.google.com/\" target="
-"\"_blank\">Google Apps for Work</a> Konfigurationsassistenten."
+"\"_blank\">G Suite</a> Konfigurationsassistenten."
 
 #: umc/js/googleapps.js:317
 msgid ""
@@ -530,11 +527,11 @@ msgstr ""
 #: umc/js/googleapps.js:235
 #, python-format
 msgid ""
-"You can now enable the Google Apps for Work synchronization for users on the "
-"<i>Google Apps</i> tab in the %s."
+"You can now enable the G Suite synchronization for users on the "
+"<i>G Suite</i> tab in the %s."
 msgstr ""
-"Sie können nun die Google Apps for Work Synchronisation für Benutzer im "
-"<i>Google Apps</i>-Tab im %s aktivieren."
+"Sie können nun die G Suite Synchronisation für Benutzer im "
+"<i>G Suite</i>-Tab im %s aktivieren."
 
 #: umc/js/googleapps.js:247
 #, python-format
@@ -547,10 +544,10 @@ msgid ""
 "You need a <a href=\"%(domain)s\" target=\"_blank\">verified domain</a> and "
 "access to the <a href=\"%(dev)s\" target=\"_blank\">Google Developer "
 "Console</a> as well as to the <a href=\"%(admin)s\" target=\"_blank\">Google "
-"Admin Console</a> with a Google Apps for Work administrator account."
+"Admin Console</a> with a G Suite administrator account."
 msgstr ""
 "Sie benötigen eine <a href=\"%(domain)s\" target=\"_blank\">verifizierte "
-"Domäne</a> und Zugang mit einem Google Apps for Work Administratorkonto zur "
+"Domäne</a> und Zugang mit einem G Suite Administratorkonto zur "
 "<a href=\"%(dev)s\" target=\"_blank\">Google Developer Console</a> und zur "
 "<a href=\"%(admin)s\" target=\"_blank\">Google Admin Console</a>."
 

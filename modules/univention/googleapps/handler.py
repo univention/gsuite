@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 #
-# Univention Google Apps for Work - handle google API calls
+# Univention G Suite - handle google API calls
 #
 # Copyright 2016-2018 Univention GmbH
 #

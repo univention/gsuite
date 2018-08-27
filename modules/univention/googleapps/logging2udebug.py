@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 #
-# Univention Google Apps for Work App - python logging to univention debug
+# Univention G Suite App - python logging to univention debug
 # bridge (uses syslog if not running on UCS)
 #
 # Copyright 2016-2018 Univention GmbH

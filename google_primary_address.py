@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Univention Google Apps for Work - UDM hook to set user property
+# Univention G Suite - UDM hook to set user property
 # UniventionGoogleAppsPrimaryEmail that is configured notEditable=1
 #
 # Copyright 2016-2018 Univention GmbH
@@ -40,7 +40,7 @@ from univention.lib.i18n import Translation
 import univention.admin.uexceptions
 
 _ = Translation('univention-googleapps').translate
-msg_require_mail = _("Google Apps for Work users must have a primary e-mail address specified.")
+msg_require_mail = _("G Suite users must have a primary e-mail address specified.")
 
 
 class GooglePrimaryAdressHook(simpleHook):
