@@ -31,7 +31,7 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <http://www.gnu.org/licenses/>.
 
-VERSION=2
+VERSION=3
 
 . /usr/share/univention-join/joinscripthelper.lib
 . /usr/share/univention-lib/base.sh
@@ -71,6 +71,26 @@ ucs_addServiceToLocalhost "univention-google-apps" "$@" || die
 
 ucs_registerLDAPExtension "$@" --schema /usr/share/univention-google-apps/google-apps.schema || die
 
+ICON_USER="/usr/share/univention-management-console-frontend/js/dijit/themes/umc/icons/scalable/googleAppsUser.svg"
+[ -e "$ICON_USER" ] && rm "$ICON_USER"
+ln -s "apps-$(univention-app get google-apps component_id --values-only)".svg "$ICON_USER"
+
+ICON_GROUP="/usr/share/univention-management-console-frontend/js/dijit/themes/umc/icons/scalable/googleAppsGroup.svg"
+[ -e "$ICON_GROUP" ] && rm "$ICON_GROUP"
+ln -s "apps-$(univention-app get google-apps component_id --values-only)".svg "$ICON_GROUP"
+
+univention-directory-manager settings/extended_options create "$@" \
+	--position "cn=custom attributes,cn=univention,$ldap_base" --set module="users/user" \
+	--set name="googleAppsUser" \
+	--set isApp=1 \
+	--set default="0" \
+	--set editable=1 \
+	--set shortDescription='Google apps' \
+	--set objectClass="univentionGoogleApps" \
+	--set longDescription='Enable user for Google Apps for Work' \
+	--set translationShortDescription='"de_DE" "Google Apps"' \
+	--set translationLongDescription='"de_DE" "Benutzer für Nutzung von Google Apps for Work aktivieren"'
+
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
 	--set name="UniventionGoogleAppsObjectID" \
@@ -95,6 +115,8 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set overwriteTab=0 \
 	--set disableUDMWeb=1 || die
 
+udm settings/extended_attribute modify "$@" --dn "cn=UniventionGoogleAppsObjectID,cn=custom attributes,cn=univention,$ldap_base" --set options="googleAppsUser" || die
+
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
 	--set name="UniventionGoogleAppsEnabled" \
@@ -108,9 +130,9 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set tabName="Google apps" \
 	--set translationTabName='"de_DE" "Google Apps"' \
 	--set module="users/user" \
-        --set module="settings/usertemplate" \
+	--set module="settings/usertemplate" \
 	--set syntax=boolean \
-	--set default=0 \
+	--set default=1 \
 	--set multivalue=0 \
 	--set valueRequired=0 \
 	--set mayChange=1 \
@@ -119,7 +141,10 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set ldapMapping=univentionGoogleAppsEnabled \
 	--set deleteObjectClass=0 \
 	--set overwriteTab=0 \
+	--set disableUDMWeb='1' \
 	--set fullWidth=1 || die
+
+udm settings/extended_attribute modify "$@" --dn "cn=UniventionGoogleAppsEnabled,cn=custom attributes,cn=univention,$ldap_base" --set options="googleAppsUser" --set default=1 --set disableUDMWeb='1' || die
 
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
@@ -141,6 +166,20 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set deleteObjectClass=0 \
 	--set disableUDMWeb=1 || die
 
+udm settings/extended_attribute modify "$@" --dn "cn=UniventionGoogleAppsData,cn=custom attributes,cn=univention,$ldap_base" --set options="googleAppsUser" || die
+
+univention-directory-manager settings/extended_options create "$@" \
+	--position "cn=custom attributes,cn=univention,$ldap_base" --set module="users/user" \
+	--set name="googleAppsGroup" \
+	--set isApp=1 \
+	--set default="0" \
+	--set editable=1 \
+	--set shortDescription='Google apps' \
+	--set objectClass="univentionGoogleApps" \
+	--set longDescription='Enable group for Google Apps for Work' \
+	--set translationShortDescription='"de_DE" "Google Apps"' \
+	--set translationLongDescription='"de_DE" "Gruppe für Nutzung von Google Apps for Work aktivieren"' \
+
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
 	--set name="UniventionGoogleAppsGroupObjectID" \
@@ -160,6 +199,8 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set ldapMapping=univentionGoogleAppsObjectID \
 	--set deleteObjectClass=0 \
 	--set disableUDMWeb=1 || die
+
+udm settings/extended_attribute modify "$@" --dn "cn=UniventionGoogleAppsGroupObjectID,cn=custom attributes,cn=univention,$ldap_base" --set options="googleAppsGroup" || dieb
 
 udm settings/extended_attribute create "$@" --ignore_exists \
 	--position "cn=custom attributes,cn=univention,$ldap_base" \
@@ -186,6 +227,8 @@ udm settings/extended_attribute create "$@" --ignore_exists \
 	--set notEditable=1 \
 	--set hook="GooglePrimaryAdressHook" \
 	--set fullWidth=1 || die
+
+udm settings/extended_attribute modify "$@" --dn "cn=UniventionGoogleAppsPrimaryEmail,cn=custom attributes,cn=univention,$ldap_base" --set options="googleAppsUser" || die
 
 # Add univentionGoogleAppsPrimaryEmail to saml/idp/ldap/get_attributes
 
