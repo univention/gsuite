@@ -3,7 +3,7 @@
 #
 # Univention Google Apps for Work App - handle auth
 #
-# Copyright 2016-2018 Univention GmbH
+# Copyright 2016-2019 Univention GmbH
 #
 # http://www.univention.de/
 #

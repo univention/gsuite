@@ -2,7 +2,7 @@
 #
 # Univention Google Apps for Work - listener module impl
 #
-# Copyright 2016-2018 Univention GmbH
+# Copyright 2016-2019 Univention GmbH
 #
 # http://www.univention.de/
 #
